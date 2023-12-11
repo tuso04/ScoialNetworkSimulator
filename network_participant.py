@@ -1,19 +1,23 @@
-
 import message_stack
+import recived_message
 
 ### Externe Bibiliotheken
 from scipy.stats import logistic
 
 
 class Network_Participant:
-    def __init__(self, network, threshold_belive_p, neighbor):
-        self.network = network                              # Netzwerk, zu dem der Knoten gehört
-        self.threshold_belive_p = threshold_belive_p        # Schwellenwert für positive Nachrichten
-        self.neighbor = {}                           # Liste mit Relationship-Objekten
-        self.recieve_box = message_stack.Message_stack()
+    def __init__(self, np_id, network, threshold_belive_p, purchase_prob, neighbor):
+        self.np_id = np_id  # id zur Identifikation, int
+        self.network = network  # Netzwerk, zu dem der Knoten gehört, Network()
+        self.threshold_belive_p = threshold_belive_p  # Schwellenwert für positive Nachrichten, double
+        self.purchase_prob = purchase_prob  # initiale Kaufwahrscheinlichkeit, double
+        self.neighbor = {}  # Nachbarn, Liste mit Relationship-Objekten
+        self.recieve_box = message_stack.Message_Stack()  # Eingangsstapel, Message_stack
 
-        self._social_bond = self._compute_social_bond()
-
+    # Nachrichten Eingang
+    def recive(self, message, sender, time):
+        self.recieve_box.add(
+            recived_message.Recived_Message(message, sender, time))  # Umwandlung in ein Recived_message Objekt
 
     ## Glaubwürdigkeit (Cm/it)
     def credibility(self, message, time):
@@ -22,24 +26,23 @@ class Network_Participant:
         return credibility
 
     ## Glauben
-    def belive(self,message, conter_message, time):
+    def belive(self, message, conter_message, time):
         threshold_ex_message = self._threshold_ex_belive(message, time)
         threshold_ex_conter_message = self._threshold_ex_belive(conter_message, time)
 
-        if (self.credibility(message,time) >= self._threshold_belive(message)) and (self.credibility(conter_message) <= self._threshold_belive(conter_message)):
+        if ((self.credibility(message, time) >= self._threshold_belive(message)) and
+                (self.credibility(conter_message, time) <= self._threshold_belive(conter_message))):
             return True
 
-        ######## Logik noch zu überarbeiten
         if self.credibility(message, time) >= self._threshold_belive(message) and self.credibility(
                 conter_message) >= self._threshold_belive(conter_message):
             pass
         return False
 
-
     ## Schwellenwert Glauben -> negative Nachrichten werden eher geglaubt werden
     def _threshold_belive(self, message):
         if not message.mood:
-            return self.threshold_belive_p/2
+            return self.threshold_belive_p / 2
         return self.threshold_belive_p
 
     ## Schwellwertüberschreitung Glauben
@@ -61,13 +64,13 @@ class Network_Participant:
         pressure = 0
 
         for r in self.recieve_box.messages:
-            if r.time == time and message == r.message:     ### Muss noch in Message Klasse implementiert werden
+            if r.time == time and message == r.message:  ### Muss noch in Message Klasse implementiert werden
                 realtionship_pressure = self.neighbor.get(r.sender).bond
                 pressure += realtionship_pressure
 
-        social_pressure = pressure/self._social_bond
+        social_pressure = pressure / self._compute_social_bond()
 
         return logistic.cdf(social_pressure)
 
-
-    def isi(self, message):
+    def isi(self, message, time):
+        return 0

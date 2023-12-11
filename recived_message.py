@@ -1,8 +1,9 @@
 import message
 
-class Recived_message(message.Message):
 
-    def __init__(self, id, mood, argumentative_quality, emotional_dimension, sender, time):
-        super().__init__(id, mood, argumentative_quality, emotional_dimension)
+class Recived_Message(message.Message):
+
+    def __init__(self, message, sender, time):
+        super().__init__(id, message.mood, message.argumentative_quality, message.emotional_dimension)
         self.sender = sender
         self.time = time
