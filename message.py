@@ -7,6 +7,4 @@ class Message():
         self.emotional_dimension = emotional_dimension         ## double zwischen 0 und 1
 
 
-    def get_mood(self):
-        return self.mood
 
