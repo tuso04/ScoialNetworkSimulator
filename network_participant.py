@@ -21,15 +21,12 @@ class Network_Participant:
 
     ## Glaubwürdigkeit (Cm/it)
     def credibility(self, message, time):
-        credibility = (self.network.get_turbulence_factor * self.nsi(message, time) +
-                       (1 - self.network.get_turbulence_factor) * self.isi(message, time))
+        credibility = (self.network.turbulence_factor * self.nsi(message, time) +
+                       (1 - self.network.turbulence_factor) * self.isi(message, time))
         return credibility
 
     ## Glauben
     def belive(self, message, conter_message, time):
-        threshold_ex_message = self._threshold_ex_belive(message, time)
-        threshold_ex_conter_message = self._threshold_ex_belive(conter_message, time)
-
         if ((self.credibility(message, time) >= self._threshold_belive(message)) and
                 (self.credibility(conter_message, time) <= self._threshold_belive(conter_message))):
             return True
@@ -44,11 +41,6 @@ class Network_Participant:
         if not message.mood:
             return self.threshold_belive_p / 2
         return self.threshold_belive_p
-
-    ## Schwellwertüberschreitung Glauben
-    def _threshold_ex_belive(self, message, time):
-        return ((self.credibility(message, time) - self._threshold_belive) /
-                (1 - self._threshold_belive))
 
     ## Hilfsfunkiton Berechnung Soziale Bindung
     def _compute_social_bond(self):
