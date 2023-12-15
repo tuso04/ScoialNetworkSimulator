@@ -7,12 +7,12 @@ from scipy.stats import logistic
 
 class Network_Participant:
     def __init__(self, np_id, network, threshold_belive_p, purchase_prob, neighbor):
-        self.np_id = np_id  # id zur Identifikation, int
-        self.network = network  # Netzwerk, zu dem der Knoten gehört, Network()
-        self.threshold_belive_p = threshold_belive_p  # Schwellenwert für positive Nachrichten, double
-        self.purchase_prob = purchase_prob  # initiale Kaufwahrscheinlichkeit, double
-        self.neighbor = neighbor  # Nachbarn, Liste mit Relationship-Objekten
-        self.recieve_box = message_stack.Message_Stack()  # Eingangsstapel, Message_stack
+        self.np_id = np_id                                  # id zur Identifikation, int
+        self.network = network                              # Netzwerk, zu dem der Knoten gehört, Network()
+        self.threshold_belive_p = threshold_belive_p        # Schwellenwert für positive Nachrichten, double
+        self.purchase_prob = purchase_prob                  # initiale Kaufwahrscheinlichkeit, double
+        self.neighbor = neighbor                               # Nachbarn, Liste mit Relationship-Objekten
+        self.recieve_box = message_stack.Message_Stack()        # Eingangsstapel, Message_stack
 
     # Nachrichten Eingang
     def recive(self, message, sender, time):
