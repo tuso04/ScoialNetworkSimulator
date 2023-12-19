@@ -6,3 +6,5 @@ class Message_Stack:
     def add(self, message):
         self.messages.append(message)
         ### add messages by sender noch implementieren
+
+    def get_sender_message(self, message, sender):
