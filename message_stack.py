@@ -8,3 +8,4 @@ class Message_Stack:
         ### add messages by sender noch implementieren
 
     def get_sender_message(self, message, sender):
+        pass
