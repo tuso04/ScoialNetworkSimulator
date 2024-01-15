@@ -1,0 +1,67 @@
+from dash import Dash, dcc, html, Input, Output
+import dash_bootstrap_components as dbc
+from parameter_input import layout as parameter_layout
+from network import layout as network_layout
+from nodes import layout as nodes_layout
+
+app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
+app.title = "Networksimulation"
+
+SIDEBAR_STYLE = {
+    "position": "fixed",
+    "top": 0,
+    "left": 0,
+    "bottom": 0,
+    "width": "16rem",
+    "padding": "2rem 1rem",
+    "background-color": "#f8f9fa",
+}
+
+CONTENT_STYLE = {
+    "margin-left": "18rem",
+    "margin-right": "2rem",
+    "padding": "2rem 1rem",
+}
+
+sidebar = html.Div(
+    [
+        html.H1("Menu", className="display-2"),
+        html.Hr(),
+        html.P(
+            "Network Simulation based on Siepermanns Model", className="lead"
+        ),
+        dbc.Nav(
+            [
+                dbc.NavLink("Parameter input", href="/", active="exact"),
+                dbc.NavLink("Network", href="/Network", active="exact"),
+                dbc.NavLink("Nodes", href="/Nodes", active="exact"),
+            ],
+            vertical=True,
+            pills=True,
+        ),
+    ],
+    style=SIDEBAR_STYLE,
+)
+
+content = html.Div(id="page-content", children=[], style=CONTENT_STYLE)
+
+app.layout = html.Div([
+    dcc.Location(id="url"),
+    sidebar,
+    content
+])
+
+@app.callback(
+    Output("page-content", "children"),
+    [Input("url", "pathname")]
+)
+def render_page_content(pathname):
+    if pathname == "/":
+        return parameter_layout
+    elif pathname == "/Network":
+        return network_layout
+    elif pathname == "/Nodes":
+        return nodes_layout
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
