@@ -8,7 +8,7 @@ from scipy.stats import logistic
 
 
 class Network_Participant:
-    def __init__(self, np_id, network, threshold_belive_p, indifference, isi_parameter, fi_parameter, purchase_prob):
+    def __init__(self, np_id, network, threshold_belive_p, indifference, isi_parameter, fi_parameter, purchase_prob, neighbors):
         self.np_id = np_id                                  # id zur Identifikation, int
         self.network = network                              # Netzwerk, zu dem der Knoten gehört, Network()
         self.threshold_belive_p = threshold_belive_p        # Schwellenwert für positive Nachrichten, double
@@ -16,14 +16,14 @@ class Network_Participant:
         self.isi_parameter = isi_parameter                  # Ausgleichsparameter bei Berechnung ISI double [0; 1]
         self.fi_parameter = fi_parameter                    # Ausgleichsparameter bei Weiterleitungsabsicht double [0; 1]
         self.purchase_prob = purchase_prob                  # initiale Kaufwahrscheinlichkeit, double
-        self.neighbor = {}                                  # Nachbarn, Liste mit Relationship-Objekten
+        self.neighbors = neighbors                          # Nachbarn, Liste mit Relationship-Objekten
         self.recieve_box = message_stack.Message_Stack()    # Eingangsstapel, Message_stack
         self.send_box = message_stack.Message_Stack()       # Ausgangsstapel, Message_stack
 
     # Nachrichten Eingang
 
     def send(self, message, reciver, time):
-        if reciver in self.neighbor.keys():
+        if reciver in self.neighbors.keys():
             reciver.recive(message, self, time)
 
     def recive(self, message, sender, time):
@@ -69,7 +69,7 @@ class Network_Participant:
 
         for r in self.recieve_box.messages:
             if r.time == time and message == r.message:  # Muss noch in Message Klasse implementiert werden
-                realtionship_pressure = self.neighbor.get(r.sender).bond
+                realtionship_pressure = self.neighbors.get(r.sender).bond
                 pressure += realtionship_pressure
 
         social_pressure = pressure / self._compute_social_bond()
@@ -84,7 +84,7 @@ class Network_Participant:
 
     # Weiterleitungsabsicht
     def forwarding_intent(self, message, time):
-        b = self.neighbor.get(message.sender).bond
+        b = self.neighbors.get(message.sender).bond
 
         return (self.fi_parameter*b*self.credibility(message, time)
                 + (1-self.fi_parameter))*(b+self.credibility(message, time)-b*self.credibility(message, time))
@@ -107,7 +107,7 @@ class Network_Participant:
         return False
 
     # ****************************************Kaufabsicht**************************************************************
-    # Kaufabsicht       Option einbauen, wenn keine Konter Nachticht verfügbar!!!
+    # Kaufabsicht       Option einbauen, wenn keine Konter Nachricht verfügbar!!!
     def purchase_int(self, message, conter_message, time):
         if self.belive(message, conter_message, time):
             # return self.purchase_prob +  *(1-math.e**(*self.credibility(message, conter_message,time)))
@@ -131,8 +131,8 @@ class Network_Participant:
     def _compute_social_bond(self):
         social_bond = 0
 
-        for np in self.neighbor.keys():
-            social_bond += self.neighbor.get(np).bond
+        for np in self.neighbors.keys():
+            social_bond += self.neighbors.get(np).bond
 
         return social_bond
 
@@ -158,7 +158,7 @@ class Network_Participant:
                     # Algorithmen zu Glauben, Kaufverhalten und Weiterleitung
                     forward = {}
                     belive = self.belive(m, cm, time)
-                    for n in self.neighbor.keys():
+                    for n in self.neighbors.keys():
                         forward[n] = self.forwarding_decision(m, cm, time, n)
                     purchase = self.purchase_decision(m, cm, time)
                     print(f"m: {m.message_id}, belive: {belive}, purchase: {purchase}, forward: {forward}")
