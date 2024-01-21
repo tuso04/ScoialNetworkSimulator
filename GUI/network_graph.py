@@ -4,39 +4,34 @@ import networkx as nx
 from dash import html, dcc, Dash, Input, Output, callback, callback_context
 from dash.exceptions import PreventUpdate
 
+class Network_graph:
 
-# Layout der Dash-Anwendung
-network_layout = html.Div([
-    dcc.Input(
-        id='node_input',
-        type='number',
-        value=10,
-        min=1,
-        max=100,
-        step=1,
-    ),
-    html.Button('Update Network', id='update_button', n_clicks=0),
-    dcc.Graph(
-        id='network_graph',
-        config={'displayModeBar': False},
-    ),
-])
+    # Layout der Dash-Anwendung
+    network_layout = html.Div([
+        dcc.Input(
+            id='node_input',
+            type='number',
+            value=10,
+            min=1,
+            max=100,
+            step=1,
+        ),
+        html.Button('Update Network', id='update_button', n_clicks=0),
+        dcc.Graph(
+            id='network_graph',
+            config={'displayModeBar': False},
+        ),
+    ])
 
-# Variablen für die Speicherung des vorherigen n_clicks-Werts
-prev_n_clicks = 0
-
-# Callback-Funktion zum Aktualisieren des Diagramms basierend auf Benutzereingaben
-@callback(
-    Output('network_graph', 'figure'),
-    [Input('update_button', 'n_clicks')],
-    [Input('node_input', 'value')]
-)
-def update_layout(n_clicks, num_nodes):
-    global prev_n_clicks
-
-    # Überprüfen, ob der Button geklickt wurde und n_clicks größer als der zuvor gespeicherte Wert ist
-    if n_clicks is not None and n_clicks > prev_n_clicks:
-        prev_n_clicks = n_clicks  # Aktualisieren Sie den vorherigen n_clicks-Wert
+    # Callback-Funktion zum Aktualisieren des Diagramms basierend auf Benutzereingaben
+    @callback(
+        Output('network_graph', 'figure'),
+        [Input('update_button', 'n_clicks')],
+        [Input('node_input', 'value')]
+    )
+    def update_layout(n_clicks, num_nodes):
+        if n_clicks is None or n_clicks <= 0:
+            raise PreventUpdate
 
         # Erstellen eines zufälligen Netzwerks mit der angegebenen Anzahl von Knoten
         G = nx.gnm_random_graph(num_nodes, num_nodes * 2)
@@ -95,12 +90,6 @@ def update_layout(n_clicks, num_nodes):
                             margin=dict(b=0, l=0, r=0, t=0),
                             xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                             yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
-
                         )
 
         return fig
-
-    else:
-        # Hier können Sie das Verhalten definieren, wenn der Button nicht geklickt wurde
-        raise PreventUpdate
-
