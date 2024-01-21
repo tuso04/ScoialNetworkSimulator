@@ -2,13 +2,13 @@ import relationship
 
 
 class Network:
-    def __init__(self, graph, turbulence_factor, relationships=None, participants=None):
+    def __init__(self, turbulence_factor, relationships=None, participants=None):
         if participants is None:
             participants = []
         if relationships is None:
             relationships = []
 
-        self.graph = graph
+        self.graph = None
         self.turbulence_factor = turbulence_factor
         self.relationships = relationships
         self.participants = participants

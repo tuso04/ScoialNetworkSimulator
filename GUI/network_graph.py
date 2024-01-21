@@ -4,6 +4,7 @@ import networkx as nx
 from dash import html, dcc, Dash, Input, Output, callback, callback_context
 from dash.exceptions import PreventUpdate
 
+
 class Network_graph:
 
     # Layout der Dash-Anwendung
@@ -29,13 +30,12 @@ class Network_graph:
         [Input('update_button', 'n_clicks')],
         [Input('node_input', 'value')]
     )
-    def update_layout(n_clicks, num_nodes):
+    def update_layout(self, n_clicks, num_nodes):
         if n_clicks is None or n_clicks <= 0:
             raise PreventUpdate
 
         # Erstellen eines zufälligen Netzwerks mit der angegebenen Anzahl von Knoten
-        G = nx.gnm_random_graph(num_nodes, num_nodes * 2)
-
+        G = self.current_session.network.graph
         # Positionen der Knoten festlegen (spring_layout ist nur ein Beispiel, Sie können andere Layouts verwenden)
         pos = nx.spring_layout(G)
 

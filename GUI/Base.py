@@ -1,10 +1,16 @@
-from dash import Dash, dcc, html, Input, Output, callback
+from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
-from parameter_input import Parameter_input
+
+import session
+import parameter_input
 from network_graph import Network_graph
 from nodes import Nodes
 
+
 class Base:
+
+    def __init__(self):
+        self.c_s = session.Session()
 
     app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY], suppress_callback_exceptions=True)
     app.title = "Networksimulation"
@@ -46,15 +52,15 @@ class Base:
         style=SIDEBAR_STYLE,
     )
 
-    hidden_div = html.Div(id='hidden-div', style={'display': 'none'})
+    #hidden_div = html.Div(id='hidden-div', style={'display': 'none'})
 
-    content = html.Div(id="page-content", children=[hidden_div], style=CONTENT_STYLE)
+    content = html.Div(id="page-content", children=[], style=CONTENT_STYLE)
 
 
     app.layout = html.Div([
         dcc.Location(id="url"),
-        sidebar,
-        content
+        sidebar
+        ,content
     ])
 
     @app.callback(
@@ -62,8 +68,10 @@ class Base:
         [Input("url", "pathname")]
     )
     def render_page_content(pathname):
+        c_s = session.Session()
+
         if pathname == "/":
-            return Parameter_input.parameter_layout
+            return parameter_input.parameter_layout
         elif pathname == "/Network":
             return Network_graph.network_layout
         elif pathname == "/Nodes":

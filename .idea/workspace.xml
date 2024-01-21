@@ -4,10 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="GUI">
+    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Versuch">
+      <change afterPath="$PROJECT_DIR$/GUI/parameter_input_2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/session.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI/Base.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/network.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/network_graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/network_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/network_graph.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI/parameter_input.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/parameter_input.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network.py" beforeDir="false" afterPath="$PROJECT_DIR$/network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_generator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,29 +66,41 @@
   &quot;associatedIndex&quot;: 7
 }</component>
   <component name="ProjectId" id="2YwXhqcQ9wM5Nqb4nwVXZk2oTND" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;GUI&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Python Programme/ScoialNetworkSimulator/GUI&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.Base.executor": "Run",
+    "Python.network_generator.executor": "Run",
+    "Python.parameter_input.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/xy/PycharmProjects/ScoialNetworkSimulator/GUI",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\xy\PycharmProjects\ScoialNetworkSimulator\GUI" />
       <recent name="C:\Python Programme\ScoialNetworkSimulator\GUI" />
     </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-50da183f06c8-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.13135.95" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -116,7 +135,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705341924055</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Versuch">
+      <option name="closed" value="true" />
+      <created>1705843581837</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1705843581837</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,7 +174,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="GUI" />
-    <option name="LAST_COMMIT_MESSAGE" value="GUI" />
+    <MESSAGE value="Versuch" />
+    <option name="LAST_COMMIT_MESSAGE" value="Versuch" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
