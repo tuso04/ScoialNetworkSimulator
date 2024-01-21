@@ -8,10 +8,11 @@ from scipy.stats import logistic
 
 
 class Network_Participant:
-    def __init__(self, np_id, network, threshold_belive_p, indifference, isi_parameter, fi_parameter, purchase_prob, neighbors):
+    def __init__(self, np_id, threshold_belive_p, turbulence_factor, indifference, isi_parameter, fi_parameter, purchase_prob, neighbors):
         self.np_id = np_id                                  # id zur Identifikation, int
-        self.network = network                              # Netzwerk, zu dem der Knoten gehört, Network()
+        #self.network = network                              # Netzwerk, zu dem der Knoten gehört, Network()
         self.threshold_belive_p = threshold_belive_p        # Schwellenwert für positive Nachrichten, double
+        self.turbulence_factor = turbulence_factor
         self.indifference = indifference                    # Spanne der Gleichgültigkeit double [0; 1]
         self.isi_parameter = isi_parameter                  # Ausgleichsparameter bei Berechnung ISI double [0; 1]
         self.fi_parameter = fi_parameter                    # Ausgleichsparameter bei Weiterleitungsabsicht double [0; 1]

@@ -15,16 +15,26 @@ def generate_new_network(net, shape, n_nodes=200, init_edges=2, split_prob=0.1):
     else:
         network_graph = nx.gnm_random_graph(n=n_nodes, m=n_nodes * init_edges)
 
+    turbulence_factor = 0.7
+
     nodes = network_graph.nodes()
 
     for i in range(len(nodes)):
-        threshold_belive_p = random.randint(1, 100) / 100,
-        indifference = random.randint(1, 100) / 100,
-        isi_parameter = random.randint(1, 100) / 100,
-        fi_parameter = random.randint(1, 100) / 100,
-        purchase_prob = random.randint(1, 100) / 100,
+        threshold_belive_p = random.randint(1, 100) / 100
+        indifference = random.randint(1, 100) / 100
+        isi_parameter = random.randint(1, 100) / 100
+        fi_parameter = random.randint(1, 100) / 100
+        purchase_prob = random.randint(1, 100) / 100
 
-        nodes[i]["id"] = i
+        nodes[i]["np_id"] = i
+        nodes[i]["threshold_belive_p"] = threshold_belive_p
+        nodes[i]["turbulence_factor"] = threshold_belive_p
+        nodes[i]["indifference"] = indifference
+        nodes[i]["isi_parameter"] = isi_parameter
+        nodes[i]["fi_parameter"] = fi_parameter
+        nodes[i]["purchase_prob"] = purchase_prob
+
+        """
         nodes[i]["object"] = network_participant.Network_Participant(np_id=i,
                                                                      network=net,
                                                                      threshold_belive_p=threshold_belive_p,
@@ -34,12 +44,28 @@ def generate_new_network(net, shape, n_nodes=200, init_edges=2, split_prob=0.1):
                                                                      purchase_prob=purchase_prob,
                                                                      neighbors=list(network_graph.neighbors(i))
                                                                      )
-        print(nodes[i])
+        """
+
+        #print(nodes[i])
+
+    json_data = nx.adjacency_data(network_graph)
+
+    print(json_data)
 
     net.graph = network_graph
 
+    return json_data
+
 """
-n = generate_new_network("SFN", turbulence_factor=0.7)
+net = network.Network(0.7)
+
+n_json = generate_new_network(net, "SFN")
+
+n = nx.adjacency_graph(n_json)
+
+for i in range(len(n.nodes())):
+    print(n.nodes()[i])
+    print(n.nodes()[i]["object"].neighbors)
 
 # degree_sequence = sorted((d for n, d in G.degree()), reverse=True)
 # dmax = max(degree_sequence)
@@ -51,6 +77,12 @@ nx.draw_networkx_nodes(n, pos, node_size=20)
 nx.draw_networkx_edges(n, pos, alpha=0.4)
 
 
+fig.tight_layout()
+plt.show()
+
+"""
+
+"""
 ax0.set_title("Scale-Free Network G")
 ax0.set_axis_off()
 ax1 = fig.add_subplot(axgrid[3:, :2])
@@ -64,9 +96,10 @@ ax2.set_title("Degree histogram")
 ax2.set_xlabel("Degree")
 ax2.set_ylabel("Node Count")
 
-
-fig.tight_layout()
-plt.show()
-
-
 """
+
+
+
+
+
+
