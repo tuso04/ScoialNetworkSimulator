@@ -1,11 +1,12 @@
-from dash import Dash, dcc, html, Input, Output
+from dash import Dash, dcc, html, Input, Output, callback
 import dash_bootstrap_components as dbc
-from parameter_input import layout as parameter_layout
-from network import layout as network_layout
+from parameter_input import parameter_layout as parameter_layout
+from network_graph import network_layout as network_layout
 from nodes import layout as nodes_layout
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
+app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY], suppress_callback_exceptions=True)
 app.title = "Networksimulation"
+
 
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -43,7 +44,10 @@ sidebar = html.Div(
     style=SIDEBAR_STYLE,
 )
 
-content = html.Div(id="page-content", children=[], style=CONTENT_STYLE)
+hidden_div = html.Div(id='hidden-div', style={'display': 'none'})
+
+content = html.Div(id="page-content", children=[hidden_div], style=CONTENT_STYLE)
+
 
 app.layout = html.Div([
     dcc.Location(id="url"),
