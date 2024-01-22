@@ -1,5 +1,6 @@
 import networkx as nx
 
+import message
 import network_participant
 import relationship
 
@@ -32,9 +33,11 @@ class Network:
 
     def create_objects_from_graph(self):
 
+        # Listen mit Knoten und Kanten
         nodes = self.graph.nodes
         edges = self.graph.edges
 
+        # Erzeugung Network-Participant-Objekte aus json
         for i in range(len(nodes)):
             new_n_p = network_participant.Network_Participant(
                 np_id=nodes[i]["np_id"],
@@ -48,14 +51,37 @@ class Network:
 
             self.participants[new_n_p.np_id] = new_n_p
 
+        # Erzeugung Relationship-Objekte aus json
         for e in edges:
             self.relationships[e] = self.participants.get(e[0]).add_neighbor(
                 neighbor=self.participants.get(e[1]),
-                bond=self.graph[e[0]][e[1]])
+                bond=self.graph[e[0]][e[1]]["bond"][0])
             self.relationships[(e[1], e[0])] = self.participants.get(e[1]).add_neighbor(
                 neighbor=self.participants.get(e[0]),
-                bond=self.graph[e[0]][e[1]])
+                bond=self.graph[e[0]][e[1]]["bond"][1])
+
+    def simulate_network(self, time):
+        company = self.participants.get(0)
+        first_customer = company.neighbors.values()
+        m = message.Message(1,
+                            True,
+                            0.5,
+                            0.5,
+                            time,
+                            5)
+        for c in first_customer:
+            print(c)
+            company.send_box.add(m, c.part_B)
 
 
-    #def simulate_network(self):
 
+        # Sende alle Nachrichten im Netzwerk
+        for np in self.participants.values():
+            for m in np.send_box.messages_by_sender.keys():
+                np.send(message=np.send_box.messages_by_sender.get(m),
+                        reciver=m,
+                        time=time)
+
+        # Verarbeite die empfangenen Nachrichten jedes Konten
+        for np in self.participants.values():
+            np.process_messages(time)

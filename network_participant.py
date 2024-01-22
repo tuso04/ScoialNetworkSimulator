@@ -31,12 +31,13 @@ class Network_Participant:
     # Nachrichten Eingang
 
     def send(self, message, reciver, time):
-        if reciver in self.neighbors.keys():
+        #print(f"{reciver.np_id} in {self.neighbors.keys()}")
+        if reciver.np_id in self.neighbors.keys():
             reciver.recive(message, self, time)
 
     def recive(self, message, sender, time):
         self.recieve_box.add(
-            recived_message.Recived_Message(message, sender, time))  # Umwandlung in ein Recived_message Objekt
+            recived_message.Recived_Message(message, sender, time), sender)  # Umwandlung in ein Recived_message Objekt
 
     # *****************************************Glauben****************************************************************
 
@@ -63,6 +64,9 @@ class Network_Participant:
 
     # Schwellenwert Glauben → negative Nachrichten werden eher geglaubt werden
     def _threshold_belive(self, message):
+        if not message:
+            return 0
+
         if not message.mood:
             return self.threshold_belive_p / 2
         return self.threshold_belive_p
@@ -75,11 +79,14 @@ class Network_Participant:
 
     # Normative social influence
     def nsi(self, message, time):
+        if not message:
+            return 0
+
         pressure = 0
 
         for r in self.recieve_box.messages:
-            if r.time == time and message == r.message:  # Muss noch in Message Klasse implementiert werden
-                realtionship_pressure = self.neighbors.get(r.sender).bond
+            if r.time == time and message.message_id == r.message_id:  # Muss noch in Message Klasse implementiert werden
+                realtionship_pressure = self.neighbors.get(r.sender.np_id).bond
                 pressure += realtionship_pressure
 
         social_pressure = pressure / self._compute_social_bond()
@@ -88,6 +95,9 @@ class Network_Participant:
 
     # Informatial social influence
     def isi(self, message):
+        if not message:
+            return 0
+
         return self.isi_parameter * message.argumentative_quality + (
                     1 - self.isi_parameter) * message.emotional_dimension
 
@@ -95,7 +105,10 @@ class Network_Participant:
 
     # Weiterleitungsabsicht
     def forwarding_intent(self, message, time):
-        b = self.neighbors.get(message.sender).bond
+        if not message:
+            return 0
+
+        b = self.neighbors.get(message.sender.np_id).bond
 
         return (self.fi_parameter * b * self.credibility(message, time)
                 + (1 - self.fi_parameter)) * (b + self.credibility(message, time) - b * self.credibility(message, time))
@@ -168,7 +181,7 @@ class Network_Participant:
                     conter_messages[rm.message_id] = rm
 
                 # Über alle positiven Nachrichten iterieren und verarbeiten
-                for m in messages:
+                for m in messages.values():
 
                     # Nach passender Konter nachricht suchen
                     cm = None

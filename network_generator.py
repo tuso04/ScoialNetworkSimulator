@@ -48,15 +48,13 @@ def generate_new_network(shape, n_nodes=200, init_edges=2, split_prob=0.1):
 
     # Hinzufügen des Beziehungs-Attributs zu den Beziehungen
     bind = (0, 0)
-    nx.set_edge_attributes(network_graph, bind, "bind")
+    nx.set_edge_attributes(network_graph, bind, "bond")
 
     for e in network_graph.edges:
-        network_graph.edges[e[0], e[1]]["bind"] = random.randint(0, 100)/100, random.randint(0, 100)/100
+        network_graph.edges[e[0], e[1]]["bond"] = random.randint(0, 100)/100, random.randint(0, 100)/100
 
     # Umwandlung in JSON-Format
     json_data = nx.adjacency_data(network_graph)
-
-    print(json_data)
 
     return json_data
 
