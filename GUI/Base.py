@@ -1,7 +1,6 @@
 from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 
-import session
 import parameter_input
 import network_graph
 from nodes import Nodes

@@ -40,7 +40,7 @@ def update_layout(n_intervals,network_data):
     net = network_converter.network_form_json(network_data)
 
     # Erstellen eines zufälligen Netzwerks mit der angegebenen Anzahl von Knoten
-    G = net.graph
+    G = net.graph_json
 
     # Positionen der Knoten festlegen (spring_layout ist nur ein Beispiel, Sie können andere Layouts verwenden)
     pos = nx.spring_layout(G)

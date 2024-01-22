@@ -6,20 +6,27 @@ import recived_message
 # Externe Bibliotheken
 from scipy.stats import logistic
 
+import relationship
+
 
 class Network_Participant:
-    def __init__(self, np_id, threshold_belive_p, turbulence_factor, indifference, isi_parameter, fi_parameter, purchase_prob, neighbors):
-        self.np_id = np_id                                  # id zur Identifikation, int
-        #self.network = network                              # Netzwerk, zu dem der Knoten gehört, Network()
-        self.threshold_belive_p = threshold_belive_p        # Schwellenwert für positive Nachrichten, double
+    def __init__(self, np_id, threshold_belive_p, turbulence_factor, indifference, isi_parameter, fi_parameter,
+                 purchase_prob,
+                 neighbors=None):
+        if neighbors is None:
+            neighbors = {}
+
+        self.np_id = np_id  # id zur Identifikation, int
+        # self.network = network                              # Netzwerk, zu dem der Knoten gehört, Network()
+        self.threshold_belive_p = threshold_belive_p  # Schwellenwert für positive Nachrichten, double
         self.turbulence_factor = turbulence_factor
-        self.indifference = indifference                    # Spanne der Gleichgültigkeit double [0; 1]
-        self.isi_parameter = isi_parameter                  # Ausgleichsparameter bei Berechnung ISI double [0; 1]
-        self.fi_parameter = fi_parameter                    # Ausgleichsparameter bei Weiterleitungsabsicht double [0; 1]
-        self.purchase_prob = purchase_prob                  # initiale Kaufwahrscheinlichkeit, double
-        self.neighbors = neighbors                          # Nachbarn, Liste mit Relationship-Objekten
-        self.recieve_box = message_stack.Message_Stack()    # Eingangsstapel, Message_stack
-        self.send_box = message_stack.Message_Stack()       # Ausgangsstapel, Message_stack
+        self.indifference = indifference  # Spanne der Gleichgültigkeit double [0; 1]
+        self.isi_parameter = isi_parameter  # Ausgleichsparameter bei Berechnung ISI double [0; 1]
+        self.fi_parameter = fi_parameter  # Ausgleichsparameter bei Weiterleitungsabsicht double [0; 1]
+        self.purchase_prob = purchase_prob  # initiale Kaufwahrscheinlichkeit, double
+        self.neighbors = neighbors  # Nachbarn, Liste mit Relationship-Objekten
+        self.recieve_box = message_stack.Message_Stack()  # Eingangsstapel, Message_stack
+        self.send_box = message_stack.Message_Stack()  # Ausgangsstapel, Message_stack
 
     # Nachrichten Eingang
 
@@ -35,8 +42,8 @@ class Network_Participant:
 
     # Glaubwürdigkeit (Cm/it)
     def credibility(self, message, time):
-        credibility = (self.network.turbulence_factor * self.nsi(message, time) +
-                       (1 - self.network.turbulence_factor) * self.isi(message))
+        credibility = (self.turbulence_factor * self.nsi(message, time) +
+                       (1 - self.turbulence_factor) * self.isi(message))
         return credibility
 
     # Glauben   Option einbauen, wenn keine Konter Nachticht verfügbar!!!
@@ -46,9 +53,10 @@ class Network_Participant:
             return True
 
         if (self.credibility(message, time) >= self._threshold_belive(message)
-                and self.credibility(conter_message, time) >= self._threshold_belive(conter_message))\
-                and self._threshold_ex(message, time) > self._threshold_ex(conter_message, time)\
-                and abs(self._threshold_ex(message, time)-self._threshold_ex(conter_message, time) >= self.indifference):
+            and self.credibility(conter_message, time) >= self._threshold_belive(conter_message)) \
+                and self._threshold_ex(message, time) > self._threshold_ex(conter_message, time) \
+                and abs(
+            self._threshold_ex(message, time) - self._threshold_ex(conter_message, time) >= self.indifference):
             return True
 
         return False
@@ -61,7 +69,8 @@ class Network_Participant:
 
     def _threshold_ex(self, message, time):
         if self.credibility(message, time) >= self._threshold_belive(message):
-            return (self.credibility(message, time)-self._threshold_belive(message))/(1-self._threshold_belive(message))
+            return (self.credibility(message, time) - self._threshold_belive(message)) / (
+                        1 - self._threshold_belive(message))
         return self.credibility(message, time)
 
     # Normative social influence
@@ -79,7 +88,8 @@ class Network_Participant:
 
     # Informatial social influence
     def isi(self, message):
-        return self.isi_parameter*message.argumentative_quality + (1 - self.isi_parameter)*message.emotional_dimension
+        return self.isi_parameter * message.argumentative_quality + (
+                    1 - self.isi_parameter) * message.emotional_dimension
 
     # *****************************************Weiterleiten************************************************************
 
@@ -87,8 +97,8 @@ class Network_Participant:
     def forwarding_intent(self, message, time):
         b = self.neighbors.get(message.sender).bond
 
-        return (self.fi_parameter*b*self.credibility(message, time)
-                + (1-self.fi_parameter))*(b+self.credibility(message, time)-b*self.credibility(message, time))
+        return (self.fi_parameter * b * self.credibility(message, time)
+                + (1 - self.fi_parameter)) * (b + self.credibility(message, time) - b * self.credibility(message, time))
 
     # Weiterleitungswahrscheinlichkeit      Option einbauen, wenn keine Konter Nachticht verfügbar!!!
     def forwarding_prob(self, message, conter_message, time):
@@ -100,7 +110,7 @@ class Network_Participant:
 
     # Weiterleitungsentscheidung    Option einbauen, wenn keine Konter Nachticht verfügbar!!!
     def forwarding_decision(self, message, conter_message, time, target):
-        if (self.forwarding_prob(message, conter_message, time) >= random.randrange(0, 100)/100) \
+        if (self.forwarding_prob(message, conter_message, time) >= random.randrange(0, 100) / 100) \
                 and not self.send_box.get_sender_message(message, target) \
                 and self.belive(message, conter_message, time):
             return True
@@ -122,7 +132,7 @@ class Network_Participant:
 
     # Kaufentscheidung      Option einbauen, wenn keine Konter Nachticht verfügbar!!!
     def purchase_decision(self, message, conter_message, time):
-        if self.purchase_int(message, conter_message, time) >= random.randrange(0, 100)/100:
+        if self.purchase_int(message, conter_message, time) >= random.randrange(0, 100) / 100:
             return True
         return False
 
@@ -137,10 +147,19 @@ class Network_Participant:
 
         return social_bond
 
+    # Füge Nachbarn hinzu
+    def add_neighbor(self, neighbor, bond):
+        rel = relationship.Relationship(self, neighbor, bond)
+
+        self.neighbors[neighbor.np_id] = rel
+
+        return rel
+
+
     # Verarbeitung der Nachrichten nach Glauben, Weiterleitung, Kaufverhalten
     def process_messages(self, time):
-        messages = {}               # alle Nachrichten mit positivem Mood in dict id - message
-        conter_messages = {}        # alle Nachrichten mit negativem Mood in dict id - message
+        messages = {}  # alle Nachrichten mit positivem Mood in dict id - message
+        conter_messages = {}  # alle Nachrichten mit negativem Mood in dict id - message
         for rm in self.recieve_box.messages:
             if rm.time == time:
                 if rm.mood:
