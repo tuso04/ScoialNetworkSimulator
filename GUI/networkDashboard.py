@@ -1,7 +1,7 @@
 import networkx as nx
-from dash import Dash, dcc, html, Input, Output, State
+import pandas as pd
+from dash import Dash, dcc, html, Input, Output, State, dash_table
 import plotly.graph_objs as go
-
 import network_converter
 import network_generator
 
@@ -70,7 +70,8 @@ app.layout = html.Div([
             config={'displayModeBar': False},
         ),
 
-    ])
+    ]),
+
 ])
 
 
@@ -147,6 +148,7 @@ def update_layout(n_clicks, network_data):
                     )
 
     return fig
+
 
 
 @app.callback(

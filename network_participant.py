@@ -47,7 +47,7 @@ class Network_Participant:
                        (1 - self.turbulence_factor) * self.isi(message))
         return credibility
 
-    # Glauben   Option einbauen, wenn keine Konter Nachticht verfügbar!!!
+    # Glauben   Option einbauen, wenn keine Konter Nachricht verfügbar!!!
     def belive(self, message, conter_message, time):
         if ((self.credibility(message, time) >= self._threshold_belive(message)) and
                 (self.credibility(conter_message, time) <= self._threshold_belive(conter_message))):
