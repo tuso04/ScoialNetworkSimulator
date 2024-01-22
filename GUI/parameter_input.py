@@ -9,7 +9,7 @@ import network_generator
 parameter_layout = [
     html.H1('Parameter input', style={'textAlign': 'center'}),
     html.Hr(),
-    html.Div('Network Participants'),
+    html.Div('Networks Participants'),
     dcc.Input(id='input_Network-participant', value=0, type='number',
               style={'width': '300px', 'height': '30px', 'margin-bottom': '15px'},
               placeholder='Enter the number of Network Participants'),
