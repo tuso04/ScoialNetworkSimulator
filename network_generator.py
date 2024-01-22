@@ -7,7 +7,7 @@ import network_participant
 import network
 
 
-def generate_new_network(net, shape, n_nodes=200, init_edges=2, split_prob=0.1):
+def generate_new_network(shape, n_nodes=200, init_edges=2, split_prob=0.1):
     if shape == "SFN":  # Scale-Free Network
         network_graph = nx.barabasi_albert_graph(n=n_nodes, m=init_edges)
     elif shape == "SWN":  # Small-World Network
@@ -51,8 +51,6 @@ def generate_new_network(net, shape, n_nodes=200, init_edges=2, split_prob=0.1):
     json_data = nx.adjacency_data(network_graph)
 
     print(json_data)
-
-    net.graph = network_graph
 
     return json_data
 

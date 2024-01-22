@@ -4,13 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Programmiert bis großes Problem in der Architektur gemerkt">
-      <change afterPath="$PROJECT_DIR$/network_converter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Viel rumprobiert und Konzept mehr oder weniger über den Haufen geworfen">
+      <change afterPath="$PROJECT_DIR$/GUI/all_in_one.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GUI/networkDashboard.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network.py" beforeDir="false" afterPath="$PROJECT_DIR$/network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/Base.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/network_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/network_graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/parameter_input.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/parameter_input.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network_converter.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_converter.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network_participant.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_participant.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,9 +72,12 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.Base.executor": "Run",
+    "Python.all_in_one.executor": "Run",
     "Python.flaskTest.executor": "Run",
+    "Python.networkDashboard.executor": "Run",
     "Python.network_converter.executor": "Run",
     "Python.network_generator.executor": "Debug",
+    "Python.network_graph.executor": "Run",
     "Python.parameter_input.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -149,7 +154,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705857814902</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Viel rumprobiert und Konzept mehr oder weniger über den Haufen geworfen">
+      <option name="closed" value="true" />
+      <created>1705871857458</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1705871857458</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -182,18 +195,8 @@
     <MESSAGE value="GUI" />
     <MESSAGE value="Versuch" />
     <MESSAGE value="Programmiert bis großes Problem in der Architektur gemerkt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Programmiert bis großes Problem in der Architektur gemerkt" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/network_generator.py</url>
-          <line>54</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Viel rumprobiert und Konzept mehr oder weniger über den Haufen geworfen" />
+    <option name="LAST_COMMIT_MESSAGE" value="Viel rumprobiert und Konzept mehr oder weniger über den Haufen geworfen" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$Base.coverage" NAME="Base Coverage Results" MODIFIED="1705787190197" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />

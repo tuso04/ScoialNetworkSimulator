@@ -1,12 +1,33 @@
-from dash import html, dcc, Dash, callback, callback_context, Input, Output, State
+from dash import html, dcc, Dash, Input, Output, callback, callback_context, State
 
 import network
 import network_generator
 
+import plotly.graph_objs as go
+import networkx as nx
 
+
+import network_converter
+
+# Callback-Funktion zum Aktualisieren des Diagramms basierend auf Benutzereingaben
 
 # Grafische Oberfläche
 parameter_layout = [
+    html.Div(children=[
+                          dcc.Interval(id='interval_net_graph', interval=9999999, n_intervals=0),
+                          dcc.Input(
+                                id='node_input',
+                                type='number',
+                                value=10,
+                                min=1,
+                                max=100,
+                                step=1,
+                            ),
+                          html.Button('Update Network', id='update_button', n_clicks=0),
+                        dcc.Graph(
+                            id='network_graph',
+                            config={'displayModeBar': False},
+                        ),
     html.H1('Parameter input', style={'textAlign': 'center'}),
     html.Hr(),
     html.Div('Network Participants'),
@@ -70,3 +91,8 @@ parameter_layout = [
 def button_generate_network(n_clicks, n_networkparticipants, n_bots, turbulence_factor):
     network_graph = network_generator.generate_new_network("", n_nodes=int(n_networkparticipants))
     return network_graph
+
+########## Anderen Trigger finden
+
+
+

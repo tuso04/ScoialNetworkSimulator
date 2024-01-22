@@ -3,18 +3,11 @@ import dash_bootstrap_components as dbc
 
 import session
 import parameter_input
-from network_graph import Network_graph
+import network_graph
 from nodes import Nodes
 
 
 class Base:
-
-    def __init__(self):
-        self.c_s = session.Session()
-
-    app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY], suppress_callback_exceptions=True)
-    app.title = "Networksimulation"
-
 
     SIDEBAR_STYLE = {
         "position": "fixed",
@@ -59,8 +52,11 @@ class Base:
 
     app.layout = html.Div([
         dcc.Location(id="url"),
-        sidebar
-        ,content
+        sidebar,
+        content,
+
+        # dcc.Store fürs caching
+        dcc.Store(id="network_cache")
     ])
 
     @app.callback(
@@ -68,12 +64,11 @@ class Base:
         [Input("url", "pathname")]
     )
     def render_page_content(pathname):
-        c_s = session.Session()
 
         if pathname == "/":
             return parameter_input.parameter_layout
         elif pathname == "/Network":
-            return Network_graph.network_layout
+            return network_graph.network_layout
         elif pathname == "/Nodes":
             return Nodes.nodes_layout
 
