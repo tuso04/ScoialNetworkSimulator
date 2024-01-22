@@ -69,8 +69,9 @@ class Network:
                             0.5,
                             time,
                             5)
+        print(len(first_customer))
+
         for c in first_customer:
-            print(c)
             company.send_box.add(m, c.part_B)
 
 
