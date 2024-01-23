@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Viel rumprobiert und Konzept mehr oder weniger über den Haufen geworfen">
+    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Netzwerksimulation funktioniert">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/networkDashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/networkDashboard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network_converter.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_converter.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,33 +64,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.Base.executor": "Run",
-    "Python.all_in_one.executor": "Run",
-    "Python.flaskTest.executor": "Run",
-    "Python.networkDashboard.executor": "Run",
-    "Python.network_converter.executor": "Run",
-    "Python.network_generator.executor": "Debug",
-    "Python.network_graph.executor": "Run",
-    "Python.parameter_input.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Python Programme/ScoialNetworkSimulator/GUI",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.Base.executor&quot;: &quot;Run&quot;,
+    &quot;Python.all_in_one.executor&quot;: &quot;Run&quot;,
+    &quot;Python.flaskTest.executor&quot;: &quot;Run&quot;,
+    &quot;Python.network.executor&quot;: &quot;Run&quot;,
+    &quot;Python.networkDashboard.executor&quot;: &quot;Run&quot;,
+    &quot;Python.network_converter.executor&quot;: &quot;Run&quot;,
+    &quot;Python.network_generator.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.network_graph.executor&quot;: &quot;Run&quot;,
+    &quot;Python.network_participant.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.parameter_input.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/xy/PycharmProjects/ScoialNetworkSimulator/GUI&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Python Programme\ScoialNetworkSimulator\GUI" />
       <recent name="C:\Users\xy\PycharmProjects\ScoialNetworkSimulator\GUI" />
+      <recent name="C:\Python Programme\ScoialNetworkSimulator\GUI" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -155,15 +159,31 @@
       <option name="project" value="LOCAL" />
       <updated>1705871857458</updated>
     </task>
-    <task id="LOCAL-00005" summary="Viel rumprobiert und Konzept mehr oder weniger über den Haufen geworfen">
+    <task id="LOCAL-00005" summary="Geht halt als One-Pager aber jetzt ist erstmal schluss für heute">
       <option name="closed" value="true" />
-      <created>1705963911930</created>
+      <created>1705881861239</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1705963911930</updated>
+      <updated>1705881861239</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Übertragung von json und Objektstruktur">
+      <option name="closed" value="true" />
+      <created>1705953649385</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1705953649385</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Netzwerksimulation funktioniert">
+      <option name="closed" value="true" />
+      <created>1705962478453</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1705962478453</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -180,7 +200,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/GUI" />
+                        <option value="origin/master" />
                       </list>
                     </value>
                   </entry>
@@ -197,17 +217,25 @@
     <MESSAGE value="Versuch" />
     <MESSAGE value="Programmiert bis großes Problem in der Architektur gemerkt" />
     <MESSAGE value="Viel rumprobiert und Konzept mehr oder weniger über den Haufen geworfen" />
-    <option name="LAST_COMMIT_MESSAGE" value="Viel rumprobiert und Konzept mehr oder weniger über den Haufen geworfen" />
+    <MESSAGE value="Geht halt als One-Pager aber jetzt ist erstmal schluss für heute" />
+    <MESSAGE value="Übertragung von json und Objektstruktur" />
+    <MESSAGE value="Netzwerksimulation funktioniert" />
+    <option name="LAST_COMMIT_MESSAGE" value="Netzwerksimulation funktioniert" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/GUI/Base.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$Base.coverage" NAME="Base Coverage Results" MODIFIED="1705880919548" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
-    <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$networkDashboard2.coverage" NAME="networkDashboard2 Coverage Results" MODIFIED="1705963944494" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
-    <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$nodes.coverage" NAME="nodes Coverage Results" MODIFIED="1705874137486" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
-    <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$network_generator.coverage" NAME="network_generator Coverage Results" MODIFIED="1705843824300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$networkDashboard.coverage" NAME="networkDashboard Coverage Results" MODIFIED="1705954628984" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
+    <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$Base.coverage" NAME="Base Coverage Results" MODIFIED="1705787190197" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
     <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$network_graph.coverage" NAME="network_graph Coverage Results" MODIFIED="1705767770699" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
     <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$network_participnat.coverage" NAME="network_participnat Coverage Results" MODIFIED="1701681449813" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$VisualDesign.coverage" NAME="VisualDesign Coverage Results" MODIFIED="1705963358351" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
-    <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$parameter_input.coverage" NAME="parameter_input Coverage Results" MODIFIED="1705880907988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
+    <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$parameter_input.coverage" NAME="parameter_input Coverage Results" MODIFIED="1705785845733" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
   </component>
 </project>
