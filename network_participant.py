@@ -43,9 +43,9 @@ class Network_Participant:
     def send(self, message, reciver, time):
         if reciver.np_id in self.neighbors.keys():
             print(f"{self.np_id} an {reciver.np_id} zu {time}")
-            reciver.recive(message, self, time)
+            reciver.receive(message, self, time)
 
-    def recive(self, message, sender, time):
+    def receive(self, message, sender, time):
         print(f"{self.np_id} bekommt von {sender.np_id} zu {time}")
         self.recieve_box.add(
             recived_message.Recived_Message(message, sender, time), sender)  # Umwandlung in ein Recived_message Objekt

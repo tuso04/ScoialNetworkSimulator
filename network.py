@@ -77,6 +77,8 @@ class Network:
             nodes[i]["purchase"] = False
 
     def simulate_network(self, time):
+        print(f"**************************New Step {time}***************************")
+
         company = self.participants.get(0)
         first_customer = company.neighbors.values()
         m = message.Message(1,
@@ -98,7 +100,7 @@ class Network:
 
         # Verarbeite die empfangenen Nachrichten jedes Konten
         for np in self.participants.values():
-            print(f"Vor: {np.np_id} zu {time}: {np.recieve_box.messages_by_sender} ")
+            print(f"Nach: {np.np_id} zu {time}: {np.recieve_box.messages_by_sender} ")
             np.process_messages(time)
 
         self.update_graph()
