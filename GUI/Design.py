@@ -123,7 +123,7 @@ app.layout = html.Div([
             ]),
             style={
                 'width': '400px',
-                'height': '60px',
+                'height': '65px',
                 'lineHeight': '60px',
                 'borderWidth': '1px',
                 'borderStyle': 'dashed',
