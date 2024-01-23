@@ -48,13 +48,13 @@ class Network_Participant:
         return credibility
 
     # Glauben   Option einbauen, wenn keine Konter Nachricht verfügbar!!!
-    def belive(self, message, conter_message, time):
-        if ((self.credibility(message, time) >= self._threshold_belive(message)) and
-                (self.credibility(conter_message, time) <= self._threshold_belive(conter_message))):
+    def believe(self, message, conter_message, time):
+        if ((self.credibility(message, time) >= self._threshold_believe(message)) and
+                (self.credibility(conter_message, time) <= self._threshold_believe(conter_message))):
             return True
 
-        if (self.credibility(message, time) >= self._threshold_belive(message)
-            and self.credibility(conter_message, time) >= self._threshold_belive(conter_message)) \
+        if (self.credibility(message, time) >= self._threshold_believe(message)
+            and self.credibility(conter_message, time) >= self._threshold_believe(conter_message)) \
                 and self._threshold_ex(message, time) > self._threshold_ex(conter_message, time) \
                 and abs(
             self._threshold_ex(message, time) - self._threshold_ex(conter_message, time) >= self.indifference):
@@ -63,7 +63,7 @@ class Network_Participant:
         return False
 
     # Schwellenwert Glauben → negative Nachrichten werden eher geglaubt werden
-    def _threshold_belive(self, message):
+    def _threshold_believe(self, message):
         if not message:
             return 0
 
@@ -72,9 +72,9 @@ class Network_Participant:
         return self.threshold_belive_p
 
     def _threshold_ex(self, message, time):
-        if self.credibility(message, time) >= self._threshold_belive(message):
-            return (self.credibility(message, time) - self._threshold_belive(message)) / (
-                        1 - self._threshold_belive(message))
+        if self.credibility(message, time) >= self._threshold_believe(message):
+            return (self.credibility(message, time) - self._threshold_believe(message)) / (
+                        1 - self._threshold_believe(message))
         return self.credibility(message, time)
 
     # Normative social influence
@@ -125,7 +125,7 @@ class Network_Participant:
     def forwarding_decision(self, message, conter_message, time, target):
         if (self.forwarding_prob(message, conter_message, time) >= random.randrange(0, 100) / 100) \
                 and not self.send_box.get_sender_message(message, target) \
-                and self.belive(message, conter_message, time):
+                and self.believe(message, conter_message, time):
             return True
 
         return False
@@ -133,11 +133,11 @@ class Network_Participant:
     # ****************************************Kaufabsicht**************************************************************
     # Kaufabsicht       Option einbauen, wenn keine Konter Nachricht verfügbar!!!
     def purchase_int(self, message, conter_message, time):
-        if self.belive(message, conter_message, time):
+        if self.believe(message, conter_message, time):
             # return self.purchase_prob +  *(1-math.e**(*self.credibility(message, conter_message,time)))
             pass
 
-        if self.belive(conter_message, message, time):
+        if self.believe(conter_message, message, time):
             # return self.purchase_prob -
             pass
 
@@ -190,7 +190,7 @@ class Network_Participant:
 
                     # Algorithmen zu Glauben, Kaufverhalten und Weiterleitung
                     forward = {}
-                    belive = self.belive(m, cm, time)
+                    belive = self.believe(m, cm, time)
                     for n in self.neighbors.keys():
                         forward[n] = self.forwarding_decision(m, cm, time, n)
                     purchase = self.purchase_decision(m, cm, time)

@@ -46,7 +46,7 @@ app.layout = html.Div([
     html.H1('Parameter input', style={'textAlign': 'center'}),
     html.Hr(),
     html.Div('Network Participants'),
-    dcc.Input(id='input_Network-participant', value=0, type='number',
+    dcc.Input(id='input_Network-participant', value=10, type='number',
               style={'width': '300px', 'height': '30px', 'margin-bottom': '15px'},
               placeholder='Enter the number of Network Participants'),
     html.Br(),
@@ -63,6 +63,21 @@ app.layout = html.Div([
     dcc.Input(id='turbulence_factor', type='number', value=0.5, min=0, max=1, step=0.01,
               style={'width': '300px', 'height': '30px', 'margin-bottom': '15px'},
               placeholder='Turbulenz Faktor'),
+    html.Br(),
+    html.Div('Art des Netzwerks'),
+    dcc.Input(id='net_shape', type='text', value="SWN",
+              style={'width': '300px', 'height': '30px', 'margin-bottom': '15px'},
+              ),
+    html.Br(),
+    html.Div('Anzahl initialer Kanten'),
+    dcc.Input(id='n_init_edges', type='number', value=2, min=0, step=1,
+              style={'width': '300px', 'height': '30px', 'margin-bottom': '15px'}
+              ),
+    html.Br(),
+    html.Div('Seperationswahrscheinlichkeit'),
+    dcc.Input(id='sep_prob', type='number', value=0.1, min=0, max=1, step=0.01,
+              style={'width': '300px', 'height': '30px', 'margin-bottom': '15px'},
+              ),
     html.Br(),
     html.H5('Alternative: Put in your own Network File'),
 
@@ -145,10 +160,16 @@ app.layout = html.Div([
     Input('generate_Network', 'n_clicks'),
     State('input_Network-participant', 'value'),
     State('anteil_Bots', 'value'),
-    State('turbulence_factor', 'value')
+    State('turbulence_factor', 'value'),
+    State('net_shape', 'value'),
+    State('n_init_edges', 'value'),
+    State('sep_prob', 'value'),
 )
-def button_generate_network(n_clicks, n_networkparticipants, n_bots, turbulence_factor):
-    network_graph = network_generator.generate_new_network("SFN", n_nodes=int(n_networkparticipants), init_edges=4, split_prob=0.9)
+def button_generate_network(n_clicks, n_networkparticipants, n_bots, turbulence_factor, net_shape, init_edges, split_prob):
+    network_graph = network_generator.generate_new_network(shape=net_shape,
+                                                           n_nodes=int(n_networkparticipants),
+                                                           init_edges=int(init_edges),
+                                                           split_prob=split_prob)
     return network_graph
 
 

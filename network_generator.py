@@ -33,6 +33,11 @@ def generate_new_network(shape, n_nodes=200, init_edges=2, split_prob=0.1):
         nodes[i]["isi_parameter"] = isi_parameter
         nodes[i]["fi_parameter"] = fi_parameter
         nodes[i]["purchase_prob"] = purchase_prob
+        nodes[i]["get_message"] = 0
+        nodes[i]["get_conter_message"] = 0
+        nodes[i]["believe"] = False
+        nodes[i]["forwarding"] = False
+        nodes[i]["purchase"] = False
 
         """
         nodes[i]["object"] = network_participant.Network_Participant(np_id=i,
