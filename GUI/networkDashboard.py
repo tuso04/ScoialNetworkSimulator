@@ -1,6 +1,8 @@
 import networkx as nx
 from dash import Dash, dcc, html, Input, Output, State, dash_table
 import plotly.graph_objs as go
+
+import network
 import network_converter
 import network_generator
 import random
@@ -112,7 +114,7 @@ app.layout = html.Div([
         dcc.Graph(
             id='network_graph',
             config={'displayModeBar': False},
-            #style={'height': 400}
+            # style={'height': 400}
         ),
     ]),
     html.Div(
@@ -123,6 +125,15 @@ app.layout = html.Div([
         ],
     ),
     html.Br(),
+    html.Div(
+            style={'textAlign': 'center', 'marginTop': '10px'},
+            children=[
+                html.Div("0", id="timestamp"),
+                html.Button('Simulate Step', id='simulate_step', n_clicks=0,
+                            style={'width': '200px', 'height': '50px'}),
+            ],
+        ),
+
     html.Br(),
 
     html.Div('Node stats:'),
@@ -156,7 +167,7 @@ app.layout = html.Div([
 
 # Callback zum Generieren des Netzwerks
 @app.callback(
-    Output('network_cache', 'data'),
+    Output('network_cache', 'data', allow_duplicate=True),
     Input('generate_Network', 'n_clicks'),
     State('input_Network-participant', 'value'),
     State('anteil_Bots', 'value'),
@@ -164,8 +175,10 @@ app.layout = html.Div([
     State('net_shape', 'value'),
     State('n_init_edges', 'value'),
     State('sep_prob', 'value'),
+    prevent_initial_call=True
 )
-def button_generate_network(n_clicks, n_networkparticipants, n_bots, turbulence_factor, net_shape, init_edges, split_prob):
+def button_generate_network(n_clicks, n_networkparticipants, n_bots, turbulence_factor, net_shape, init_edges,
+                            split_prob):
     network_graph = network_generator.generate_new_network(shape=net_shape,
                                                            n_nodes=int(n_networkparticipants),
                                                            init_edges=int(init_edges),
@@ -186,7 +199,7 @@ def update_layout(n_clicks, network_data):
     net = network_converter.network_form_json(network_data)
     G = net.graph
 
-    pos = nx.spring_layout(G)
+    pos = nx.spring_layout(G, seed=1)
 
     edge_x = []
     edge_y = []
@@ -206,35 +219,36 @@ def update_layout(n_clicks, network_data):
         hoverinfo='none',
         mode='lines')
 
-
     nodes = G.nodes()
     node_x = []
     node_y = []
     node_id = []
-    node_purchase_prob = []
+    node_color = []
+    node_text = []
 
     for node in nodes:
         x, y = pos[node]
         node_x.append(x)
         node_y.append(y)
 
-
     for i in range(len(nodes)):
         node_id.append(nodes[i]["np_id"])
-        if nodes[i]["purchase_prob"] < 0.5:
-            node_purchase_prob.append("red")
+        if nodes[i]["get_message"] > 0:
+            node_color.append("red")
         else:
-            node_purchase_prob.append("green")
+            node_color.append("green")
+        node_text.append(f"{nodes[i]["np_id"]}: {nodes[i]["get_message"]}")
 
-
+    if len(node_color) > 0:
+        node_color[0] = "blue"
 
     node_trace = go.Scatter(
         x=node_x, y=node_y,
         mode='markers',
         hoverinfo='text',
-        text=node_id,
+        text=node_text,
         marker=dict(
-            color=node_purchase_prob
+            color=node_color
         )
     )
 
@@ -250,6 +264,28 @@ def update_layout(n_clicks, network_data):
 
     return fig
 
+
+# Button Simuliere Netzwerkschritt
+@app.callback(
+    [Output('network_cache', 'data', allow_duplicate=True),
+    Output('timestamp', 'children')],
+    Input('simulate_step', 'n_clicks'),
+    State("network_cache", "data"),
+    State("timestamp", "children"),
+    prevent_initial_call=True
+)
+def simulate_new_step(n_clicks, network_data, time):
+    if not network_data:
+        network_data = {'directed': False, 'multigraph': False, 'graph': [], 'nodes': [], 'adjacency': []}
+
+    net = network.Network(network_data, 0.7)
+
+    net.create_objects_from_graph()
+    net.simulate_network(int(time))
+    net.update_graph()
+
+
+    return nx.adjacency_data(net.graph) , str(int(time)+1)
 
 # Neue Callback-Funktion zum Ausgeben der ausgewählten ID
 @app.callback(

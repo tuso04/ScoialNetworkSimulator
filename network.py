@@ -1,6 +1,8 @@
 import networkx as nx
+import pickle
 
 import message
+import message_stack
 import network_participant
 import relationship
 
@@ -46,7 +48,8 @@ class Network:
                 indifference=nodes[i]["indifference"],
                 isi_parameter=nodes[i]["isi_parameter"],
                 fi_parameter=nodes[i]["fi_parameter"],
-                purchase_prob=nodes[i]["purchase_prob"]
+                purchase_prob=nodes[i]["purchase_prob"],
+                send_box=(pickle.loads(nodes[i]["send_box"].encode('latin1')) if nodes[i]["send_box"] else None)
             )
 
             self.participants[new_n_p.np_id] = new_n_p
@@ -60,6 +63,19 @@ class Network:
                 neighbor=self.participants.get(e[0]),
                 bond=self.graph[e[0]][e[1]]["bond"][1])
 
+    def update_graph(self):
+        # Listen mit Knoten und Kanten
+        nodes = self.graph.nodes
+
+        for i in range(len(nodes)):
+            n_p = self.participants.get(nodes[i]["np_id"])
+            nodes[i]["send_box"] = pickle.dumps(n_p.send_box).decode('latin1')
+            nodes[i]["get_message"] = n_p.n_message
+            nodes[i]["get_conter_message"] = n_p.n_conter_message
+            nodes[i]["believe"] = False
+            nodes[i]["forwarding"] = False
+            nodes[i]["purchase"] = False
+
     def simulate_network(self, time):
         company = self.participants.get(0)
         first_customer = company.neighbors.values()
@@ -69,12 +85,9 @@ class Network:
                             0.5,
                             time,
                             5)
-        print(len(first_customer))
 
         for c in first_customer:
             company.send_box.add(m, c.part_B)
-
-
 
         # Sende alle Nachrichten im Netzwerk
         for np in self.participants.values():
@@ -85,4 +98,7 @@ class Network:
 
         # Verarbeite die empfangenen Nachrichten jedes Konten
         for np in self.participants.values():
+            print(f"Vor: {np.np_id} zu {time}: {np.recieve_box.messages_by_sender} ")
             np.process_messages(time)
+
+        self.update_graph()
