@@ -96,7 +96,6 @@ class Network:
 
         # Sende alle Nachrichten im Netzwerk
         for np in list(self.participants.values()):
-            # print(f"{np.np_id} {np.}")
             for neighbor in np.send_box.messages_by_sender.keys():
 
                 #print(f"Message Type: {type(np.send_box.messages_by_sender.get(neighbor))}")
