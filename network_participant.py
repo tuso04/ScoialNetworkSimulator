@@ -43,13 +43,14 @@ class Network_Participant:
     def send(self, message, reciver, time):
         if reciver.np_id in self.neighbors.keys():
             print(f"{self.np_id} an {reciver.np_id} zu {time}")
-            reciver.receive(message, self, time)
+            reciver.recieve_box.add(recived_message.Recived_Message(message, self, time), self)
+             #reciver.receive(message, self, time)
 
-    def receive(self, message, sender, time):
+    """def receive(self, message, sender, time):
         print(f"{self.np_id} bekommt von {sender.np_id} zu {time}")
         self.recieve_box.add(
             recived_message.Recived_Message(message, sender, time), sender)  # Umwandlung in ein Recived_message Objekt
-        print(f"{self.np_id} {self.recieve_box.messages_by_sender}")
+        print(f"{self.np_id} {self.recieve_box.messages_by_sender}")"""
 
     # *****************************************Glauben****************************************************************
 
@@ -192,7 +193,7 @@ class Network_Participant:
         self.m_forwarding = False
         self.m_purchase = False
 
-        print(f"{self.np_id} zu {time}: {self.recieve_box.messages_by_sender} ")
+        #print(f"{self.np_id} zu {time}: {self.recieve_box.messages_by_sender} ")
         for rm in self.recieve_box.messages:
             if rm.time == time:
                 if rm.mood:

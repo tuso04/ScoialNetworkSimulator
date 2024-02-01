@@ -10,5 +10,8 @@ class Recived_Message(message.Message):
                          m.emotional_dimension,
                          m.start_time,
                          m.life_time)
+        self.message = m
         self.sender = sender
         self.time = time
+
+

@@ -4,6 +4,7 @@ import pickle
 import message
 import message_stack
 import network_participant
+import recived_message
 import relationship
 
 
@@ -79,28 +80,38 @@ class Network:
     def simulate_network(self, time):
         print(f"**************************New Step {time}***************************")
 
-        company = self.participants.get(0)
-        first_customer = company.neighbors.values()
-        m = message.Message(1,
-                            True,
-                            0.5,
-                            0.5,
-                            time,
-                            5)
+        if time == 0:
+            company = self.participants.get(0)
+            first_customer = company.neighbors.values()
+            m = message.Message(1,
+                                True,
+                                0.5,
+                                0.5,
+                                time,
+                                5)
 
-        for c in first_customer:
-            company.send_box.add(m, c.part_B)
+            for c in first_customer:
+                packed_m = recived_message.Recived_Message(m, c.part_B, -1)
+                company.send_box.add(packed_m, c.part_B)
 
         # Sende alle Nachrichten im Netzwerk
-        for np in self.participants.values():
-            for m in np.send_box.messages_by_sender.keys():
-                np.send(message=np.send_box.messages_by_sender.get(m),
-                        reciver=m,
-                        time=time)
+        for np in list(self.participants.values()):
+            # print(f"{np.np_id} {np.}")
+            for neighbor in np.send_box.messages_by_sender.keys():
+
+                #print(f"Message Type: {type(np.send_box.messages_by_sender.get(neighbor))}")
+                packed_m2 = np.send_box.messages_by_sender.get(neighbor)
+
+                if packed_m2.time == time - 1:
+                    np.send(message=packed_m2.message,
+                            reciver=neighbor,
+                            time=time)
+                    #for np2 in self.participants.values():
+                        #print(f"Nach dem Senden: {np2.np_id} zu {time}: {np2.recieve_box.messages_by_sender} ")
 
         # Verarbeite die empfangenen Nachrichten jedes Konten
         for np in self.participants.values():
-            print(f"Nach: {np.np_id} zu {time}: {np.recieve_box.messages_by_sender} ")
+            #print(f"Vor: {np.np_id} zu {time}: {np.recieve_box.messages_by_sender} ")
             np.process_messages(time)
 
-        self.update_graph()
+        #self.update_graph()
