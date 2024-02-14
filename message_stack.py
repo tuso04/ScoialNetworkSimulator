@@ -12,3 +12,4 @@ class Message_Stack:
 
     def get_sender_message(self, message, sender):
         pass
+
