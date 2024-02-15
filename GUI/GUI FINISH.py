@@ -519,7 +519,8 @@ app.layout = html.Div([
                                         }
                                     ),
                                 ],
-                            )
+
+                            ),
                         ],
                         md=6
                     ),
@@ -547,18 +548,138 @@ app.layout = html.Div([
                                         }
                                     ),
                                 ],
-                        )
+
+                            ),
                     ],
                     md=6
                 ),
                 ]
             )
 
-            #Gesamtkaufwahrscheinlichkeit als Rad
-            #Teilnehmer mit meisten Followern
-            #Top5 Beeinflusser in einem Durchlauf
-            #Höchster Influencer wert und wer es ist
         ]),
+        dcc.Tab(label='Werte pro Teilnehmer', children=[
+            html.Br(),
+            dbc.Row(
+
+                [
+                    dbc.Col(
+                        [
+                            dbc.Card(
+                                [
+                                    dbc.CardHeader(html.H4('Verbreitung', style={'textAlign': 'center'})),
+                                    dbc.CardBody(
+                                        dash_table.DataTable(
+                                            id='verbreitung1',
+                                            columns=[
+                                                {'name': 'Weiterleitung', 'id': 'weitergeleitet_per_Participant'},
+                                                {'name': 'Minimum', 'id': 'id_per_Particpant'},
+                                                {'name': 'Average', 'id': 'erhalten_per_Participant'},
+                                                {'name': 'Maximum', 'id': 'weitergeleitet_per_Participant'},
+                                            ],
+                                            data=df.to_dict('records'), page_size=3,
+                                            style_table={'overflowX': 'auto', 'margin': '10px',
+                                                         'backgroundColor': '#f2f2f2'},
+                                            style_header={'textAlign': 'left'},
+                                        )
+                                    ),
+                                ],
+                                style={'background-color': '#f0f0f0'}
+                            ),
+                        ],
+                        md=6
+                    ),
+                    dbc.Col(
+                        [
+                            dbc.Card(
+                                [
+                                    dbc.CardHeader(html.H4('Glaubwürdigkeit', style={'textAlign': 'center'})),
+                                    dbc.CardBody(
+                                        dash_table.DataTable(
+                                            id='verbreitung2',
+                                            columns=[
+                                                {'name': 'Glaubwürdigkeit', 'id': 'weitergeleitet_per_Participant',
+                                                 'editable': False},
+                                                {'name': 'Minimum', 'id': 'id_per_Particpant'},
+                                                {'name': 'Average', 'id': 'erhalten_per_Participant'},
+                                                {'name': 'Maximum', 'id': 'weitergeleitet_per_Participant'},
+                                            ],
+                                            data=df.to_dict('records'), page_size=3,
+                                            style_table={'overflowX': 'auto', 'margin': '10px',
+                                                         'backgroundColor': '#f2f2f2'},
+                                            style_header={'textAlign': 'left'},
+                                        )
+                                    ),
+                                ],
+                                style={'background-color': '#f0f0f0'}
+                            ),
+                        ],
+                        md=6
+                    )
+                ],
+                justify='around',  # Gleichmäßige Verteilung der Spalten
+
+            ),
+            html.Br(),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        [
+                            dbc.Card(
+                                [
+                                    dbc.CardHeader(html.H4('Kaufwahrscheinlichtkeit', style={'textAlign': 'center'})),
+                                    dbc.CardBody(
+                                        dash_table.DataTable(
+                                            id='verbreitung3',
+                                            columns=[
+                                                {'name': 'Kaufwahrscheinlichkeit', 'id': 'weitergeleitet_per_Participant'},
+                                                {'name': 'Minimum', 'id': 'id_per_Particpant'},
+                                                {'name': 'Average', 'id': 'erhalten_per_Participant'},
+                                                {'name': 'Maximum', 'id': 'weitergeleitet_per_Participant'},
+                                            ],
+                                            data=df.to_dict('records'), page_size=3,
+                                            style_table={'overflowX': 'auto', 'margin': '10px',
+                                                         'backgroundColor': '#f2f2f2'},
+                                            style_header={'textAlign': 'left'},
+                                        )
+                                    ),
+                                ],
+                                style={'background-color': '#f0f0f0'}
+                            ),
+                        ],
+                        md=6
+                    ),
+                    dbc.Col(
+                        [
+                            dbc.Card(
+                                [
+                                    dbc.CardHeader(html.H4('Weiterleitung', style={'textAlign': 'center'})),
+                                    dbc.CardBody(
+                                        dash_table.DataTable(
+                                            id='verbreitung4',
+                                            columns=[
+                                                {'name': 'Weiterleitung', 'id': 'weitergeleitet_per_Participant',
+                                                 'editable': False},
+                                                {'name': 'Minimum', 'id': 'id_per_Particpant'},
+                                                {'name': 'Average', 'id': 'erhalten_per_Participant'},
+                                                {'name': 'Maximum', 'id': 'weitergeleitet_per_Participant'},
+                                            ],
+                                            data=df.to_dict('records'), page_size=3,
+                                            style_table={'overflowX': 'auto', 'margin': '10px',
+                                                         'backgroundColor': '#f2f2f2'},
+                                            style_header={'textAlign': 'left'},
+                                        )
+                                    ),
+                                ],
+                                style={'background-color': '#f0f0f0'}
+                            ),
+                        ],
+                        md=6
+                    )
+                ],
+                justify='around'  # Gleichmäßige Verteilung der Spalten
+            ),
+        ]),
+
     ])
 ])
 
