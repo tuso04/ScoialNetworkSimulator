@@ -8,6 +8,7 @@ import numpy as np
 
 import network_converter
 import network_generator
+import network_simulator
 
 # Beispiel Daten Tabelle
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv')
@@ -221,9 +222,6 @@ app.layout = html.Div([
                 style={'max-width': '1600px', 'margin': 'auto', 'background-color': '#f0f0f0'}
             ),
 
-
-
-
             html.Br(),
 
             dbc.Card(
@@ -263,7 +261,8 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('FI Parameter'),
                                             html.Br(),
-                                            dcc.Input(id='fi_parameter', type='number', value=0.1, min=0, max=1, step=0.01,
+                                            dcc.Input(id='fi_parameter', type='number', value=0.1, min=0, max=1,
+                                                      step=0.01,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}),
@@ -772,7 +771,7 @@ app.layout = html.Div([
             # Top5 Beeinflusser in einem Durchlauf
             # Höchster Influencer wert und wer es ist
         ]),
-       dcc.Tab(label='Werte pro Teilnehmer', children=[
+        dcc.Tab(label='Werte pro Teilnehmer', children=[
             html.Br(),
             dbc.Row(
 
@@ -846,7 +845,8 @@ app.layout = html.Div([
                                         dash_table.DataTable(
                                             id='verbreitung3',
                                             columns=[
-                                                {'name': 'Kaufwahrscheinlichkeit', 'id': 'weitergeleitet_per_Participant'},
+                                                {'name': 'Kaufwahrscheinlichkeit',
+                                                 'id': 'weitergeleitet_per_Participant'},
                                                 {'name': 'Minimum', 'id': 'id_per_Particpant'},
                                                 {'name': 'Average', 'id': 'erhalten_per_Participant'},
                                                 {'name': 'Maximum', 'id': 'weitergeleitet_per_Participant'},
@@ -899,17 +899,106 @@ app.layout = html.Div([
 ])
 
 
-
 @app.callback(
     Output('network_cache', 'data'),
     Input('generate_Network', 'n_clicks'),
-    State('input_Network-participant', 'value'),
-    State('anteil_Bots', 'value'),
-    State('turbulence_factor', 'value')
+    State('net_shape', 'value'),
+    State('network_paricipant_parameter', 'value'),
+    State('n_init_edges', 'value'),
+    State('sep_prob', 'values'),
+    State('turbulence_factor', 'value'),
+    State('bots_parameter', 'value'),
+    State('influencer_parameter', 'value'),
+    State('cred_parameter', 'value'),
+    State('indefference', 'value'),
+    State('isi_parameter', 'value'),
+    State('fi_parameter', 'value'),
+    State('purchase_init_prob_parameter', 'value'),
+    State('purchase_prob_max_parameter', 'value'),
+    State('purchase_prob_min_parameter', 'value'),
+    State('purchase_expo_param_positive_parameter', 'value'),
+    State('purchase_expo_param_negative_parameter', 'value'),
+    State('time_message_parameter', 'value'),
+    State('run_parameter', 'value'),
+    State('steps_per_run_parameter', 'value')
 )
-def button_generate_network(n_clicks, n_networkparticipants, n_bots, turbulence_factor):
-    network_graph = network_generator.generate_new_network("", n_nodes=int(n_networkparticipants))
-    return network_graph
+def button_start_simulation(n_clicks,
+                            shape,
+                            n_network_participants,
+                            init_edges,
+                            split_prob,
+                            turbulence_factor,
+                            n_bots,
+                            n_influencer,
+                            threshold_believe,
+                            indifference,
+                            isi_parameter,
+                            fi_parameter,
+                            purchase_init_prob,
+                            purchase_prob_max,
+                            purchase_prob_min,
+                            purchase_expo_param_positive,
+                            purchase_expo_param_negative,
+                            message_start_time,
+                            message_life_time,
+                            message_quality,
+                            message_emotionality,
+                            counter_message_start_time,
+                            counter_message_life_time,
+                            counter_message_quality,
+                            counter_message_emotionality,
+                            runs,
+                            run_steps,
+                            run_csv
+                            ):
+    # Initialisierung der Parameter-Dictionary
+    network_parameters = {}
+    participant_parameters = {}
+    message_parameters = {}
+    counter_message_parameters = {}
+    simulation_parameters = {}
+
+    network_parameters["shape"] = shape
+    network_parameters["n_nodes"] = n_network_participants
+    network_parameters["init_edges"] = init_edges
+    network_parameters["split_prob"] = split_prob
+    network_parameters["turbulence_factor"] = turbulence_factor
+    network_parameters["n_bots"] = n_bots
+    network_parameters["n_influencer"] = n_influencer
+
+    participant_parameters["threshold_belive"] = threshold_believe
+    participant_parameters["indifference"] = indifference
+    participant_parameters["isi_parameter"] = isi_parameter
+    participant_parameters["fi_parameter"] = fi_parameter
+    participant_parameters["purchase_init_prob"] = purchase_init_prob
+    participant_parameters["purchase_prob_max"] = purchase_prob_max
+    participant_parameters["purchase_prob_min"] = purchase_prob_min
+    participant_parameters["purchase_expo_param_positive"] = purchase_expo_param_positive
+    participant_parameters["purchase_expo_param_negative"] = purchase_expo_param_negative
+
+    message_parameters["start_time"] = message_start_time
+    message_parameters["life_time"] = message_life_time
+    message_parameters["quality"] = message_quality
+    message_parameters["emotionality"] = message_emotionality
+
+    counter_message_parameters["start_time"] = counter_message_start_time
+    counter_message_parameters["life_time"] = counter_message_life_time
+    counter_message_parameters["quality"] = counter_message_quality
+    counter_message_parameters["emotionality"] = counter_message_emotionality
+
+    simulation_parameters["runs"] = runs
+    simulation_parameters["run_steps"] = run_steps
+    simulation_parameters["run_csv"] = run_csv
+
+    ns = network_simulator.Network_Simulation(simulation_parameters,
+                                              network_parameters,
+                                              participant_parameters,
+                                              message_parameters,
+                                              counter_message_parameters)
+
+    ns.compute_simulation()
+
+    # return network_graph
 
 
 @app.callback(
@@ -946,10 +1035,6 @@ def generate_table_100(network_data):
                                                         "Weiterleitungswahrscheinlichkeit"
                                                         "Häufigkeit Weiterleitung",
                                                         ])
-
-
-
-
 
 
 if __name__ == '__main__':

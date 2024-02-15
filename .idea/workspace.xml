@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Der scheiß funktioniert endlich, wenn auch nicht grafisch">
-      <change afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/network_simulator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI/GUI FINISH.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/GUI FINISH.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network.py" beforeDir="false" afterPath="$PROJECT_DIR$/network.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network_participant.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_participant.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,10 +33,11 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="98e7acef28e4570a8e9d78d7a7d895fdb128f038" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="SOFT" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -68,36 +63,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.Base.executor": "Run",
-    "Python.Design.executor": "Run",
-    "Python.GUI FINISH.executor": "Run",
-    "Python.Tester.executor": "Run",
-    "Python.VisualDesign.executor": "Run",
-    "Python.all_in_one.executor": "Run",
-    "Python.flaskTest.executor": "Run",
-    "Python.network.executor": "Run",
-    "Python.networkDashboard.executor": "Run",
-    "Python.networkDashboard2.executor": "Run",
-    "Python.network_converter.executor": "Run",
-    "Python.network_generator.executor": "Debug",
-    "Python.network_graph.executor": "Run",
-    "Python.network_participant.executor": "Run",
-    "Python.parameter_input.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/xy/PycharmProjects/ScoialNetworkSimulator/GUI",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.Base.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Design.executor&quot;: &quot;Run&quot;,
+    &quot;Python.GUI FINISH.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Tester.executor&quot;: &quot;Run&quot;,
+    &quot;Python.VisualDesign.executor&quot;: &quot;Run&quot;,
+    &quot;Python.all_in_one.executor&quot;: &quot;Run&quot;,
+    &quot;Python.flaskTest.executor&quot;: &quot;Run&quot;,
+    &quot;Python.network.executor&quot;: &quot;Run&quot;,
+    &quot;Python.networkDashboard.executor&quot;: &quot;Run&quot;,
+    &quot;Python.networkDashboard2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.network_converter.executor&quot;: &quot;Run&quot;,
+    &quot;Python.network_generator.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.network_graph.executor&quot;: &quot;Run&quot;,
+    &quot;Python.network_participant.executor&quot;: &quot;Run&quot;,
+    &quot;Python.parameter_input.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/xy/PycharmProjects/ScoialNetworkSimulator/GUI&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\xy\PycharmProjects\ScoialNetworkSimulator\GUI" />

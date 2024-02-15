@@ -13,8 +13,8 @@ import relationship
 
 
 class Network:
-    def __init__(self, graph_json, turbulence_factor, n_influencer, n_bots, message_start_time,
-                 counter_message_start_time,
+    def __init__(self, graph_json, turbulence_factor, n_influencer, n_bots, message,
+                 counter_message,
                  relationships=None, participants=None):
         if participants is None:
             participants = {}
@@ -26,8 +26,8 @@ class Network:
         self.turbulence_factor = turbulence_factor
         self.n_influencer = n_influencer
         self.n_bots = n_bots
-        self.message_start_time = message_start_time
-        self.counter_message_start_time = counter_message_start_time
+        self.message = message
+        self.counter_message = counter_message
         self.relationships = relationships
         self.participants = participants
         self.simulation_data = pd.DataFrame()
@@ -155,7 +155,7 @@ class Network:
         print(f"**************************New Step {time}***************************")
 
         # Initiale Nachrichten
-        if time == self.message_start_time:
+        if time == self.message["start_time"]:
             start_points = []
 
             for i in self.influencer:

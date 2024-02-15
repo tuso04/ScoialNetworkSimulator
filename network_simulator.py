@@ -16,9 +16,11 @@ import network_generator
 
 class Network_Simulation:
 
-    def __init__(self, simulation_runs, run_steps, network_params):
-        self.simulation_runs = simulation_runs
-        self.run_steps = run_steps
+    def __init__(self, sim_params, network_params, participant_params, message_params, counter_message_params):
+
+        # Simulationsparameters
+        self.simulation_runs = sim_params["runs"]
+        self.run_steps = sim_params["run_steps"]
         self.network_params = network_params
 
         self.simulation_data = pd.DataFrame(columns=[
