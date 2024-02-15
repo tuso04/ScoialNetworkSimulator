@@ -233,70 +233,96 @@ app.layout = html.Div([
                                     children=[
                                         dbc.Col([
                                             html.Label('Schwellenwert Glaubwürdigkeit'),
-                                            dcc.Input(type='text', id='cred_parameter',
-                                                      style={'width': '300px', 'height': '40px',
+                                            html.Br(),
+                                            dcc.Input(id='cred_parameter', type='number', value=0.5, min=0, max=1,
+                                                      step=0.01,
+                                                      style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}),
-                                        ], width=3),
+                                        ], width=4),
 
                                         dbc.Col([
                                             html.Label('Indifferenz'),
                                             html.Br(),
-                                            dcc.Input(id='indefference_parameter', type='number',
-                                                      style={'width': '300px', 'height': '40px',
+                                            dcc.Input(id='indefference', type='number', value=2, min=0, step=1,
+                                                      style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
-                                                             'margin-right': 'auto'}),
-                                        ], width=3),
+                                                             'margin-right': 'auto'}
+                                                      ),
+                                        ], width=4),
 
                                         dbc.Col([
                                             html.Label('ISI Parameter'),
                                             html.Br(),
                                             dcc.Input(id='isi_parameter', type='number', value=2, min=0, step=1,
-                                                      style={'width': '300px', 'height': '40px',
+                                                      style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}
                                                       ),
-                                        ], width=3),
-
-                                        dbc.Col([
-                                            html.Label('FI Parameter'),
-                                            html.Br(),
-                                            dcc.Input(id='fi_parameter', type='number', value=0.1, min=0, max=1,
-                                                      step=0.01,
-                                                      style={'width': '300px', 'height': '40px',
-                                                             'margin-bottom': '30px', 'margin-left': 'auto',
-                                                             'margin-right': 'auto'}),
-                                        ], width=3),
-                                    ]
+                                        ], width=4),
+                                    ],
                                     ),
 
                             dbc.Row(className='mx-auto', style={'width': 'fit-content'},
                                     children=[
                                         dbc.Col([
-                                            html.Label('Turbulenz-Faktor des Netzwerks'),
+                                            html.Label('FI Parameter'),
                                             html.Br(),
-                                            dcc.Input(id='turbulence_factor', type='number', value=0.5, min=0, max=1,
+                                            dcc.Input(id='fi_parameter', type='number', value=0.5, min=0, max=1,
                                                       step=0.01,
-                                                      style={'width': '300px', 'height': '40px',
+                                                      style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}),
                                         ], width=4),
 
                                         dbc.Col([
-                                            html.Label('Bots'),
+                                            html.Label('Initiale Kaufwahrscheinlichkeit'),
                                             html.Br(),
-                                            dcc.Input(id='n_init_edges', type='number', value=2, min=0, step=1,
-                                                      style={'width': '300px', 'height': '40px',
+                                            dcc.Input(id='purchase_init_prob_parameter', type='number', value=2, min=0, step=1,
+                                                      style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}
                                                       ),
                                         ], width=4),
 
                                         dbc.Col([
-                                            html.Label('Influencer'),
+                                            html.Label('Maximale Kaufwahrscheinlichkeit'),
                                             html.Br(),
-                                            dcc.Input(id='n_init_edges', type='number', value=2, min=0, step=1,
-                                                      style={'width': '300px', 'height': '40px',
+                                            dcc.Input(id='purchase_prob_max_parameter', type='number', value=2, min=0, step=1,
+                                                      style={'width': '350px', 'height': '40px',
+                                                             'margin-bottom': '30px', 'margin-left': 'auto',
+                                                             'margin-right': 'auto'}
+                                                      ),
+                                        ], width=4),
+                                    ],
+                                    ),
+                            dbc.Row(className='mx-auto', style={'width': 'fit-content'},
+                                    children=[
+                                        dbc.Col([
+                                            html.Label('Minimale Kaufwahrscheinlichkeit'),
+                                            html.Br(),
+                                            dcc.Input(id='purchase_prob_min_parameter', type='number', value=0.5, min=0, max=1,
+                                                      step=0.01,
+                                                      style={'width': '350px', 'height': '40px',
+                                                             'margin-bottom': '30px', 'margin-left': 'auto',
+                                                             'margin-right': 'auto'}),
+                                        ], width=4),
+
+                                        dbc.Col([
+                                            html.Label('Positive expotenzielle Kaufwahrscheinlichkeit'),
+                                            html.Br(),
+                                            dcc.Input(id='purchase_expo_param_positive_parameter', type='number', value=2, min=0, step=1,
+                                                      style={'width': '350px', 'height': '40px',
+                                                             'margin-bottom': '30px', 'margin-left': 'auto',
+                                                             'margin-right': 'auto'}
+                                                      ),
+                                        ], width=4),
+
+                                        dbc.Col([
+                                            html.Label('Negative expotenzielle Kaufwahrscheinlichkeit'),
+                                            html.Br(),
+                                            dcc.Input(id='purchase_expo_param_negative_parameter', type='number', value=2, min=0, step=1,
+                                                      style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}
                                                       ),
@@ -315,17 +341,17 @@ app.layout = html.Div([
                     dbc.CardHeader(html.H4('Nachrichtenparameter', style={'textAlign': 'center'})),
                     dbc.CardBody(
                         [
-                            dbc.Row(className='mx-auto', style={'width': 'fit-content'},
+                            dbc.Row(className='mx-auto', align='center', style={'width': 'fit-content'},
                                     children=[
                                         dbc.Col([
-                                            html.Label('Qualität der Argumente'),
+                                            html.Label('Qualität der Nachricht'),
                                             dcc.Input(type='text', id='quality_parameter',
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=3),
 
                                         dbc.Col([
-                                            html.Label('Emotionalität der Argumente'),
+                                            html.Label('Emotionalität der Nachricht'),
                                             html.Br(),
                                             dcc.Input(id='emotional_parameter', type='number',
                                                       style={'width': '300px', 'height': '40px',
@@ -342,9 +368,45 @@ app.layout = html.Div([
                                         ], width=3),
 
                                         dbc.Col([
+                                            html.Label('Lebenszeit der Nachricht'),
+                                            html.Br(),
+                                            dcc.Input(id='lifetime_parameter', type='number', value=0.1, min=0,
+                                                      max=1, step=0.01,
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '15px'}),
+                                        ], width=3),
+                                    ]
+                                    ),
+                            dbc.Row(className='mx-auto', align='center', style={'width': 'fit-content'},
+                                    children=[
+                                        dbc.Col([
+                                            html.Label('Qualität Gegennachricht'),
+                                            dcc.Input(type='text', id='quality_counter_parameter',
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '15px'}),
+                                        ], width=3),
+
+                                        dbc.Col([
+                                            html.Label('Emotionalität Gegennachricht'),
+                                            html.Br(),
+                                            dcc.Input(id='emotional_counter_parameter', type='number',
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '15px'}),
+                                        ], width=3),
+
+                                        dbc.Col([
                                             html.Label('Zeitpunkt Auftritt Gegennachricht'),
                                             html.Br(),
-                                            dcc.Input(id='time_counter_parameter', type='number', value=0.1, min=0,
+                                            dcc.Input(id='time_counter_parameter', type='number', value=2, min=0,
+                                                      step=1,
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '15px'}),
+                                        ], width=3),
+
+                                        dbc.Col([
+                                            html.Label('Lebenszeit Gegennachricht'),
+                                            html.Br(),
+                                            dcc.Input(id='lifetime_counter_parameter', type='number', value=0.1, min=0,
                                                       max=1, step=0.01,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
@@ -438,7 +500,7 @@ app.layout = html.Div([
             html.Div(
                 style={'textAlign': 'center', 'marginTop': '30px'},
                 children=[
-                    html.Button('Generate Network', id='generate_Network', n_clicks=0,
+                    html.Button('Starte Simulation', id='generate_Network', n_clicks=0,
                                 style={'width': '200px', 'height': '50px'}),
                 ],
             ),
@@ -457,6 +519,14 @@ app.layout = html.Div([
                                 style={'width': '200px', 'height': '50px'}),
                 ],
             ),
+            html.Div(
+                style = {'textAlign': 'center', 'marginTop': '10px'},
+                children=[
+                    html.Button("Download CSV", id="btn_csv",  style={'width': '200px', 'height': '50px'}),
+                    dcc.Download(id="download_csv"),
+                ]
+            )
+
         ]),
 
         #############################################Tab 2 Auswertung##################################################
@@ -901,7 +971,9 @@ app.layout = html.Div([
 
 @app.callback(
     Output('network_cache', 'data'),
+    Output("download_csv", "data"),
     Input('generate_Network', 'n_clicks'),
+    Input('btn_csv', 'n_cllicks'),
     State('net_shape', 'value'),
     State('network_paricipant_parameter', 'value'),
     State('n_init_edges', 'value'),
@@ -920,7 +992,14 @@ app.layout = html.Div([
     State('purchase_expo_param_negative_parameter', 'value'),
     State('time_message_parameter', 'value'),
     State('run_parameter', 'value'),
-    State('steps_per_run_parameter', 'value')
+    State('steps_per_run_parameter', 'value'),
+    State('quality_parameter', 'value'),
+    State('quality_counter_parameter', 'value'),
+    State('emotional_parameter', 'value'),
+    State('emotional_counter_parameter', 'value'),
+    State('lifetime_counter_parameter', 'value'),
+    State('time_counter_parameter', 'value'),
+    State('lifetime_parameter', 'value')
 )
 def button_start_simulation(n_clicks,
                             shape,
