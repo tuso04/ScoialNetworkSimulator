@@ -7,7 +7,7 @@ import network_participant
 import network
 
 
-def generate_new_network(shape, n_nodes=200, init_edges=2, split_prob=0.1):
+def generate_new_network(shape, participant_params, n_nodes=200, init_edges=2, split_prob=0.1, ):
     print("Beginne Generierung")
 
     if shape == "SFN":  # Scale-Free Network

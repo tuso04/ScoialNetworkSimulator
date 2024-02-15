@@ -9,12 +9,16 @@ import bot
 import message
 import network_participant
 import recived_message
-import relationship
+
 
 
 class Network:
-    def __init__(self, graph_json, turbulence_factor, n_influencer, n_bots, message,
-                 counter_message,
+    def __init__(self, graph_json,
+                 turbulence_factor,
+                 n_influencer,
+                 n_bots,
+                 message_params,
+                 counter_message_params,
                  relationships=None, participants=None):
         if participants is None:
             participants = {}
@@ -26,8 +30,8 @@ class Network:
         self.turbulence_factor = turbulence_factor
         self.n_influencer = n_influencer
         self.n_bots = n_bots
-        self.message = message
-        self.counter_message = counter_message
+        self.message_params = message_params
+        self.counter_message = counter_message_params
         self.relationships = relationships
         self.participants = participants
         self.simulation_data = pd.DataFrame()
@@ -155,7 +159,7 @@ class Network:
         print(f"**************************New Step {time}***************************")
 
         # Initiale Nachrichten
-        if time == self.message["start_time"]:
+        if time == self.message_params["start_time"]:
             start_points = []
 
             for i in self.influencer:
@@ -166,10 +170,10 @@ class Network:
 
             m = message.Message(1,
                                 True,
-                                0.5,
-                                0.5,
+                                self.message_params["quality"],
+                                self.message_params["emotionality"],
                                 time,
-                                5)
+                                self.message_params["life_time"])
 
             for starter in start_points:
                 first_customer = starter.neighbors.values()

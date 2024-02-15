@@ -21,7 +21,13 @@ class Network_Simulation:
         # Simulationsparameters
         self.simulation_runs = sim_params["runs"]
         self.run_steps = sim_params["run_steps"]
+
         self.network_params = network_params
+        self.participant_params = participant_params
+        self.message_params = message_params
+        self.counter_message_params = counter_message_params
+
+
 
         self.simulation_data = pd.DataFrame(columns=[
             "run",
@@ -41,6 +47,7 @@ class Network_Simulation:
 
     def compute_run(self, i):
         net_graph = network_generator.generate_new_network(shape=self.network_params["shape"],
+                                                           participant_params=self.participant_params,
                                                            n_nodes=self.network_params["n_nodes"],
                                                            init_edges=self.network_params["init_edges"],
                                                            split_prob=self.network_params["split_prob"])
@@ -48,8 +55,8 @@ class Network_Simulation:
         net = network.Network(net_graph,
                               n_influencer=self.network_params["n_influencer"],
                               n_bots=self.network_params["n_bots"],
-                              message_start_time=self.network_params["message_start_time"],
-                              counter_message_start_time=self.network_params["counter_message_start_time"],
+                              message_params=self.message_params,
+                              counter_message_params=self.counter_message_params,
                               turbulence_factor=self.network_params["turbulence_factor"])
 
         net.create_objects_from_graph()
