@@ -1,3 +1,4 @@
+import math
 import random
 
 import message_stack
@@ -10,24 +11,30 @@ import relationship
 
 
 class Network_Participant:
-    def __init__(self, np_id, threshold_belive_p, turbulence_factor, indifference, isi_parameter, fi_parameter,
-                 purchase_prob,
-                 neighbors=None,
-                 send_box=None):
+    def __init__(self, np_id, threshold_believe_p, turbulence_factor, indifference, isi_parameter, fi_parameter,
+                 purchase_init_prob, purchase_prob_max, purchase_prob_min, purchase_expo_param_positive,
+                 purchase_expo_param_negative,
+                 neighbors=None,send_box=None):
         if neighbors is None:
             neighbors = {}
         if send_box is None:
             send_box = message_stack.Message_Stack()
 
         self.np_id = np_id  # id zur Identifikation, int
-        # self.network = network                              # Netzwerk, zu dem der Knoten gehört, Network()
-        self.threshold_belive_p = threshold_belive_p  # Schwellenwert für positive Nachrichten, double
+        # self.network = network # Netzwerk, zu dem der Knoten gehört, Network()
+        self.threshold_belive_p = threshold_believe_p  # Schwellenwert für positive Nachrichten, double
         self.turbulence_factor = turbulence_factor
         self.indifference = indifference  # Spanne der Gleichgültigkeit double [0; 1]
         self.isi_parameter = isi_parameter  # Ausgleichsparameter bei Berechnung ISI double [0; 1]
         self.fi_parameter = fi_parameter  # Ausgleichsparameter bei Weiterleitungsabsicht double [0; 1]
-        self.purchase_prob = purchase_prob  # initiale Kaufwahrscheinlichkeit, double
+        self.purchase_init_prob = purchase_init_prob  # initiale Kaufwahrscheinlichkeit, double
+        self.purchase_prob = purchase_init_prob  # Kaufwahrscheinlichkeit
+        self.purchase_prob_max = purchase_prob_max  # Obere Grenze Berechnung Kaufwahrscheinlichkeit
+        self.purchase_prob_min = purchase_prob_min  # Untere Grenze Berechnung Kaufwahrscheinlichkeit
+        self.purchase_expo_param_positive = purchase_expo_param_positive  # Exponential Faktor Kaufwahrscheinlichkeit positiv
+        self.purchase_expo_param_negative = purchase_expo_param_negative  # Exponential Faktor Kaufwahrscheinlichkeit negativ
         self.neighbors = neighbors  # Nachbarn, Liste mit Relationship-Objekten
+        self.centrality_degree = len(self.neighbors)
         self.recieve_box = message_stack.Message_Stack()  # Eingangsstapel, Message_stack
         self.send_box = send_box  # Ausgangsstapel, Message_stack
 
@@ -35,16 +42,19 @@ class Network_Participant:
         self.n_message = 0
         self.n_conter_message = 0
         self.m_belive = False
+        self.m_credibility = 0
         self.m_forwarding = False
+        self.n_m_forwarding = 0
+        self.prob_forwarding = 0
         self.m_purchase = False
 
     # Nachrichten Eingang
 
     def send(self, message, reciver, time):
         if reciver.np_id in self.neighbors.keys():
-            print(f"{self.np_id} an {reciver.np_id} zu {time}")
+            #print(f"{self.np_id} an {reciver.np_id} zu {time}")
             reciver.recieve_box.add(recived_message.Recived_Message(message, self, time), self)
-             #reciver.receive(message, self, time)
+            # reciver.receive(message, self, time)
 
     """def receive(self, message, sender, time):
         print(f"{self.np_id} bekommt von {sender.np_id} zu {time}")
@@ -64,6 +74,7 @@ class Network_Participant:
     def believe(self, message, conter_message, time):
         if ((self.credibility(message, time) >= self._threshold_believe(message)) and
                 (self.credibility(conter_message, time) <= self._threshold_believe(conter_message))):
+            self.m_belive = True
             return True
 
         if (self.credibility(message, time) >= self._threshold_believe(message)
@@ -141,6 +152,8 @@ class Network_Participant:
                 and not self.send_box.get_sender_message(message, target) \
                 and self.believe(message, conter_message, time):
             self.m_forwarding = True
+            self.n_m_forwarding += 1
+            self.prob_forwarding = self.n_m_forwarding / self.n_message
             return True
         return False
 
@@ -148,12 +161,12 @@ class Network_Participant:
     # Kaufabsicht       Option einbauen, wenn keine Konter Nachricht verfügbar!!!
     def purchase_int(self, message, conter_message, time):
         if self.believe(message, conter_message, time):
-            # return self.purchase_prob +  *(1-math.e**(*self.credibility(message, conter_message,time)))
-            pass
+            return self.purchase_prob + (self.purchase_prob_max - self.purchase_prob) * (
+                    1 - math.e ** (self.purchase_expo_param_positive * self.credibility(message, time)))
 
         if self.believe(conter_message, message, time):
-            # return self.purchase_prob -
-            pass
+            return self.purchase_prob + (self.purchase_prob - self.purchase_prob_min) * (
+                    1 - math.e ** (self.purchase_expo_param_negative * self.credibility(message, time)))
 
         return self.purchase_prob
 
@@ -193,7 +206,7 @@ class Network_Participant:
         self.m_forwarding = False
         self.m_purchase = False
 
-        #print(f"{self.np_id} zu {time}: {self.recieve_box.messages_by_sender} ")
+        # print(f"{self.np_id} zu {time}: {self.recieve_box.messages_by_sender} ")
         for rm in self.recieve_box.messages:
             if rm.time == time:
                 if rm.mood:
@@ -213,13 +226,15 @@ class Network_Participant:
 
                     # Algorithmen zu Glauben, Kaufverhalten und Weiterleitung
                     forward = {}
-                    belive = self.believe(m, cm, time)
+                    self.m_credibility = self.credibility(m, time)
+                    believe = self.believe(m, cm, time)
                     for n in self.neighbors.keys():
                         forward[n] = self.forwarding_decision(m, cm, time, n)
                     purchase = self.purchase_decision(m, cm, time)
-                    print(
-                        f"id: {self.np_id} m: {m.message_id}, belive: {belive}, purchase: {purchase}, forward: {forward}")
+
 
                     for nb_id, f_decision in forward.items():
                         if f_decision:
                             self.send_box.add(m, self.neighbors.get(nb_id).part_B)
+
+                    print(f"id: {self.np_id} m: {m.message_id}, believe: {believe}, purchase: {purchase}, forward: {forward}")

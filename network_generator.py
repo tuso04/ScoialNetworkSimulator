@@ -8,6 +8,8 @@ import network
 
 
 def generate_new_network(shape, n_nodes=200, init_edges=2, split_prob=0.1):
+    print("Beginne Generierung")
+
     if shape == "SFN":  # Scale-Free Network
         network_graph = nx.barabasi_albert_graph(n=n_nodes, m=init_edges)
     elif shape == "SWN":  # Small-World Network
@@ -25,6 +27,10 @@ def generate_new_network(shape, n_nodes=200, init_edges=2, split_prob=0.1):
         isi_parameter = random.randint(1, 100) / 100
         fi_parameter = random.randint(1, 100) / 100
         purchase_prob = random.randint(1, 100) / 100
+        purchase_prob_max = 0.125
+        purchase_prob_min = 0.05
+        purchase_expo_param_negative = 2.5
+        purchase_expo_param_positive = 5
 
         nodes[i]["np_id"] = i
         nodes[i]["threshold_belive_p"] = threshold_belive_p
@@ -33,6 +39,10 @@ def generate_new_network(shape, n_nodes=200, init_edges=2, split_prob=0.1):
         nodes[i]["isi_parameter"] = isi_parameter
         nodes[i]["fi_parameter"] = fi_parameter
         nodes[i]["purchase_prob"] = purchase_prob
+        nodes[i]["purchase_prob_max"] = purchase_prob_max
+        nodes[i]["purchase_prob_min"] = purchase_prob_min
+        nodes[i]["purchase_prob_negative"] = purchase_expo_param_negative
+        nodes[i]["purchase_prob_positive"] = purchase_expo_param_positive
         nodes[i]["send_box"] = None
         nodes[i]["get_message"] = 0
         nodes[i]["get_conter_message"] = 0
@@ -62,6 +72,8 @@ def generate_new_network(shape, n_nodes=200, init_edges=2, split_prob=0.1):
 
     # Umwandlung in JSON-Format
     json_data = nx.adjacency_data(network_graph)
+
+    print("Netzwerk generiert!")
 
     return json_data
 

@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Möglicher Prototyp">
+    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Der scheiß funktioniert endlich, wenn auch nicht grafisch">
+      <change afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/network_simulator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/message_stack.py" beforeDir="false" afterPath="$PROJECT_DIR$/message_stack.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/GUI FINISH.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/GUI FINISH.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network.py" beforeDir="false" afterPath="$PROJECT_DIR$/network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network_participant.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_participant.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/recived_message.py" beforeDir="false" afterPath="$PROJECT_DIR$/recived_message.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +72,7 @@
   "keyToString": {
     "Python.Base.executor": "Run",
     "Python.Design.executor": "Run",
+    "Python.GUI FINISH.executor": "Run",
     "Python.Tester.executor": "Run",
     "Python.VisualDesign.executor": "Run",
     "Python.all_in_one.executor": "Run",
@@ -232,7 +235,23 @@
       <option name="project" value="LOCAL" />
       <updated>1706007624332</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Der scheiß funktioniert endlich, wenn auch nicht grafisch">
+      <option name="closed" value="true" />
+      <created>1706795856421</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1706795856421</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Der scheiß funktioniert endlich, wenn auch nicht grafisch">
+      <option name="closed" value="true" />
+      <created>1706795873998</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1706795873998</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -273,7 +292,8 @@
     <MESSAGE value="Weitere Eingabefelder" />
     <MESSAGE value="Funktioniert bis zum 1 Step" />
     <MESSAGE value="Möglicher Prototyp" />
-    <option name="LAST_COMMIT_MESSAGE" value="Möglicher Prototyp" />
+    <MESSAGE value="Der scheiß funktioniert endlich, wenn auch nicht grafisch" />
+    <option name="LAST_COMMIT_MESSAGE" value="Der scheiß funktioniert endlich, wenn auch nicht grafisch" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

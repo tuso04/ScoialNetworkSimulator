@@ -1,12 +1,15 @@
 import dash_bootstrap_components as dbc
 import pandas as pd
-from dash import Dash, dcc, html
+from dash import Dash, dcc, html, callback, Output, State, Input
 from dash import dash_table
 from sklearn.linear_model import LinearRegression
 import plotly.express as px
 import numpy as np
 
-#Beispiel Daten Tabelle
+import network_converter
+import network_generator
+
+# Beispiel Daten Tabelle
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv')
 
 # Beispiel-Daten für das Balkendiagramm
@@ -39,7 +42,7 @@ card_left = dbc.Card(
     [
         dbc.CardBody(
             [
-                html.H4("Höchste Kaufwahrscheinlichkeit", className="card-title", style={'textAlign': 'center'},),
+                html.H4("Höchste Kaufwahrscheinlichkeit", className="card-title", style={'textAlign': 'center'}, ),
                 html.H3(
                     "500",
                     className="card-text", style={'text-align': 'center'},
@@ -48,8 +51,8 @@ card_left = dbc.Card(
         ),
 
     ],
-    color="primary",   # https://bootswatch.com/default/ for more card colors
-    inverse=True,   # change color of text (black or white)
+    color="primary",  # https://bootswatch.com/default/ for more card colors
+    inverse=True,  # change color of text (black or white)
     outline=False,  # True = remove the block colors from the background and header
 )
 
@@ -57,7 +60,7 @@ card_leftmid = dbc.Card(
     [
         dbc.CardBody(
             [
-                html.H4("Geringste Kaufwahrscheinlichkeit", className="card-title", style={'textAlign': 'center'},),
+                html.H4("Geringste Kaufwahrscheinlichkeit", className="card-title", style={'textAlign': 'center'}, ),
                 html.H3(
                     "500",
                     className="card-text", style={'text-align': 'center'},
@@ -66,8 +69,8 @@ card_leftmid = dbc.Card(
         ),
 
     ],
-    color="primary",   # https://bootswatch.com/default/ for more card colors
-    inverse=True,   # change color of text (black or white)
+    color="primary",  # https://bootswatch.com/default/ for more card colors
+    inverse=True,  # change color of text (black or white)
     outline=False,  # True = remove the block colors from the background and header
 )
 
@@ -75,7 +78,7 @@ card_mid = dbc.Card(
     [
         dbc.CardBody(
             [
-                html.H4("Höchste Anzahl an Nachbarn", className="card-title", style={'textAlign': 'center'},),
+                html.H4("Höchste Anzahl an Nachbarn", className="card-title", style={'textAlign': 'center'}, ),
                 html.H3(
                     "500",
                     className="card-text", style={'text-align': 'center'},
@@ -84,8 +87,8 @@ card_mid = dbc.Card(
         ),
 
     ],
-    color="primary",   # https://bootswatch.com/default/ for more card colors
-    inverse=True,   # change color of text (black or white)
+    color="primary",  # https://bootswatch.com/default/ for more card colors
+    inverse=True,  # change color of text (black or white)
     outline=False,  # True = remove the block colors from the background and header
 )
 
@@ -93,7 +96,7 @@ card_rightmid = dbc.Card(
     [
         dbc.CardBody(
             [
-                html.H4("Höchste Glaubwürdigkeit", className="card-title", style={'textAlign': 'center'},),
+                html.H4("Höchste Glaubwürdigkeit", className="card-title", style={'textAlign': 'center'}, ),
                 html.H3(
                     "500",
                     className="card-text", style={'text-align': 'center'},
@@ -102,8 +105,8 @@ card_rightmid = dbc.Card(
         ),
 
     ],
-    color="primary",   # https://bootswatch.com/default/ for more card colors
-    inverse=True,   # change color of text (black or white)
+    color="primary",  # https://bootswatch.com/default/ for more card colors
+    inverse=True,  # change color of text (black or white)
     outline=False,  # True = remove the block colors from the background and header
 )
 
@@ -111,7 +114,7 @@ card_right = dbc.Card(
     [
         dbc.CardBody(
             [
-                html.H4("Geringste Glaubwürdigkeit", className="card-title", style={'textAlign': 'center'},),
+                html.H4("Geringste Glaubwürdigkeit", className="card-title", style={'textAlign': 'center'}, ),
                 html.H3(
                     "500",
                     className="card-text", style={'text-align': 'center'},
@@ -120,17 +123,21 @@ card_right = dbc.Card(
         ),
 
     ],
-    color="primary",   # https://bootswatch.com/default/ for more card colors
-    inverse=True,   # change color of text (black or white)
+    color="primary",  # https://bootswatch.com/default/ for more card colors
+    inverse=True,  # change color of text (black or white)
     outline=False,  # True = remove the block colors from the background and header
 )
 
+##############################################Layout####################################################################
 app.layout = html.Div([
+    dcc.Store(id="network_cache"),
     html.Br(),
     html.H1('Network Simulation', style={'textAlign': 'center'}),
     html.Hr(),
 
     dcc.Tabs([
+
+        #############################################Tab 1 Input########################################################
         dcc.Tab(label='Parameter input', children=[
             html.Br(),
             dbc.Row(className='mx-auto', style={'width': 'fit-content'},
@@ -209,7 +216,7 @@ app.layout = html.Div([
                         'top': '50%',
                         'transform': 'translate(-50%, -50%)'
                     },
-                   multiple=True
+                    multiple=True
                 ),
                 style={'position': 'relative'}
             ),
@@ -254,12 +261,13 @@ app.layout = html.Div([
             ),
         ]),
 
+        #############################################Tab 2 Auswertung##################################################
         dcc.Tab(label='Auswertung', children=[
             html.Br(),
             html.H4('Die ersten 100 Knoten eines Netzwerkes', style={'textAlign': 'center'}),
             html.Label('Durchlauf:', style={'margin-left': '6px', 'font-size': '20px'}),
             dcc.Dropdown(
-                id='number-dropdown',
+                id='step-number-dropdown',
                 options=options,
                 value=0,
                 style={'width': '200px', 'height': '30px', 'margin-left': '2px'},
@@ -282,8 +290,10 @@ app.layout = html.Div([
                 [
                     dbc.Col(
                         [
-                            html.H5('Gesamtkaufwahrscheinlichkeit aller Durchläufe:', style={'margin-left': '3px', 'margin-bottom': '7px'}),
-                            dcc.Input(id='id-input', type='number', placeholder='Durchlauf', style={'margin-left': '3px', 'margin-bottom': '7px'}),
+                            html.H5('Gesamtkaufwahrscheinlichkeit aller Durchläufe:',
+                                    style={'margin-left': '3px', 'margin-bottom': '7px'}),
+                            dcc.Input(id='id-input', type='number', placeholder='Durchlauf',
+                                      style={'margin-left': '3px', 'margin-bottom': '7px'}),
                             html.Button('Search', id='search-button', n_clicks=0),
                             html.Div(
                                 style={'textAlign': 'center', 'marginTop': '1px'},
@@ -354,7 +364,8 @@ app.layout = html.Div([
                     dbc.Col(
                         [
                             html.Br(),
-                            html.H5('Wie viele glauben die Nachricht:', style={'margin-left': '3px', 'margin-bottom': '18px'}),
+                            html.H5('Wie viele glauben die Nachricht:',
+                                    style={'margin-left': '3px', 'margin-bottom': '18px'}),
                             html.Div(
                                 style={'textAlign': 'center', 'marginTop': '1px'},
                                 children=[
@@ -373,10 +384,10 @@ app.layout = html.Div([
                                         }
                                     ),
                                 ],
-                        )
-                    ],
-                    md=6
-                ),
+                            )
+                        ],
+                        md=6
+                    ),
                     dbc.Col(
                         [
                             html.H5('Vergleich zwischen Durchläufen'),
@@ -438,16 +449,17 @@ app.layout = html.Div([
                 ],
             )
 
-            #Regressionsgrad einfügen für alle läufe
-            #Top10 Durchläufe Kaufwahrscheinlichekeit als Balkendiagramm
-            #Die größten und nidrigsten Beeinflusser in einem
+            # Regressionsgrad einfügen für alle läufe
+            # Top10 Durchläufe Kaufwahrscheinlichekeit als Balkendiagramm
+            # Die größten und nidrigsten Beeinflusser in einem
         ]),
 
+        #############################################Tab 3 Werte########################################################
         dcc.Tab(label='Werte pro Teilnehmer', children=[
             html.Br(),
             dbc.Row(
                 [
-                    #Karten in Tab 3 zu sehen -> können mittels Callback befüllt werden
+                    # Karten in Tab 3 zu sehen -> können mittels Callback befüllt werden
                     dbc.Col(dbc.Card(card_left, color="primary", inverse=True), md=2),
                     dbc.Col(dbc.Card(card_leftmid, color="secondary", inverse=True), md=2),
                     dbc.Col(dbc.Card(card_mid, color="info", inverse=True), md=2),
@@ -478,7 +490,8 @@ app.layout = html.Div([
                                     {'name': 'ID', 'id': 'id_per_Particpant'},
                                     {'name': 'Wie oft Nachricht erhalten', 'id': 'erhalten_per_Participant'},
                                     {'name': 'Wie oft weitergeleitet', 'id': 'weitergeleitet_per_Participant'},
-                                    {'name': 'Anteil erhalten und weitergeleitet', 'id': 'erhalten_weitergeleitet_per_Participant'},
+                                    {'name': 'Anteil erhalten und weitergeleitet',
+                                     'id': 'erhalten_weitergeleitet_per_Participant'},
                                     {'name': 'Grad Zentralität', 'id': 'zentralitaet_per_Participant'},
                                     {'name': 'Verflechtung der Zentralität', 'id': 'verflechtung_per_Participant'},
                                 ],
@@ -519,8 +532,7 @@ app.layout = html.Div([
                                         }
                                     ),
                                 ],
-
-                            ),
+                            )
                         ],
                         md=6
                     ),
@@ -528,7 +540,8 @@ app.layout = html.Div([
                     dbc.Col(
                         [
                             html.H5('Anzahl Nachbarn: ', style={'display': 'inline'}),
-                            dcc.Input(id='id_input_Follower', type='number', placeholder='Durchlauf', style={'margin-left': '3px', 'margin-bottom': '7px'}),
+                            dcc.Input(id='id_input_Follower', type='number', placeholder='Durchlauf',
+                                      style={'margin-left': '3px', 'margin-bottom': '7px'}),
                             html.Button('Search', id='search-Follower', n_clicks=0),
                             html.Div(
                                 style={'textAlign': 'center'},
@@ -548,140 +561,73 @@ app.layout = html.Div([
                                         }
                                     ),
                                 ],
-
-                            ),
-                    ],
-                    md=6
-                ),
+                            )
+                        ],
+                        md=6
+                    ),
                 ]
             )
 
+            # Gesamtkaufwahrscheinlichkeit als Rad
+            # Teilnehmer mit meisten Followern
+            # Top5 Beeinflusser in einem Durchlauf
+            # Höchster Influencer wert und wer es ist
         ]),
-        dcc.Tab(label='Werte pro Teilnehmer', children=[
-            html.Br(),
-            dbc.Row(
-
-                [
-                    dbc.Col(
-                        [
-                            dbc.Card(
-                                [
-                                    dbc.CardHeader(html.H4('Verbreitung', style={'textAlign': 'center'})),
-                                    dbc.CardBody(
-                                        dash_table.DataTable(
-                                            id='verbreitung1',
-                                            columns=[
-                                                {'name': 'Weiterleitung', 'id': 'weitergeleitet_per_Participant'},
-                                                {'name': 'Minimum', 'id': 'id_per_Particpant'},
-                                                {'name': 'Average', 'id': 'erhalten_per_Participant'},
-                                                {'name': 'Maximum', 'id': 'weitergeleitet_per_Participant'},
-                                            ],
-                                            data=df.to_dict('records'), page_size=3,
-                                            style_table={'overflowX': 'auto', 'margin': '10px',
-                                                         'backgroundColor': '#f2f2f2'},
-                                            style_header={'textAlign': 'left'},
-                                        )
-                                    ),
-                                ],
-                                style={'background-color': '#f0f0f0'}
-                            ),
-                        ],
-                        md=6
-                    ),
-                    dbc.Col(
-                        [
-                            dbc.Card(
-                                [
-                                    dbc.CardHeader(html.H4('Glaubwürdigkeit', style={'textAlign': 'center'})),
-                                    dbc.CardBody(
-                                        dash_table.DataTable(
-                                            id='verbreitung2',
-                                            columns=[
-                                                {'name': 'Glaubwürdigkeit', 'id': 'weitergeleitet_per_Participant',
-                                                 'editable': False},
-                                                {'name': 'Minimum', 'id': 'id_per_Particpant'},
-                                                {'name': 'Average', 'id': 'erhalten_per_Participant'},
-                                                {'name': 'Maximum', 'id': 'weitergeleitet_per_Participant'},
-                                            ],
-                                            data=df.to_dict('records'), page_size=3,
-                                            style_table={'overflowX': 'auto', 'margin': '10px',
-                                                         'backgroundColor': '#f2f2f2'},
-                                            style_header={'textAlign': 'left'},
-                                        )
-                                    ),
-                                ],
-                                style={'background-color': '#f0f0f0'}
-                            ),
-                        ],
-                        md=6
-                    )
-                ],
-                justify='around',  # Gleichmäßige Verteilung der Spalten
-
-            ),
-            html.Br(),
-            dbc.Row(
-                [
-                    dbc.Col(
-                        [
-                            dbc.Card(
-                                [
-                                    dbc.CardHeader(html.H4('Kaufwahrscheinlichtkeit', style={'textAlign': 'center'})),
-                                    dbc.CardBody(
-                                        dash_table.DataTable(
-                                            id='verbreitung3',
-                                            columns=[
-                                                {'name': 'Kaufwahrscheinlichkeit', 'id': 'weitergeleitet_per_Participant'},
-                                                {'name': 'Minimum', 'id': 'id_per_Particpant'},
-                                                {'name': 'Average', 'id': 'erhalten_per_Participant'},
-                                                {'name': 'Maximum', 'id': 'weitergeleitet_per_Participant'},
-                                            ],
-                                            data=df.to_dict('records'), page_size=3,
-                                            style_table={'overflowX': 'auto', 'margin': '10px',
-                                                         'backgroundColor': '#f2f2f2'},
-                                            style_header={'textAlign': 'left'},
-                                        )
-                                    ),
-                                ],
-                                style={'background-color': '#f0f0f0'}
-                            ),
-                        ],
-                        md=6
-                    ),
-                    dbc.Col(
-                        [
-                            dbc.Card(
-                                [
-                                    dbc.CardHeader(html.H4('Weiterleitung', style={'textAlign': 'center'})),
-                                    dbc.CardBody(
-                                        dash_table.DataTable(
-                                            id='verbreitung4',
-                                            columns=[
-                                                {'name': 'Weiterleitung', 'id': 'weitergeleitet_per_Participant',
-                                                 'editable': False},
-                                                {'name': 'Minimum', 'id': 'id_per_Particpant'},
-                                                {'name': 'Average', 'id': 'erhalten_per_Participant'},
-                                                {'name': 'Maximum', 'id': 'weitergeleitet_per_Participant'},
-                                            ],
-                                            data=df.to_dict('records'), page_size=3,
-                                            style_table={'overflowX': 'auto', 'margin': '10px',
-                                                         'backgroundColor': '#f2f2f2'},
-                                            style_header={'textAlign': 'left'},
-                                        )
-                                    ),
-                                ],
-                                style={'background-color': '#f0f0f0'}
-                            ),
-                        ],
-                        md=6
-                    )
-                ],
-                justify='around'  # Gleichmäßige Verteilung der Spalten
-            ),
-        ]),
-
     ])
 ])
+
+
+@app.callback(
+    Output('network_cache', 'data'),
+    Input('generate_Network', 'n_clicks'),
+    State('input_Network-participant', 'value'),
+    State('anteil_Bots', 'value'),
+    State('turbulence_factor', 'value')
+)
+def button_generate_network(n_clicks, n_networkparticipants, n_bots, turbulence_factor):
+    network_graph = network_generator.generate_new_network("", n_nodes=int(n_networkparticipants))
+    return network_graph
+
+
+@app.callback(
+    Output('Table100nodes', 'data'),
+    Output('Table100message', 'data'),
+    Output('Table100conter_message', 'data'),
+    State("network_cache", "data"),
+    State("network_cache", "data")
+)
+def generate_table_100(network_data):
+    if not network_data:
+        network_data = {'directed': False, 'multigraph': False, 'graph': [], 'nodes': [], 'adjacency': []}
+
+    net = network_converter.network_form_json(network_data)
+    G = net.graph
+
+    df_node_data = pd.DataFrame(columns=["ID",
+                                         "Grad der Zentralität",
+                                         "Betweenes Zentralität",
+                                         "Initiale Kaufwahrscheinlichkeit",
+                                         "Aktuelle Kaufwahrscheinlichkeit"
+                                         ])
+
+    df_node_message_data = pd.DataFrame(columns=["Häufigkeit Erhalt",
+                                                 "Glaubwürdigkeit",
+                                                 "Glaube",
+                                                 "Weiterleitungswahrscheinlichkeit"
+                                                 "Häufigkeit Weiterleitung",
+                                                 ])
+
+    df_node_conter_message_data = pd.DataFrame(columns=["Häufigkeit Erhalt",
+                                                        "Glaubwürdigkeit",
+                                                        "Glaube",
+                                                        "Weiterleitungswahrscheinlichkeit"
+                                                        "Häufigkeit Weiterleitung",
+                                                        ])
+
+    for node in G.nodes():
+
+
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
