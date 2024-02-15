@@ -140,58 +140,273 @@ app.layout = html.Div([
         #############################################Tab 1 Input########################################################
         dcc.Tab(label='Parameter input', children=[
             html.Br(),
-            dbc.Row(className='mx-auto', style={'width': 'fit-content'},
-                    children=[
-                        dbc.Col([
-                            html.H6('Network Participants'),
-                            dcc.Input(id='input_Network-participant', value=10, type='number',
-                                      style={'width': '300px', 'height': '30px', 'margin-bottom': '15px'},
-                                      placeholder='Enter the number of Network Participants'),
-                        ], width=4),
+            dbc.Card(
+                [
+                    dbc.CardHeader(html.H4('Netzwerkparameter', style={'textAlign': 'center'})),
+                    dbc.CardBody(
+                        [
+                            dbc.Row(className='mx-auto', style={'width': 'fit-content'},
+                                    children=[
+                                        dbc.Col([
+                                            html.Label('Netzwerkart'),
+                                            dcc.Dropdown(options=[{'label': 'SWN', 'value': 'SWN'},
+                                                                  {'label': 'SFN', 'value': 'SFN'},
+                                                                  {'label': 'random', 'value': 'random'}],
+                                                         value='SWN', id='net_shape',
+                                                         style={'width': '300px', 'height': '40px',
+                                                                'margin-bottom': '30px'},
+                                                         ),
+                                        ], width=3),
 
-                        dbc.Col([
-                            html.H6('Bots'),
-                            dcc.Input(id='anteil_Bots', type='number',
-                                      style={'width': '300px', 'height': '30px', 'margin-bottom': '15px'},
-                                      placeholder='Enter the number of Bots'),
-                        ], width=4),
+                                        dbc.Col([
+                                            html.Label('Netzwerkteilnehmer'),
+                                            html.Br(),
+                                            dcc.Input(id='network_participant_parameter', type='number',
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '30px'}),
+                                        ], width=3),
 
-                        dbc.Col([
-                            html.H6('Seperationswahrscheinlichkeit'),
-                            dcc.Input(id='sep_prob', type='number', value=0.1, min=0, max=1, step=0.01,
-                                      style={'textAlign': 'center', 'width': '300px', 'height': '30px',
-                                             'margin-bottom': '15px'}),
-                        ], width=4),
-                    ]
+                                        dbc.Col([
+                                            html.Label('Anzahl initialer Kanten'),
+                                            html.Br(),
+                                            dcc.Input(id='n_init_edges', type='number', value=2, min=0, step=1,
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '30px'}
+                                                      ),
+                                        ], width=3),
+
+                                        dbc.Col([
+                                            html.Label('Seperationswahrscheinlichkeit'),
+                                            html.Br(),
+                                            dcc.Input(id='sep_prob', type='number', value=0.1, min=0, max=1, step=0.01,
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '30px'}),
+                                        ], width=3),
+                                    ]
+                                    ),
+
+                            dbc.Row(className='mx-auto', style={'width': 'fit-content'},
+                                    children=[
+                                        dbc.Col([
+                                            html.Label('Turbulenz-Faktor des Netzwerks'),
+                                            html.Br(),
+                                            dcc.Input(id='turbulence_factor', type='number', value=0.5, min=0, max=1,
+                                                      step=0.01,
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '30px'}),
+                                        ], width=4),
+
+                                        dbc.Col([
+                                            html.Label('Bots'),
+                                            html.Br(),
+                                            dcc.Input(id='bots_parameter', type='number', value=2, min=0, step=1,
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '30px'}
+                                                      ),
+                                        ], width=4),
+
+                                        dbc.Col([
+                                            html.Label('Influencer'),
+                                            html.Br(),
+                                            dcc.Input(id='influencer_parameter', type='number', value=2, min=0, step=1,
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '30px'}
+                                                      ),
+                                        ], width=4),
+                                    ],
+                                    ),
+                        ]
                     ),
+                ],
+                style={'max-width': '1600px', 'margin': 'auto', 'background-color': '#f0f0f0'}
+            ),
 
-            dbc.Row(className='mx-auto', style={'width': 'fit-content'},
-                    children=[
-                        dbc.Col([
-                            html.H6('Turbulenz-Faktor des Netzwerks'),
-                            dcc.Input(id='turbulence_factor', type='number', value=0.5, min=0, max=1, step=0.01,
-                                      style={'width': '300px', 'height': '30px', 'margin-bottom': '15px'},
-                                      placeholder='Turbulenz Faktor'),
-                        ], width=4),
 
-                        dbc.Col([
-                            html.H6('Anzahl initialer Kanten'),
-                            dcc.Input(id='n_init_edges', type='number', value=2, min=0, step=1,
-                                      style={'width': '300px', 'height': '30px', 'margin-bottom': '15px'}
-                                      ),
-                        ], width=4),
 
-                        dbc.Col([
-                            html.H6('Netzwerkart'),
-                            dcc.Dropdown(options=[{'label': 'SWN', 'value': 'SWN'},
-                                                  {'label': 'SFN', 'value': 'SFN'},
-                                                  {'label': 'random', 'value': 'random'}],
-                                         value='SWN', id='net_shape',
-                                         style={'width': '300px', 'height': '30px', 'margin-bottom': '15px'},
-                                         ),
-                        ], width=4),
-                    ]
+
+            html.Br(),
+
+            dbc.Card(
+                [
+                    dbc.CardHeader(html.H4('Teilnehmerparameter', style={'textAlign': 'center'})),
+                    dbc.CardBody(
+                        [
+                            dbc.Row(className='mx-auto', style={'width': 'fit-content'},
+                                    children=[
+                                        dbc.Col([
+                                            html.Label('Schwellenwert Glaubwürdigkeit'),
+                                            dcc.Input(type='text', id='cred_parameter',
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '30px', 'margin-left': 'auto',
+                                                             'margin-right': 'auto'}),
+                                        ], width=3),
+
+                                        dbc.Col([
+                                            html.Label('Indifferenz'),
+                                            html.Br(),
+                                            dcc.Input(id='indefference_parameter', type='number',
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '30px', 'margin-left': 'auto',
+                                                             'margin-right': 'auto'}),
+                                        ], width=3),
+
+                                        dbc.Col([
+                                            html.Label('ISI Parameter'),
+                                            html.Br(),
+                                            dcc.Input(id='isi_parameter', type='number', value=2, min=0, step=1,
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '30px', 'margin-left': 'auto',
+                                                             'margin-right': 'auto'}
+                                                      ),
+                                        ], width=3),
+
+                                        dbc.Col([
+                                            html.Label('FI Parameter'),
+                                            html.Br(),
+                                            dcc.Input(id='fi_parameter', type='number', value=0.1, min=0, max=1, step=0.01,
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '30px', 'margin-left': 'auto',
+                                                             'margin-right': 'auto'}),
+                                        ], width=3),
+                                    ]
+                                    ),
+
+                            dbc.Row(className='mx-auto', style={'width': 'fit-content'},
+                                    children=[
+                                        dbc.Col([
+                                            html.Label('Turbulenz-Faktor des Netzwerks'),
+                                            html.Br(),
+                                            dcc.Input(id='turbulence_factor', type='number', value=0.5, min=0, max=1,
+                                                      step=0.01,
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '30px', 'margin-left': 'auto',
+                                                             'margin-right': 'auto'}),
+                                        ], width=4),
+
+                                        dbc.Col([
+                                            html.Label('Bots'),
+                                            html.Br(),
+                                            dcc.Input(id='n_init_edges', type='number', value=2, min=0, step=1,
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '30px', 'margin-left': 'auto',
+                                                             'margin-right': 'auto'}
+                                                      ),
+                                        ], width=4),
+
+                                        dbc.Col([
+                                            html.Label('Influencer'),
+                                            html.Br(),
+                                            dcc.Input(id='n_init_edges', type='number', value=2, min=0, step=1,
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '30px', 'margin-left': 'auto',
+                                                             'margin-right': 'auto'}
+                                                      ),
+                                        ], width=4),
+                                    ],
+                                    ),
+                        ]
                     ),
+                ],
+                style={'max-width': '1600px', 'margin': 'auto', 'background-color': '#f0f0f0'}
+            ),
+
+            html.Br(),
+            dbc.Card(
+                [
+                    dbc.CardHeader(html.H4('Nachrichtenparameter', style={'textAlign': 'center'})),
+                    dbc.CardBody(
+                        [
+                            dbc.Row(className='mx-auto', style={'width': 'fit-content'},
+                                    children=[
+                                        dbc.Col([
+                                            html.Label('Qualität der Argumente'),
+                                            dcc.Input(type='text', id='quality_parameter',
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '15px'}),
+                                        ], width=3),
+
+                                        dbc.Col([
+                                            html.Label('Emotionalität der Argumente'),
+                                            html.Br(),
+                                            dcc.Input(id='emotional_parameter', type='number',
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '15px'}),
+                                        ], width=3),
+
+                                        dbc.Col([
+                                            html.Label('Zeitpunkt Auftritt Nachricht'),
+                                            html.Br(),
+                                            dcc.Input(id='time_message_parameter', type='number', value=2, min=0,
+                                                      step=1,
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '15px'}),
+                                        ], width=3),
+
+                                        dbc.Col([
+                                            html.Label('Zeitpunkt Auftritt Gegennachricht'),
+                                            html.Br(),
+                                            dcc.Input(id='time_counter_parameter', type='number', value=0.1, min=0,
+                                                      max=1, step=0.01,
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '15px'}),
+                                        ], width=3),
+                                    ]
+                                    ),
+                        ]
+                    ),
+                ],
+                style={'max-width': '1600px', 'margin': 'auto', 'background-color': '#f0f0f0', 'margin-left': 'auto',
+                       'margin-right': 'auto'}
+            ),
+
+            html.Br(),
+            dbc.Card(
+                [
+                    dbc.CardHeader(html.H4('Simulationsparameter', style={'textAlign': 'center'})),
+                    dbc.CardBody(
+                        [
+                            dbc.Row(className='mx-auto text-center', style={'width': 'fit-content'},
+                                    children=[
+                                        dbc.Col([
+                                            html.Label('Anzahl der Durchläufe'),
+                                            dcc.Input(type='text', id='run_parameter',
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '15px'}),
+                                        ], width=6, className="mb-3"),
+
+                                        dbc.Col([
+                                            html.Label('Schritte pro Durchlauf'),
+                                            html.Br(),
+                                            dcc.Input(id='steps_per_run_parameter', type='number',
+                                                      style={'width': '300px', 'height': '40px',
+                                                             'margin-bottom': '15px'}),
+                                        ], width=6, className="mb-3"),
+                                    ]
+                                    ),
+
+                            dbc.Row(className='mx-auto text-center', style={'width': 'fit-content'},
+                                    children=[
+                                        dbc.Col([
+                                            html.H5('Möchten Sie für jeden Durchlauf eine CSV Datei erstellen?'),
+                                            dcc.RadioItems(
+                                                options=[
+                                                    {'label': 'Ja', 'value': 'ja'},
+                                                    {'label': 'Nein', 'value': 'nein'}
+                                                ],
+                                                value='nein',
+                                                inline=True,
+                                                labelStyle={'margin-right': '20px', 'font-size': '20px'},
+                                                inputStyle={'margin-right': '5px'}
+                                            )
+                                        ], width=12),
+                                    ]
+                                    ),
+                        ]
+                    ),
+                ],
+                style={'max-width': '800px', 'margin': 'auto', 'background-color': '#f0f0f0'}
+            ),
+
             html.Br(),
             html.H5('Alternative: Put in your own Network File', style={'textAlign': 'center'}),
             html.Br(),
@@ -221,22 +436,6 @@ app.layout = html.Div([
                 style={'position': 'relative'}
             ),
             html.Br(),
-            html.Div(
-                style={'textAlign': 'center', 'marginTop': '50px'},
-                children=html.Div([
-                    html.H5('Möchten Sie für jeden Durchlauf eine CSV Datei erstellen?'),
-                    dcc.RadioItems(
-                        options=[
-                            {'label': 'Ja', 'value': 'ja'},
-                            {'label': 'Nein', 'value': 'nein'}
-                        ],
-                        value='nein',
-                        inline=True,
-                        labelStyle={'margin-right': '20px', 'font-size': '20px'},
-                        inputStyle={'margin-right': '5px'}
-                    )
-                ])
-            ),
             html.Div(
                 style={'textAlign': 'center', 'marginTop': '30px'},
                 children=[
