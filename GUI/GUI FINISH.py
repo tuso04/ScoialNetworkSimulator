@@ -1,3 +1,5 @@
+import json
+
 import dash_bootstrap_components as dbc
 import pandas as pd
 from dash import Dash, dcc, html, Output, State, Input
@@ -128,7 +130,13 @@ card_right = dbc.Card(
 
 ##############################################Layout####################################################################
 app.layout = html.Div([
+
+    # Cache
     dcc.Store(id="network_cache"),
+
+    # Download
+    dcc.Download(id="download_simulation_csv"),
+
     html.Br(),
     html.H1('Network Simulation', style={'textAlign': 'center'}),
     html.Hr(),
@@ -1008,7 +1016,6 @@ app.layout = html.Div([
     State('run_parameter', 'value'),
     State('steps_per_run_parameter', 'value'),
     State('run_csv_parameter', 'value')
-
 )
 def button_start_simulation(n_clicks,
                             shape,
@@ -1085,8 +1092,17 @@ def button_start_simulation(n_clicks,
                                                   message_parameters,
                                                   counter_message_parameters)
 
-        ns.compute_simulation()
+        simulation_csv = ns.compute_simulation()
 
+        return simulation_csv.to_json()
+
+
+@app.callback(Output('download_simulation_csv', 'data'),
+              Input('btn_csv', 'n_clicks'),
+              State('network_cache', 'data'))
+def download_csv(n_clicks, csv_data):
+    if csv_data:
+        return dcc.send_data_frame(pd.read_json(csv_data).to_csv, "Simulation.csv")
 
 """
 @app.callback(

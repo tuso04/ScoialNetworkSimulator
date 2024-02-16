@@ -27,8 +27,6 @@ class Network_Simulation:
         self.message_params = message_params
         self.counter_message_params = counter_message_params
 
-
-
         self.simulation_data = pd.DataFrame(columns=[
             "run",
             "prob_spreading",
@@ -43,7 +41,8 @@ class Network_Simulation:
             new_run = self.compute_run(run)
             new_run.insert(0, "run", [run])
             self.simulation_data = pd.concat([self.simulation_data, new_run], ignore_index=True)
-        self.simulation_data.to_csv(f"Simulation.csv")
+            self.simulation_data.to_csv(f"Simulation.csv")
+        return self.simulation_data
 
     def compute_run(self, i):
         net_graph = network_generator.generate_new_network(shape=self.network_params["shape"],
