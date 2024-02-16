@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Beginn Schnittstelle GUI Code">
+    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Weiterenteicklung Schnittstelle">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/GUI FINISH.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/GUI FINISH.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network.py" beforeDir="false" afterPath="$PROJECT_DIR$/network.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network_simulator.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_simulator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -255,7 +256,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708009774136</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Weiterenteicklung Schnittstelle">
+      <option name="closed" value="true" />
+      <created>1708013005240</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1708013005240</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -298,7 +307,8 @@
     <MESSAGE value="Möglicher Prototyp" />
     <MESSAGE value="Der scheiß funktioniert endlich, wenn auch nicht grafisch" />
     <MESSAGE value="Beginn Schnittstelle GUI Code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Beginn Schnittstelle GUI Code" />
+    <MESSAGE value="Weiterenteicklung Schnittstelle" />
+    <option name="LAST_COMMIT_MESSAGE" value="Weiterenteicklung Schnittstelle" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -306,6 +316,11 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/GUI/Base.py</url>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/network_generator.py</url>
+          <line>15</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

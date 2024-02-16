@@ -1,13 +1,10 @@
 import dash_bootstrap_components as dbc
 import pandas as pd
-from dash import Dash, dcc, html, callback, Output, State, Input
+from dash import Dash, dcc, html, Output, State, Input
 from dash import dash_table
 from sklearn.linear_model import LinearRegression
-import plotly.express as px
 import numpy as np
 
-import network_converter
-import network_generator
 import network_simulator
 
 # Beispiel Daten Tabelle
@@ -163,6 +160,7 @@ app.layout = html.Div([
                                             html.Label('Netzwerkteilnehmer'),
                                             html.Br(),
                                             dcc.Input(id='network_participant_parameter', type='number',
+                                                      value=10,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '30px'}),
                                         ], width=3),
@@ -278,7 +276,8 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Initiale Kaufwahrscheinlichkeit'),
                                             html.Br(),
-                                            dcc.Input(id='purchase_init_prob_parameter', type='number', value=2, min=0, step=1,
+                                            dcc.Input(id='purchase_init_prob_parameter', type='number', value=2, min=0,
+                                                      step=1,
                                                       style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}
@@ -288,7 +287,8 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Maximale Kaufwahrscheinlichkeit'),
                                             html.Br(),
-                                            dcc.Input(id='purchase_prob_max_parameter', type='number', value=2, min=0, step=1,
+                                            dcc.Input(id='purchase_prob_max_parameter', type='number', value=2, min=0,
+                                                      step=1,
                                                       style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}
@@ -301,7 +301,8 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Minimale Kaufwahrscheinlichkeit'),
                                             html.Br(),
-                                            dcc.Input(id='purchase_prob_min_parameter', type='number', value=0.5, min=0, max=1,
+                                            dcc.Input(id='purchase_prob_min_parameter', type='number', value=0.5, min=0,
+                                                      max=1,
                                                       step=0.01,
                                                       style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
@@ -311,7 +312,8 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Positive expotenzielle Kaufwahrscheinlichkeit'),
                                             html.Br(),
-                                            dcc.Input(id='purchase_expo_param_positive_parameter', type='number', value=2, min=0, step=1,
+                                            dcc.Input(id='purchase_expo_param_positive_parameter', type='number',
+                                                      value=2, min=0, step=1,
                                                       style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}
@@ -321,7 +323,8 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Negative expotenzielle Kaufwahrscheinlichkeit'),
                                             html.Br(),
-                                            dcc.Input(id='purchase_expo_param_negative_parameter', type='number', value=2, min=0, step=1,
+                                            dcc.Input(id='purchase_expo_param_negative_parameter', type='number',
+                                                      value=2, min=0, step=1,
                                                       style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}
@@ -345,7 +348,8 @@ app.layout = html.Div([
                                     children=[
                                         dbc.Col([
                                             html.Label('Qualität der Nachricht'),
-                                            dcc.Input(type='text', id='quality_parameter',
+                                            dcc.Input(id='quality_parameter', type='number',
+                                                      value=0.5,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=3),
@@ -354,6 +358,7 @@ app.layout = html.Div([
                                             html.Label('Emotionalität der Nachricht'),
                                             html.Br(),
                                             dcc.Input(id='emotional_parameter', type='number',
+                                                      value=0.5,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=3),
@@ -361,7 +366,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Zeitpunkt Auftritt Nachricht'),
                                             html.Br(),
-                                            dcc.Input(id='time_message_parameter', type='number', value=2, min=0,
+                                            dcc.Input(id='time_message_parameter', type='number', value=0, min=0,
                                                       step=1,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
@@ -370,8 +375,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Lebenszeit der Nachricht'),
                                             html.Br(),
-                                            dcc.Input(id='lifetime_parameter', type='number', value=0.1, min=0,
-                                                      max=1, step=0.01,
+                                            dcc.Input(id='lifetime_parameter', type='number', value=5,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=3),
@@ -381,7 +385,8 @@ app.layout = html.Div([
                                     children=[
                                         dbc.Col([
                                             html.Label('Qualität Gegennachricht'),
-                                            dcc.Input(type='text', id='quality_counter_parameter',
+                                            dcc.Input(id='quality_counter_parameter', type='number',
+                                                      value=0.5,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=3),
@@ -390,6 +395,7 @@ app.layout = html.Div([
                                             html.Label('Emotionalität Gegennachricht'),
                                             html.Br(),
                                             dcc.Input(id='emotional_counter_parameter', type='number',
+                                                      value=0.5,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=3),
@@ -430,7 +436,8 @@ app.layout = html.Div([
                                     children=[
                                         dbc.Col([
                                             html.Label('Anzahl der Durchläufe'),
-                                            dcc.Input(type='text', id='run_parameter',
+                                            dcc.Input(id='run_parameter', type='number',
+                                                      value=3,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=6, className="mb-3"),
@@ -439,6 +446,7 @@ app.layout = html.Div([
                                             html.Label('Schritte pro Durchlauf'),
                                             html.Br(),
                                             dcc.Input(id='steps_per_run_parameter', type='number',
+                                                      value=3,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=6, className="mb-3"),
@@ -450,6 +458,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.H5('Möchten Sie für jeden Durchlauf eine CSV Datei erstellen?'),
                                             dcc.RadioItems(
+                                                id='run_csv_parameter',
                                                 options=[
                                                     {'label': 'Ja', 'value': 'ja'},
                                                     {'label': 'Nein', 'value': 'nein'}
@@ -520,9 +529,9 @@ app.layout = html.Div([
                 ],
             ),
             html.Div(
-                style = {'textAlign': 'center', 'marginTop': '10px'},
+                style={'textAlign': 'center', 'marginTop': '10px'},
                 children=[
-                    html.Button("Download CSV", id="btn_csv",  style={'width': '200px', 'height': '50px'}),
+                    html.Button("Download CSV", id="btn_csv", style={'width': '200px', 'height': '50px'}),
                     dcc.Download(id="download_csv"),
                 ]
             )
@@ -719,7 +728,7 @@ app.layout = html.Div([
 
             # Regressionsgrad einfügen für alle läufe
             # Top10 Durchläufe Kaufwahrscheinlichekeit als Balkendiagramm
-            # Die größten und nidrigsten Beeinflusser in einem
+            # Die größten und niedrigsten Beeinflusser in einem
         ]),
 
         #############################################Tab 3 Werte########################################################
@@ -727,7 +736,7 @@ app.layout = html.Div([
             html.Br(),
             dbc.Row(
                 [
-                    # Karten in Tab 3 zu sehen -> können mittels Callback befüllt werden
+                    # Karten in Tab 3 zu sehen → können mittels Callback befüllt werden
                     dbc.Col(dbc.Card(card_left, color="primary", inverse=True), md=2),
                     dbc.Col(dbc.Card(card_leftmid, color="secondary", inverse=True), md=2),
                     dbc.Col(dbc.Card(card_mid, color="info", inverse=True), md=2),
@@ -839,7 +848,7 @@ app.layout = html.Div([
             # Gesamtkaufwahrscheinlichkeit als Rad
             # Teilnehmer mit meisten Followern
             # Top5 Beeinflusser in einem Durchlauf
-            # Höchster Influencer wert und wer es ist
+            # höchster Influencer wert und wer es ist
         ]),
         dcc.Tab(label='Werte pro Teilnehmer', children=[
             html.Br(),
@@ -971,13 +980,11 @@ app.layout = html.Div([
 
 @app.callback(
     Output('network_cache', 'data'),
-    Output("download_csv", "data"),
     Input('generate_Network', 'n_clicks'),
-    Input('btn_csv', 'n_cllicks'),
     State('net_shape', 'value'),
-    State('network_paricipant_parameter', 'value'),
+    State('network_participant_parameter', 'value'),
     State('n_init_edges', 'value'),
-    State('sep_prob', 'values'),
+    State('sep_prob', 'value'),
     State('turbulence_factor', 'value'),
     State('bots_parameter', 'value'),
     State('influencer_parameter', 'value'),
@@ -991,15 +998,17 @@ app.layout = html.Div([
     State('purchase_expo_param_positive_parameter', 'value'),
     State('purchase_expo_param_negative_parameter', 'value'),
     State('time_message_parameter', 'value'),
+    State('lifetime_parameter', 'value'),
+    State('quality_parameter', 'value'),
+    State('emotional_parameter', 'value'),
+    State('time_counter_parameter', 'value'),
+    State('lifetime_counter_parameter', 'value'),
+    State('quality_counter_parameter', 'value'),
+    State('emotional_counter_parameter', 'value'),
     State('run_parameter', 'value'),
     State('steps_per_run_parameter', 'value'),
-    State('quality_parameter', 'value'),
-    State('quality_counter_parameter', 'value'),
-    State('emotional_parameter', 'value'),
-    State('emotional_counter_parameter', 'value'),
-    State('lifetime_counter_parameter', 'value'),
-    State('time_counter_parameter', 'value'),
-    State('lifetime_parameter', 'value')
+    State('run_csv_parameter', 'value')
+
 )
 def button_start_simulation(n_clicks,
                             shape,
@@ -1069,17 +1078,17 @@ def button_start_simulation(n_clicks,
     simulation_parameters["run_steps"] = run_steps
     simulation_parameters["run_csv"] = run_csv
 
-    ns = network_simulator.Network_Simulation(simulation_parameters,
-                                              network_parameters,
-                                              participant_parameters,
-                                              message_parameters,
-                                              counter_message_parameters)
+    if n_clicks > 0:
+        ns = network_simulator.Network_Simulation(simulation_parameters,
+                                                  network_parameters,
+                                                  participant_parameters,
+                                                  message_parameters,
+                                                  counter_message_parameters)
 
-    ns.compute_simulation()
-
-    # return network_graph
+        ns.compute_simulation()
 
 
+"""
 @app.callback(
     Output('Table100nodes', 'data'),
     Output('Table100message', 'data'),
@@ -1113,8 +1122,7 @@ def generate_table_100(network_data):
                                                         "Glaube",
                                                         "Weiterleitungswahrscheinlichkeit"
                                                         "Häufigkeit Weiterleitung",
-                                                        ])
-
+                                                        ])"""
 
 if __name__ == '__main__':
     app.run_server(debug=True)

@@ -31,7 +31,7 @@ class Network:
         self.n_influencer = n_influencer
         self.n_bots = n_bots
         self.message_params = message_params
-        self.counter_message = counter_message_params
+        self.counter_message_params = counter_message_params
         self.relationships = relationships
         self.participants = participants
         self.simulation_data = pd.DataFrame()
@@ -198,37 +198,39 @@ class Network:
         for np in self.participants.values():
             np.process_messages(time)
 
-        # Datenzusammenfassung pro Step
-        spreading = 0
-        net_believe = 0
-        sum_net_credibility = 0
-        net_forward = 0
-        net_purchase = 0
-        sum_purchase = 0
 
-        for np in self.participants.values():
-            if np.n_message > 0:
-                spreading += 1
-            if np.m_belive:
-                net_believe += 1
-            sum_net_credibility += np.m_credibility
-            if np.m_forwarding:
-                net_forward += 1
-            if np.m_purchase:
-                net_purchase += 1
-            sum_purchase += np.purchase_prob
+        if time > self.message_params["start_time"] or time > self.counter_message_params["start_time"]:
+            # Datenzusammenfassung pro Step
+            spreading = 0
+            net_believe = 0
+            sum_net_credibility = 0
+            net_forward = 0
+            net_purchase = 0
+            sum_purchase = 0
 
-        step_data_network = {
-            "prob_spreading": spreading / len(self.participants),
-            "avg_credibility": sum_net_credibility / len(self.participants),
-            "prob_believe": net_believe / len(self.participants),
-            "prob_forward": net_forward / spreading,
-            "prob_purchase": net_purchase / len(self.participants),
-            "avg_purchase": sum_purchase / len(self.participants),
-        }
+            for np in self.participants.values():
+                if np.n_message > 0:
+                    spreading += 1
+                if np.m_belive:
+                    net_believe += 1
+                sum_net_credibility += np.m_credibility
+                if np.m_forwarding:
+                    net_forward += 1
+                if np.m_purchase:
+                    net_purchase += 1
+                sum_purchase += np.purchase_prob
+
+            step_data_network = {
+                "prob_spreading": spreading / len(self.participants),
+                "avg_credibility": sum_net_credibility / len(self.participants),
+                "prob_believe": net_believe / len(self.participants),
+                "prob_forward": net_forward / spreading,
+                "prob_purchase": net_purchase / len(self.participants),
+                "avg_purchase": sum_purchase / len(self.participants),
+            }
 
         # print(pd.DataFrame(step_data_network, index=[time]))
-        self.simulation_data = pd.concat([self.simulation_data, pd.DataFrame(step_data_network, index=[time])],
-                                         ignore_index=True)
+            self.simulation_data = pd.concat([self.simulation_data, pd.DataFrame(step_data_network, index=[time])],
+                                             ignore_index=True)
 
         # self.update_graph()
