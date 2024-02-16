@@ -543,9 +543,328 @@ app.layout = html.Div([
                                 style={'width': '200px', 'height': '50px'}),
                 ],
             ),
+            html.Div(
+                style={'textAlign': 'center', 'marginTop': '10px'},
+                children=[
+                    html.Button("Download CSV", id="btn_csv", style={'width': '200px', 'height': '50px'}),
+                    dcc.Download(id="download_csv"),
+                ]
+            )
 
         ]),
 
+        #############################################Tab 2 Auswertung##################################################
+        dcc.Tab(label='Auswertung', children=[
+            html.Br(),
+            html.H4('Die ersten 100 Knoten eines Netzwerkes', style={'textAlign': 'center'}),
+            html.Label('Durchlauf:', style={'margin-left': '6px', 'font-size': '20px'}),
+            dcc.Dropdown(
+                id='step-number-dropdown',
+                options=options,
+                value=0,
+                style={'width': '200px', 'height': '30px', 'margin-left': '2px'},
+            ),
+            # Tabelle mit den ersten 100 ID eines Durchlaufs
+            dash_table.DataTable(
+                id='Table100',
+                columns=[
+                    {'name': 'ID', 'id': 'ID'},
+                    {'name': 'Turbulenzfaktor', 'id': 'Turbulenzfaktor'},
+                    {'name': 'Kaufwahrscheinlichkeit', 'id': 'Kaufwahrscheinlichkeit'},
+                    {'name': 'ID', 'id': 'ID'},
+                    {'name': 'Turbulenzfaktor', 'id': 'Turbulenzfaktor'},
+                    {'name': 'Kaufwahrscheinlichkeit', 'id': 'Kaufwahrscheinlichkeit'},
+                    {'name': 'Gleichgültigkeit', 'id': 'Gleichgültigkeit'},
+                ],
+                data=df.to_dict('records'), page_size=10, sort_action='native', style_table={'overflowX': 'auto'}),
+
+            dbc.Row(
+                [
+                    dbc.Col(
+                        [
+                            html.H5('Gesamtkaufwahrscheinlichkeit aller Durchläufe:',
+                                    style={'margin-left': '3px', 'margin-bottom': '7px'}),
+                            dcc.Input(id='id-input', type='number', placeholder='Durchlauf',
+                                      style={'margin-left': '3px', 'margin-bottom': '7px'}),
+                            html.Button('Search', id='search-button', n_clicks=0),
+                            html.Div(
+                                style={'textAlign': 'center', 'marginTop': '1px'},
+                                children=[
+                                    dcc.Graph(
+                                        id='node_data_bar_chart',
+                                        config={'displayModeBar': False},
+                                        figure={
+                                            'data': [{'x': x, 'y': y, 'type': 'bar'}],
+                                            'layout': {
+                                                'title': 'Gesamtkaufwahrscheinlichkeit aller Durchläufe',
+                                                'xaxis': {'title': 'Durchlauf'},
+                                                'yaxis': {'title': 'Kaufwahrscheinlichkeit'},
+                                                'plot_bgcolor': '#f2f2f2',
+                                                'paper_bgcolor': '#f2f2f2',
+                                            }
+                                        }
+                                    ),
+                                ],
+                            )
+                        ],
+                        md=6
+                    ),
+
+                    dbc.Col(
+                        [
+                            html.H5('Vergleich zwischen Durchläufen'),
+                            dcc.RangeSlider(
+                                id='range-slider',
+                                min=0,
+                                max=100,
+                                value=[10, 30],
+                                tooltip={'always_visible': True, 'placement': 'bottom'}
+                            ),
+                            html.Div(
+                                style={'textAlign': 'center', 'marginTop': '1px'},
+                                children=[
+                                    dcc.Graph(
+                                        id='node_data_bar_chart',
+                                        config={'displayModeBar': False},
+                                        figure={
+                                            'data': [
+                                                {'x': x, 'y': y, 'type': 'bar', 'name': 'Anzahl potenzieller Käufer'},
+                                                {'x': x, 'y': inner_y, 'type': 'bar', 'name': 'Käufer wegen Nachricht'},
+                                            ],
+                                            'layout': {
+                                                'title': 'Wie viele würden Produkt kaufen',
+                                                'xaxis': {'title': 'Anzahl Teilnehmer'},
+                                                'yaxis': {'title': 'Durchlauf'},
+                                                'barmode': 'overlay',  # Überlagerungsmodus für die Balken
+                                                'plot_bgcolor': '#f2f2f2',
+                                                'paper_bgcolor': '#f2f2f2',
+                                            }
+                                        }
+                                    ),
+                                ],
+                            )
+                        ],
+                        md=6
+                    )
+
+                ]
+            ),
+            html.Br(),
+            html.Br(),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        [
+                            html.Br(),
+                            html.H5('Wie viele glauben die Nachricht:',
+                                    style={'margin-left': '3px', 'margin-bottom': '18px'}),
+                            html.Div(
+                                style={'textAlign': 'center', 'marginTop': '1px'},
+                                children=[
+                                    dcc.Graph(
+                                        id='glaube_insgesamt',
+                                        config={'displayModeBar': False},
+                                        figure={
+                                            'data': [{'x': x, 'y': y, 'type': 'bar'}],
+                                            'layout': {
+                                                'title': 'Glaubwürdigkeit insgesamt',
+                                                'xaxis': {'title': 'Durchlauf'},
+                                                'yaxis': {'title': 'Anzahl Netzwerkteilnehmer'},
+                                                'plot_bgcolor': '#f2f2f2',
+                                                'paper_bgcolor': '#f2f2f2',
+                                            }
+                                        }
+                                    ),
+                                ],
+                            )
+                        ],
+                        md=6
+                    ),
+                    dbc.Col(
+                        [
+                            html.H5('Vergleich zwischen Durchläufen'),
+                            dcc.RangeSlider(
+                                id='range-slider',
+                                min=0,
+                                max=100,
+                                value=[10, 30],
+                                tooltip={'always_visible': True, 'placement': 'bottom'}
+                            ),
+                            html.Div(
+                                style={'textAlign': 'center', 'marginTop': '1px'},
+                                children=[
+                                    dcc.Graph(
+                                        id='erreichte_Teilnehmer',
+                                        config={'displayModeBar': False},
+                                        figure={
+                                            'data': [{'y': x, 'x': y, 'type': 'bar', 'orientation': 'h'}],
+                                            'layout': {
+                                                'title': 'Erreichte Teilnehmer',
+                                                'xaxis': {'title': 'Teilnehmer'},
+                                                'yaxis': {'title': 'Durchlauf'},
+                                                'plot_bgcolor': '#f2f2f2',
+                                                'paper_bgcolor': '#f2f2f2',
+                                            }
+                                        }
+                                    ),
+                                ],
+                            )
+                        ],
+                        md=6
+                    )
+                ]
+            ),
+            html.Br(),
+            html.Br(),
+            html.H5('Wie viele haben die Nachricht weitergeleitet', style={'textAlign': 'center'}),
+            html.Div(
+                style={'textAlign': 'center', 'marginTop': '1px'},
+                children=[
+                    dcc.Graph(
+                        id='weiterleitung',
+                        config={'displayModeBar': False},
+                        figure={
+                            'data': [
+                                {'x': x, 'y': y, 'type': 'bar', 'name': 'Weiterleitungen insgesamt'},
+                                {'x': x, 'y': inner_y, 'type': 'bar', 'name': 'Anteil Knoten die weitergeleitet haben'},
+                            ],
+                            'layout': {
+                                'title': 'Weiterleitung Nachricht',
+                                'xaxis': {'title': 'Durchlauf'},
+                                'yaxis': {'title': 'Anzahl Weiterleitung'},
+                                'barmode': 'overlay',  # Überlagerungsmodus für die Balken
+                                'plot_bgcolor': '#f2f2f2',
+                                'paper_bgcolor': '#f2f2f2',
+                            }
+                        }
+                    ),
+                ],
+            )
+
+            # Regressionsgrad einfügen für alle läufe
+            # Top10 Durchläufe Kaufwahrscheinlichekeit als Balkendiagramm
+            # Die größten und niedrigsten Beeinflusser in einem
+        ]),
+
+        #############################################Tab 3 Werte########################################################
+        dcc.Tab(label='Werte pro Teilnehmer', children=[
+            html.Br(),
+            dbc.Row(
+                [
+                    # Karten in Tab 3 zu sehen → können mittels Callback befüllt werden
+                    dbc.Col(dbc.Card(card_left, color="primary", inverse=True), md=2),
+                    dbc.Col(dbc.Card(card_leftmid, color="secondary", inverse=True), md=2),
+                    dbc.Col(dbc.Card(card_mid, color="info", inverse=True), md=2),
+                    dbc.Col(dbc.Card(card_rightmid, color="info", inverse=True), md=2),
+                    dbc.Col(dbc.Card(card_right, color="info", inverse=True), md=2)
+
+                ], justify='center',
+            ),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        [
+                            html.Br(),
+                            html.Br(),
+                            html.H4('Werte pro Teilnehmer', style={'textAlign': 'center'}),
+                            "Durchlauf ",
+                            dcc.Input(id="per_Participant_run", value=10, type="number", step=1),
+                            " Teilnehmer-ID ",
+                            dcc.Input(
+                                id="per_Particpant_id",
+                                value=100,
+                                type="number",
+                            ),
+                            # Tabelle mit den ersten 100 ID eines Durchlaufs
+                            dash_table.DataTable(
+                                id='Table_per_Participant',
+                                columns=[
+                                    {'name': 'ID', 'id': 'id_per_Particpant'},
+                                    {'name': 'Wie oft Nachricht erhalten', 'id': 'erhalten_per_Participant'},
+                                    {'name': 'Wie oft weitergeleitet', 'id': 'weitergeleitet_per_Participant'},
+                                    {'name': 'Anteil erhalten und weitergeleitet',
+                                     'id': 'erhalten_weitergeleitet_per_Participant'},
+                                    {'name': 'Grad Zentralität', 'id': 'zentralitaet_per_Participant'},
+                                    {'name': 'Verflechtung der Zentralität', 'id': 'verflechtung_per_Participant'},
+                                ],
+                                data=df.to_dict('records'), page_size=10, sort_action='native',
+                                style_table={'overflowX': 'auto'}),
+
+                        ],
+                        md=12
+                    )
+                ]
+            ),
+
+            dbc.Row(
+                [
+                    dbc.Col(
+                        [
+                            html.H5('Regressionsanalyse'),
+                            html.Div(
+                                style={'textAlign': 'center', 'marginTop': '1px'},
+                                children=[
+                                    dcc.Graph(
+                                        id='regression_plot',
+                                        config={'displayModeBar': False},
+                                        figure={
+                                            'data': [
+                                                {'x': Xr.squeeze(), 'y': yr.squeeze(), 'mode': 'markers',
+                                                 'name': 'Datenpunkte'},
+                                                {'x': Xr.squeeze(), 'y': yr_pred.squeeze(), 'mode': 'lines',
+                                                 'name': 'Regressionslinie'}
+                                            ],
+                                            'layout': {
+                                                'title': {'text': 'Einfache lineare Regression', 'x': 0.5},
+                                                'xaxis': {'title': 'Unabhängige Variable'},
+                                                'yaxis': {'title': 'Abhängige Variable'},
+                                                'plot_bgcolor': '#f2f2f2',
+                                                'paper_bgcolor': '#f2f2f2',
+                                            }
+                                        }
+                                    ),
+                                ],
+                            )
+                        ],
+                        md=6
+                    ),
+
+                    dbc.Col(
+                        [
+                            html.H5('Anzahl Nachbarn: ', style={'display': 'inline'}),
+                            dcc.Input(id='id_input_Follower', type='number', placeholder='Durchlauf',
+                                      style={'margin-left': '3px', 'margin-bottom': '7px'}),
+                            html.Button('Search', id='search-Follower', n_clicks=0),
+                            html.Div(
+                                style={'textAlign': 'center'},
+                                children=[
+                                    dcc.Graph(
+                                        id='participant_per_run',
+                                        config={'displayModeBar': False},
+                                        figure={
+                                            'data': [{'x': x, 'y': y, 'type': 'bar'}],
+                                            'layout': {
+                                                'title': 'Nachbarn pro Durchlauf',
+                                                'xaxis': {'title': 'Teilnehmer'},
+                                                'yaxis': {'title': 'Anzahl Nachbarn'},
+                                                'plot_bgcolor': '#f2f2f2',
+                                                'paper_bgcolor': '#f2f2f2',
+                                            }
+                                        }
+                                    ),
+                                ],
+                            )
+                        ],
+                        md=6
+                    ),
+                ]
+            )
+
+            # Gesamtkaufwahrscheinlichkeit als Rad
+            # Teilnehmer mit meisten Followern
+            # Top5 Beeinflusser in einem Durchlauf
+            # höchster Influencer wert und wer es ist
+        ]),
         dcc.Tab(label='Werte pro Teilnehmer', children=[
             html.Br(),
             dbc.Row(
@@ -668,15 +987,6 @@ app.layout = html.Div([
                 ],
                 justify='around'  # Gleichmäßige Verteilung der Spalten
             ),
-            html.Br(),
-            html.Div(
-                            style={'textAlign': 'center', 'marginTop': '10px'},
-                            children=[
-                                html.Button("Download CSV", id="btn_csv", style={'width': '300px', 'height': '50px', 'font-size': '20px'}),
-                                dcc.Download(id="download_csv"),
-                            ]
-                        )
-
         ]),
 
     ])
@@ -800,6 +1110,42 @@ def button_start_simulation(n_clicks,
 def download_csv(n_clicks, csv_data):
     if csv_data:
         return dcc.send_data_frame(pd.read_json(csv_data).to_csv, "Simulation.csv")
+
+"""
+@app.callback(
+    Output('Table100nodes', 'data'),
+    Output('Table100message', 'data'),
+    Output('Table100conter_message', 'data'),
+    State("network_cache", "data"),
+    State("network_cache", "data")
+)
+def generate_table_100(network_data):
+    if not network_data:
+        network_data = {'directed': False, 'multigraph': False, 'graph': [], 'nodes': [], 'adjacency': []}
+
+    net = network_converter.network_form_json(network_data)
+    G = net.graph
+
+    df_node_data = pd.DataFrame(columns=["ID",
+                                         "Grad der Zentralität",
+                                         "Betweenes Zentralität",
+                                         "Initiale Kaufwahrscheinlichkeit",
+                                         "Aktuelle Kaufwahrscheinlichkeit"
+                                         ])
+
+    df_node_message_data = pd.DataFrame(columns=["Häufigkeit Erhalt",
+                                                 "Glaubwürdigkeit",
+                                                 "Glaube",
+                                                 "Weiterleitungswahrscheinlichkeit"
+                                                 "Häufigkeit Weiterleitung",
+                                                 ])
+
+    df_node_conter_message_data = pd.DataFrame(columns=["Häufigkeit Erhalt",
+                                                        "Glaubwürdigkeit",
+                                                        "Glaube",
+                                                        "Weiterleitungswahrscheinlichkeit"
+                                                        "Häufigkeit Weiterleitung",
+                                                        ])"""
 
 if __name__ == '__main__':
     app.run_server(debug=True)
