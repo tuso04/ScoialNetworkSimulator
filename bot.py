@@ -28,15 +28,16 @@ class Bot(network_participant.Network_Participant):
                 return 1
         return 0
 
-    def forwarding_decision(self, message, conter_message, time, target):
+    def forwarding_decision(self, message, counter_message, time, target):
         if message.mood:
             self.m_forwarding = True
             self.n_m_forwarding += 1
             self.prob_forwarding = self.n_m_forwarding / self.n_message
             return True
+        return False
 
-    def purchase_int(self, message, conter_message, time):
+    def purchase_int(self, message, counter_message, time):
         return 0
 
-    def purchase_decision(self, message, conter_message, time):
+    def purchase_decision(self, message, counter_message, time):
         return False

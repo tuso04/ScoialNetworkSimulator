@@ -30,9 +30,13 @@ class Network_Simulation:
         self.simulation_data = pd.DataFrame(columns=[
             "run",
             "prob_spreading",
+            "prob_counter_spreading",
             "avg_credibility",
+            "avg_counter_credibility",
             "prob_believe",
+            "prob_counter_believe",
             "prob_forward",
+            "prob_counter_forward",
             "prob_purchase",
             "avg_purchase"])
 

@@ -11,7 +11,6 @@ import network_participant
 import recived_message
 
 
-
 class Network:
     def __init__(self, graph_json,
                  turbulence_factor,
@@ -66,11 +65,11 @@ class Network:
         # Die ersten x Elemente ausgeben
         count = 0
         for key, value in sorted_dict.items():
+            if count == self.n_influencer:
+                break
             if key != 0:
                 influencer.append(key)
                 count += 1
-            if count == self.n_influencer:
-                break
 
         return influencer
 
@@ -159,7 +158,7 @@ class Network:
         print(f"**************************New Step {time}***************************")
 
         # Initiale Nachrichten
-        if time == self.message_params["start_time"]:
+        if time == self.message_params["start_time"] and self.message_params["check"]:
             start_points = []
 
             for i in self.influencer:
@@ -179,9 +178,33 @@ class Network:
                 first_customer = starter.neighbors.values()
 
                 for c in first_customer:
-                    packed_m = recived_message.Recived_Message(m, c.part_B, -1)
+                    packed_m = recived_message.Recived_Message(m, c.part_B, time - 1)
                     starter.send_box.add(packed_m, c.part_B)
                     print(f"{starter.np_id} sendet an {c.part_B.np_id} Nachricht {m.message_id}")
+
+        # Initiale Gegennachricht
+        if time == self.counter_message_params["start_time"] and self.counter_message_params["check"]:
+            counter_message_startpoint = random.randint(1, len(self.graph.nodes) - 1)
+
+            while counter_message_startpoint in self.influencer or counter_message_startpoint in self.bots:
+                counter_message_startpoint = random.randint(1, len(self.graph.nodes) - 1)
+
+            counter_message_startpoint_participant = self.participants.get(counter_message_startpoint)
+
+            cm = message.Message(2,
+                                 False,
+                                 self.counter_message_params["quality"],
+                                 self.counter_message_params["emotionality"],
+                                 time,
+                                 self.counter_message_params["life_time"])
+
+            first_cm_receiver = counter_message_startpoint_participant.neighbors.values()
+
+            for c in first_cm_receiver:
+                packed_cm = recived_message.Recived_Message(cm, c.part_B, time - 1)
+                counter_message_startpoint_participant.send_box.add(packed_cm, c.part_B)
+                print(
+                    f"{counter_message_startpoint_participant.np_id} sendet an {c.part_B.np_id} Nachricht {cm.message_id}")
 
         # Sende alle Nachrichten im Netzwerk
         for np in list(self.participants.values()):
@@ -191,46 +214,59 @@ class Network:
 
                 if packed_m2.time == time - 1:
                     np.send(message=packed_m2.message,
-                            reciver=neighbor,
+                            receiver=neighbor,
                             time=time)
 
         # Verarbeite die empfangenen Nachrichten jedes Kontos
         for np in self.participants.values():
+            print(f"np: {np.np_id}: {[m.message_id for m in np.receive_box.messages]}")
             np.process_messages(time)
 
+        # if time > self.message_params["start_time"] or time > self.counter_message_params["start_time"]:
+        # Datenzusammenfassung pro Step
+        spreading = 1
+        counter_spreading = 1
+        net_believe = 0
+        net_counter_believe = 0
+        sum_net_credibility = 0
+        sum_net_counter_credibility = 0
+        net_forward = 0
+        net_counter_forward = 0
+        net_purchase = 0
+        sum_purchase = 0
 
-        if time > self.message_params["start_time"] or time > self.counter_message_params["start_time"]:
-            # Datenzusammenfassung pro Step
-            spreading = 0
-            net_believe = 0
-            sum_net_credibility = 0
-            net_forward = 0
-            net_purchase = 0
-            sum_purchase = 0
+        for np in self.participants.values():
+            if np.n_message > 0:
+                spreading += 1
+            if np.n_counter_message > 0:
+                counter_spreading += 1
+            if np.m_believe:
+                net_believe += 1
+            sum_net_credibility += np.m_credibility
+            sum_net_counter_credibility += np.cm_credibility
+            if np.m_forwarding:
+                net_forward += 1
+            if np.cm_forwarding:
+                net_counter_forward += 1
+            if np.m_purchase:
+                net_purchase += 1
+            sum_purchase += np.purchase_prob
 
-            for np in self.participants.values():
-                if np.n_message > 0:
-                    spreading += 1
-                if np.m_belive:
-                    net_believe += 1
-                sum_net_credibility += np.m_credibility
-                if np.m_forwarding:
-                    net_forward += 1
-                if np.m_purchase:
-                    net_purchase += 1
-                sum_purchase += np.purchase_prob
-
-            step_data_network = {
-                "prob_spreading": spreading / len(self.participants),
-                "avg_credibility": sum_net_credibility / len(self.participants),
-                "prob_believe": net_believe / len(self.participants),
-                "prob_forward": net_forward / spreading,
-                "prob_purchase": net_purchase / len(self.participants),
-                "avg_purchase": sum_purchase / len(self.participants),
-            }
+        step_data_network = {
+            "prob_spreading": spreading / len(self.participants),
+            "prob_counter_spreading": counter_spreading / len(self.participants),
+            "avg_credibility": sum_net_credibility / len(self.participants),
+            "avg_counter_credibility": sum_net_counter_credibility / len(self.participants),
+            "prob_believe": net_believe / len(self.participants),
+            "prob_counter_believe": net_counter_believe / len(self.participants),
+            "prob_forward": net_forward / spreading,
+            "prob_counter_forward": net_counter_forward / counter_spreading,
+            "prob_purchase": net_purchase / len(self.participants),
+            "avg_purchase": sum_purchase / len(self.participants),
+        }
 
         # print(pd.DataFrame(step_data_network, index=[time]))
-            self.simulation_data = pd.concat([self.simulation_data, pd.DataFrame(step_data_network, index=[time])],
-                                             ignore_index=True)
+        self.simulation_data = pd.concat([self.simulation_data, pd.DataFrame(step_data_network, index=[time])],
+                                         ignore_index=True)
 
         # self.update_graph()

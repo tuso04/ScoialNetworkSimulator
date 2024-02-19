@@ -10,7 +10,7 @@ import numpy as np
 import network_simulator
 
 # Beispiel Daten Tabelle
-#df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv')
+# df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv')
 df = pd.DataFrame(0, index=range(3), columns=["Verbreitung", "Minimum", "Durchschnitt", "Maximum"])
 
 # Beispiel-Daten für das Balkendiagramm
@@ -366,6 +366,20 @@ app.layout = html.Div([
                             dbc.Row(className='mx-auto', align='center', style={'width': 'fit-content'},
                                     children=[
                                         dbc.Col([
+                                            dcc.Checklist(
+                                                id='checkbox_nachricht',
+                                                options=[
+                                                    {'label': ' Nachricht simulieren', 'value': 'check_value'}
+                                                ],
+                                                value=[],  # Standardmäßig nicht ausgewählt
+                                            ),
+                                        ]
+                                        ),
+                                    ]
+                                    ),
+                            dbc.Row(className='mx-auto', align='center', style={'width': 'fit-content'},
+                                    children=[
+                                        dbc.Col([
                                             html.Label('Qualität der Nachricht'),
                                             dcc.Input(id='quality_parameter', type='number',
                                                       value=0.5,
@@ -398,6 +412,20 @@ app.layout = html.Div([
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=3),
+                                    ]
+                                    ),
+                            dbc.Row(className='mx-auto', align='center', style={'width': 'fit-content'},
+                                    children=[
+                                        dbc.Col([
+                                            dcc.Checklist(
+                                                id='checkbox_gegennachricht',
+                                                options=[
+                                                    {'label': ' Gegennachricht simulieren', 'value': 'check_value'}
+                                                ],
+                                                value=[],  # Standardmäßig nicht ausgewählt
+                                            ),
+                                        ]
+                                        ),
                                     ]
                                     ),
                             dbc.Row(className='mx-auto', align='center', style={'width': 'fit-content'},
@@ -654,10 +682,12 @@ app.layout = html.Div([
     State('purchase_prob_min_parameter', 'value'),
     State('purchase_expo_param_positive_parameter', 'value'),
     State('purchase_expo_param_negative_parameter', 'value'),
+    State('checkbox_nachricht', 'value'),
     State('time_message_parameter', 'value'),
     State('lifetime_parameter', 'value'),
     State('quality_parameter', 'value'),
     State('emotional_parameter', 'value'),
+    State('checkbox_gegennachricht', 'value'),
     State('time_counter_parameter', 'value'),
     State('lifetime_counter_parameter', 'value'),
     State('quality_counter_parameter', 'value'),
@@ -683,10 +713,12 @@ def button_start_simulation(n_clicks,
                             purchase_prob_min,
                             purchase_expo_param_positive,
                             purchase_expo_param_negative,
+                            check_message,
                             message_start_time,
                             message_life_time,
                             message_quality,
                             message_emotionality,
+                            check_counter_message,
                             counter_message_start_time,
                             counter_message_life_time,
                             counter_message_quality,
@@ -720,11 +752,13 @@ def button_start_simulation(n_clicks,
     participant_parameters["purchase_expo_param_positive"] = purchase_expo_param_positive
     participant_parameters["purchase_expo_param_negative"] = purchase_expo_param_negative
 
+    message_parameters["check"] = check_message
     message_parameters["start_time"] = message_start_time
     message_parameters["life_time"] = message_life_time
     message_parameters["quality"] = message_quality
     message_parameters["emotionality"] = message_emotionality
 
+    counter_message_parameters["check"] = check_counter_message
     counter_message_parameters["start_time"] = counter_message_start_time
     counter_message_parameters["life_time"] = counter_message_life_time
     counter_message_parameters["quality"] = counter_message_quality
@@ -759,10 +793,8 @@ def download_csv(n_clicks, csv_data):
               State('network_cache', 'data')
               )
 def fill_table_spreading(refresh_interval, simulation_data_message):
-
     if refresh_interval > 0 and simulation_data_message:
         simulation_data_message = pd.read_json(StringIO(simulation_data_message))
-
 
         output_spreading = pd.DataFrame(columns=["Verbreitung", "Minimum", "Durchschnitt", "Maximum"])
 
@@ -770,9 +802,9 @@ def fill_table_spreading(refresh_interval, simulation_data_message):
         output_spreading.loc[1] = ["Nachricht", round(simulation_data_message["prob_spreading"].min(), 2),
                                    round(simulation_data_message["prob_spreading"].mean(), 2),
                                    round(simulation_data_message["prob_spreading"].max(), 2)]
-        output_spreading.loc[2] = ["Gegennachricht", round(simulation_data_message["prob_spreading"].min(), 2),
-                                   round(simulation_data_message["prob_spreading"].mean(), 2),
-                                   round(simulation_data_message["prob_spreading"].max(), 2)]
+        output_spreading.loc[2] = ["Gegennachricht", round(simulation_data_message["prob_counter_spreading"].min(), 2),
+                                   round(simulation_data_message["prob_counter_spreading"].mean(), 2),
+                                   round(simulation_data_message["prob_counter_spreading"].max(), 2)]
 
         return output_spreading.to_dict('records')
 
@@ -782,14 +814,14 @@ def fill_table_spreading(refresh_interval, simulation_data_message):
               State('network_cache', 'data')
               )
 def fill_table_believe(refresh_interval, simulation_data_message):
-
     if refresh_interval > 0 and simulation_data_message:
         simulation_data_message = pd.read_json(StringIO(simulation_data_message))
 
         # Glauben
         output_believe = pd.DataFrame(columns=["Glauben", "Minimum", "Durchschnitt", "Maximum"])
 
-        output_believe.loc[1] = ["Glaubwürdigkeit Nachricht", round(simulation_data_message["avg_credibility"].min(), 2),
+        output_believe.loc[1] = ["Glaubwürdigkeit Nachricht",
+                                 round(simulation_data_message["avg_credibility"].min(), 2),
                                  round(simulation_data_message["avg_credibility"].mean(), 2),
                                  round(simulation_data_message["avg_credibility"].max(), 2)]
         output_believe.loc[2] = ["Glauben Nachricht", round(simulation_data_message["prob_believe"].min(), 2),
@@ -804,7 +836,6 @@ def fill_table_believe(refresh_interval, simulation_data_message):
               State('network_cache', 'data')
               )
 def fill_table_forward(refresh_interval, simulation_data_message):
-
     if refresh_interval > 0 and simulation_data_message:
         simulation_data_message = pd.read_json(StringIO(simulation_data_message))
 
@@ -814,9 +845,10 @@ def fill_table_forward(refresh_interval, simulation_data_message):
         output_forward.loc[1] = ["Weiterleitung Nachricht", round(simulation_data_message["prob_forward"].min(), 2),
                                  round(simulation_data_message["prob_forward"].mean(), 2),
                                  round(simulation_data_message["prob_forward"].max(), 2)]
-        output_forward.loc[2] = ["Weiterleitung Gegennachricht", round(simulation_data_message["prob_forward"].min(), 2),
-                                 round(simulation_data_message["prob_forward"].mean(), 2),
-                                 round(simulation_data_message["prob_forward"].max(), 2)]
+        output_forward.loc[2] = ["Weiterleitung Gegennachricht",
+                                 round(simulation_data_message["prob_counter_forward"].min(), 2),
+                                 round(simulation_data_message["prob_counter_forward"].mean(), 2),
+                                 round(simulation_data_message["prob_counter_forward"].max(), 2)]
 
         return output_forward.to_dict('records')
 
@@ -826,7 +858,6 @@ def fill_table_forward(refresh_interval, simulation_data_message):
               State('network_cache', 'data')
               )
 def fill_table_purchase(refresh_interval, simulation_data_message):
-
     if refresh_interval > 0 and simulation_data_message:
         simulation_data_message = pd.read_json(StringIO(simulation_data_message))
 
@@ -841,6 +872,7 @@ def fill_table_purchase(refresh_interval, simulation_data_message):
                                   round(simulation_data_message["prob_purchase"].max(), 2)]
 
         return output_purchase.to_dict('records')
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
