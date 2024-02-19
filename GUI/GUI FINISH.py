@@ -1,4 +1,4 @@
-import json
+from io import StringIO
 
 import dash_bootstrap_components as dbc
 import pandas as pd
@@ -10,7 +10,8 @@ import numpy as np
 import network_simulator
 
 # Beispiel Daten Tabelle
-df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv')
+#df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv')
+df = pd.DataFrame(0, index=range(3), columns=["Verbreitung", "Minimum", "Durchschnitt", "Maximum"])
 
 # Beispiel-Daten für das Balkendiagramm
 x = np.arange(1, 100)
@@ -144,14 +145,17 @@ app.layout = html.Div([
     # Download
     dcc.Download(id="download_simulation_csv"),
 
+    # Interval in dem aktaulisiert wird
+    dcc.Interval(id='refresh_interval', interval=5 * 1000, n_intervals=0),  # im Millisekunden
+
     html.Br(),
-    html.H1('Network Simulation', style={'textAlign': 'center'}),
+    html.H1('Netzwerk Simulation', style={'textAlign': 'center'}),
     html.Hr(),
 
     dcc.Tabs([
 
         #############################################Tab 1 Input########################################################
-        dcc.Tab(label='Parameter input', children=[
+        dcc.Tab(label='Eingabe', children=[
             html.Br(),
             dbc.Card(
                 [
@@ -202,7 +206,7 @@ app.layout = html.Div([
                             dbc.Row(className='mx-auto', style={'width': 'fit-content'},
                                     children=[
                                         dbc.Col([
-                                            html.Label('Turbulenz-Faktor des Netzwerks'),
+                                            html.Label('Turbulenz-Faktor des Marktes'),
                                             html.Br(),
                                             dcc.Input(id='turbulence_factor', type='number', value=0.5, min=0, max=1,
                                                       step=0.01,
@@ -528,25 +532,9 @@ app.layout = html.Div([
                                 style={'width': '200px', 'height': '50px'}),
                 ],
             ),
-            html.Div(children=[
-                dcc.Interval(id='interval_net_graph', interval=9999999, n_intervals=0),
-                dcc.Graph(
-                    id='network_graph',
-                    config={'displayModeBar': False},
-                    # style={'height': 400}
-                ),
-            ]),
-            html.Div(
-                style={'textAlign': 'center', 'marginTop': '10px'},
-                children=[
-                    html.Button('Show Network', id='show_Network', n_clicks=0,
-                                style={'width': '200px', 'height': '50px'}),
-                ],
-            ),
-
         ]),
 
-        dcc.Tab(label='Werte pro Teilnehmer', children=[
+        dcc.Tab(label='Auswertung', children=[
             html.Br(),
             dbc.Row(
 
@@ -558,17 +546,8 @@ app.layout = html.Div([
                                     dbc.CardHeader(html.H4('Verbreitung', style={'textAlign': 'center'})),
                                     dbc.CardBody(
                                         dash_table.DataTable(
-                                            id='verbreitung1',
-                                            columns=[
-                                                {'name': 'Weiterleitung', 'id': 'weitergeleitet_per_Participant'},
-                                                {'name': 'Minimum', 'id': 'id_per_Particpant'},
-                                                {'name': 'Average', 'id': 'erhalten_per_Participant'},
-                                                {'name': 'Maximum', 'id': 'weitergeleitet_per_Participant'},
-                                            ],
-                                            data=df.to_dict('records'), page_size=3,
-                                            style_table={'overflowX': 'auto', 'margin': '10px',
-                                                         'backgroundColor': '#f2f2f2'},
-                                            style_header={'textAlign': 'left'},
+                                            id='verbreitung',
+                                            style_header={'textAlign': 'left'}
                                         )
                                     ),
                                 ],
@@ -584,17 +563,7 @@ app.layout = html.Div([
                                     dbc.CardHeader(html.H4('Glaubwürdigkeit', style={'textAlign': 'center'})),
                                     dbc.CardBody(
                                         dash_table.DataTable(
-                                            id='verbreitung2',
-                                            columns=[
-                                                {'name': 'Glaubwürdigkeit', 'id': 'weitergeleitet_per_Participant',
-                                                 'editable': False},
-                                                {'name': 'Minimum', 'id': 'id_per_Particpant'},
-                                                {'name': 'Average', 'id': 'erhalten_per_Participant'},
-                                                {'name': 'Maximum', 'id': 'weitergeleitet_per_Participant'},
-                                            ],
-                                            data=df.to_dict('records'), page_size=3,
-                                            style_table={'overflowX': 'auto', 'margin': '10px',
-                                                         'backgroundColor': '#f2f2f2'},
+                                            id='glauben',
                                             style_header={'textAlign': 'left'},
                                         )
                                     ),
@@ -615,18 +584,10 @@ app.layout = html.Div([
                         [
                             dbc.Card(
                                 [
-                                    dbc.CardHeader(html.H4('Kaufwahrscheinlichtkeit', style={'textAlign': 'center'})),
+                                    dbc.CardHeader(html.H4('Kaufwahrscheinlichkeit', style={'textAlign': 'center'})),
                                     dbc.CardBody(
                                         dash_table.DataTable(
-                                            id='verbreitung3',
-                                            columns=[
-                                                {'name': 'Kaufwahrscheinlichkeit',
-                                                 'id': 'weitergeleitet_per_Participant'},
-                                                {'name': 'Minimum', 'id': 'id_per_Particpant'},
-                                                {'name': 'Average', 'id': 'erhalten_per_Participant'},
-                                                {'name': 'Maximum', 'id': 'weitergeleitet_per_Participant'},
-                                            ],
-                                            data=df.to_dict('records'), page_size=3,
+                                            id='kaufen',
                                             style_table={'overflowX': 'auto', 'margin': '10px',
                                                          'backgroundColor': '#f2f2f2'},
                                             style_header={'textAlign': 'left'},
@@ -645,17 +606,7 @@ app.layout = html.Div([
                                     dbc.CardHeader(html.H4('Weiterleitung', style={'textAlign': 'center'})),
                                     dbc.CardBody(
                                         dash_table.DataTable(
-                                            id='verbreitung4',
-                                            columns=[
-                                                {'name': 'Weiterleitung', 'id': 'weitergeleitet_per_Participant',
-                                                 'editable': False},
-                                                {'name': 'Minimum', 'id': 'id_per_Particpant'},
-                                                {'name': 'Average', 'id': 'erhalten_per_Participant'},
-                                                {'name': 'Maximum', 'id': 'weitergeleitet_per_Participant'},
-                                            ],
-                                            data=df.to_dict('records'), page_size=3,
-                                            style_table={'overflowX': 'auto', 'margin': '10px',
-                                                         'backgroundColor': '#f2f2f2'},
+                                            id='weiterleitung',
                                             style_header={'textAlign': 'left'},
                                         )
                                     ),
@@ -670,12 +621,13 @@ app.layout = html.Div([
             ),
             html.Br(),
             html.Div(
-                            style={'textAlign': 'center', 'marginTop': '10px'},
-                            children=[
-                                html.Button("Download CSV", id="btn_csv", style={'width': '300px', 'height': '50px', 'font-size': '20px'}),
-                                dcc.Download(id="download_csv"),
-                            ]
-                        )
+                style={'textAlign': 'center', 'marginTop': '10px'},
+                children=[
+                    html.Button("Download CSV", id="btn_csv",
+                                style={'width': '300px', 'height': '50px', 'font-size': '20px'}),
+                    dcc.Download(id="download_csv"),
+                ]
+            )
 
         ]),
 
@@ -800,6 +752,95 @@ def button_start_simulation(n_clicks,
 def download_csv(n_clicks, csv_data):
     if csv_data:
         return dcc.send_data_frame(pd.read_json(csv_data).to_csv, "Simulation.csv")
+
+
+@app.callback(Output('verbreitung', 'data'),
+              Input('refresh_interval', 'n_intervals'),
+              State('network_cache', 'data')
+              )
+def fill_table_spreading(refresh_interval, simulation_data_message):
+
+    if refresh_interval > 0 and simulation_data_message:
+        simulation_data_message = pd.read_json(StringIO(simulation_data_message))
+
+
+        output_spreading = pd.DataFrame(columns=["Verbreitung", "Minimum", "Durchschnitt", "Maximum"])
+
+        # Verbreitung
+        output_spreading.loc[1] = ["Nachricht", round(simulation_data_message["prob_spreading"].min(), 2),
+                                   round(simulation_data_message["prob_spreading"].mean(), 2),
+                                   round(simulation_data_message["prob_spreading"].max(), 2)]
+        output_spreading.loc[2] = ["Gegennachricht", round(simulation_data_message["prob_spreading"].min(), 2),
+                                   round(simulation_data_message["prob_spreading"].mean(), 2),
+                                   round(simulation_data_message["prob_spreading"].max(), 2)]
+
+        return output_spreading.to_dict('records')
+
+
+@app.callback(Output('glauben', 'data'),
+              Input('refresh_interval', 'n_intervals'),
+              State('network_cache', 'data')
+              )
+def fill_table_believe(refresh_interval, simulation_data_message):
+
+    if refresh_interval > 0 and simulation_data_message:
+        simulation_data_message = pd.read_json(StringIO(simulation_data_message))
+
+        # Glauben
+        output_believe = pd.DataFrame(columns=["Glauben", "Minimum", "Durchschnitt", "Maximum"])
+
+        output_believe.loc[1] = ["Glaubwürdigkeit Nachricht", round(simulation_data_message["avg_credibility"].min(), 2),
+                                 round(simulation_data_message["avg_credibility"].mean(), 2),
+                                 round(simulation_data_message["avg_credibility"].max(), 2)]
+        output_believe.loc[2] = ["Glauben Nachricht", round(simulation_data_message["prob_believe"].min(), 2),
+                                 round(simulation_data_message["prob_believe"].mean(), 2),
+                                 round(simulation_data_message["prob_believe"].max(), 2)]
+
+        return output_believe.to_dict('records')
+
+
+@app.callback(Output('weiterleitung', 'data'),
+              Input('refresh_interval', 'n_intervals'),
+              State('network_cache', 'data')
+              )
+def fill_table_forward(refresh_interval, simulation_data_message):
+
+    if refresh_interval > 0 and simulation_data_message:
+        simulation_data_message = pd.read_json(StringIO(simulation_data_message))
+
+        # Weiterleitung
+        output_forward = pd.DataFrame(columns=["Weiterleitung", "Minimum", "Durchschnitt", "Maximum"])
+
+        output_forward.loc[1] = ["Weiterleitung Nachricht", round(simulation_data_message["prob_forward"].min(), 2),
+                                 round(simulation_data_message["prob_forward"].mean(), 2),
+                                 round(simulation_data_message["prob_forward"].max(), 2)]
+        output_forward.loc[2] = ["Weiterleitung Gegennachricht", round(simulation_data_message["prob_forward"].min(), 2),
+                                 round(simulation_data_message["prob_forward"].mean(), 2),
+                                 round(simulation_data_message["prob_forward"].max(), 2)]
+
+        return output_forward.to_dict('records')
+
+
+@app.callback(Output('kaufen', 'data'),
+              Input('refresh_interval', 'n_intervals'),
+              State('network_cache', 'data')
+              )
+def fill_table_purchase(refresh_interval, simulation_data_message):
+
+    if refresh_interval > 0 and simulation_data_message:
+        simulation_data_message = pd.read_json(StringIO(simulation_data_message))
+
+        # Kaufen
+        output_purchase = pd.DataFrame(columns=["Kaufen", "Minimum", "Durchschnitt", "Maximum"])
+
+        output_purchase.loc[1] = ["Kaufwahrscheinlichkeit", round(simulation_data_message["avg_purchase"].min(), 2),
+                                  round(simulation_data_message["avg_purchase"].mean(), 2),
+                                  round(simulation_data_message["avg_purchase"].max(), 2)]
+        output_purchase.loc[2] = ["Kaufentscheidung", round(simulation_data_message["prob_purchase"].min(), 2),
+                                  round(simulation_data_message["prob_purchase"].mean(), 2),
+                                  round(simulation_data_message["prob_purchase"].max(), 2)]
+
+        return output_purchase.to_dict('records')
 
 if __name__ == '__main__':
     app.run_server(debug=True)
