@@ -557,7 +557,7 @@ app.layout = html.Div([
                 style={'textAlign': 'center', 'marginTop': '30px'},
                 children=[
                     html.Button('Starte Simulation', id='generate_Network', n_clicks=0,
-                                style={'width': '200px', 'height': '50px'}),
+                                style={'width': '200px', 'height': '50px', 'margin-bottom': '2rem'}),
                 ],
             ),
         ]),
