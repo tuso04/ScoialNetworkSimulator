@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Ausgabe funktioniert">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/GUI FINISH.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/GUI FINISH.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/message_stack.py" beforeDir="false" afterPath="$PROJECT_DIR$/message_stack.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network.py" beforeDir="false" afterPath="$PROJECT_DIR$/network.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network_participant.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_participant.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network_simulator.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_simulator.py" afterDir="false" />
-    </list>
+    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Bug fixes Gegennachricht" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -77,7 +69,7 @@
     "Python.Tester.executor": "Run",
     "Python.VisualDesign.executor": "Run",
     "Python.all_in_one.executor": "Run",
-    "Python.flaskTest.executor": "Debug",
+    "Python.flaskTest.executor": "Run",
     "Python.network.executor": "Run",
     "Python.networkDashboard.executor": "Run",
     "Python.networkDashboard2.executor": "Run",
@@ -292,7 +284,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708328758668</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Bug fixes Gegennachricht">
+      <option name="closed" value="true" />
+      <created>1708344366156</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1708344366156</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -339,7 +339,8 @@
     <MESSAGE value="Simulations Button funktioniert" />
     <MESSAGE value="Downlad Button funktioniert auch" />
     <MESSAGE value="Ausgabe funktioniert" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ausgabe funktioniert" />
+    <MESSAGE value="Bug fixes Gegennachricht" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes Gegennachricht" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
