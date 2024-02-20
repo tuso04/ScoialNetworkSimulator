@@ -41,7 +41,7 @@ rows = [{'Index': 'Nachricht', **first_two_rows[0]},
         {'Index': 'Gegennachricht', **first_two_rows[1]}]
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.MORPH])
-app.title = "Networksimulation"
+app.title = "Netzwerksimulation"
 
 # Erstellen der Optionen für das Dropdown-Menü
 options = [{'label': str(i), 'value': i} for i in range(0, 101)]

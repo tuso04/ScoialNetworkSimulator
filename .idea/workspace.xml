@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Bug fixes Teilnehmerparameter">
+    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Bug fixes Gegennachricht">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/GUI FINISH.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/GUI FINISH.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -295,15 +295,7 @@
       <option name="project" value="LOCAL" />
       <updated>1708344366156</updated>
     </task>
-    <task id="LOCAL-00021" summary="Bug fixes Teilnehmerparameter">
-      <option name="closed" value="true" />
-      <created>1708438557779</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1708438557779</updated>
-    </task>
-    <option name="localTasksCounter" value="22" />
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -351,8 +343,7 @@
     <MESSAGE value="Downlad Button funktioniert auch" />
     <MESSAGE value="Ausgabe funktioniert" />
     <MESSAGE value="Bug fixes Gegennachricht" />
-    <MESSAGE value="Bug fixes Teilnehmerparameter" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes Teilnehmerparameter" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes Gegennachricht" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -371,6 +362,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$Base.coverage" NAME="Base Coverage Results" MODIFIED="1705787190197" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
+    <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$GUI_FINISH.coverage" NAME="GUI FINISH Coverage Results" MODIFIED="1708452235550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
     <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$network_graph.coverage" NAME="network_graph Coverage Results" MODIFIED="1705767770699" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
     <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$network_participnat.coverage" NAME="network_participnat Coverage Results" MODIFIED="1701681449813" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ScoialNetworkSimulator$parameter_input.coverage" NAME="parameter_input Coverage Results" MODIFIED="1705785845733" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/GUI" />
