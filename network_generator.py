@@ -18,7 +18,7 @@ def generate_new_network(shape, participant_params, n_nodes=200, init_edges=2, s
     nodes = network_graph.nodes()
 
     for i in range(len(nodes)):
-        threshold_believe_p = random.normalvariate(participant_params["threshold_believe"], 1)
+        threshold_believe_p = random.normalvariate(participant_params["threshold_belive"], 1)
         indifference = random.normalvariate(participant_params["indifference"], 1)
         isi_parameter = random.normalvariate(participant_params["isi_parameter"], 1)
         fi_parameter = random.normalvariate(participant_params["fi_parameter"], 1)
@@ -29,7 +29,7 @@ def generate_new_network(shape, participant_params, n_nodes=200, init_edges=2, s
         purchase_expo_param_positive = participant_params["purchase_expo_param_negative"]
 
         nodes[i]["np_id"] = i
-        nodes[i]["threshold_believe_p"] = threshold_believe_p
+        nodes[i]["threshold_belive_p"] = threshold_believe_p
         nodes[i]["turbulence_factor"] = turbulence_factor
         nodes[i]["indifference"] = indifference
         nodes[i]["isi_parameter"] = isi_parameter
