@@ -5,7 +5,7 @@ import message_stack
 import recived_message
 
 # Externe Bibliotheken
-from scipy.stats import logistic
+from scipy.special import expit
 
 import relationship
 
@@ -55,9 +55,9 @@ class Network_Participant:
 
     def send(self, message, receiver, time):
         if receiver.np_id in self.neighbors.keys():
-            # print(f"{self.np_id} an {reciver.np_id} zu {time}")
+            # print(f"{self.np_id} an {receiver.np_id} zu {time}")
             receiver.receive_box.add(recived_message.Recived_Message(message, self, time), self)
-            # reciver.receive(message, self, time)
+            # receiver.receive(message, self, time)
 
     """def receive(self, message, sender, time):
         print(f"{self.np_id} bekommt von {sender.np_id} zu {time}")
@@ -110,6 +110,8 @@ class Network_Participant:
             return 0
 
         pressure = 0
+        slope = 0.25
+        intercept = 20
 
         for r in self.receive_box.messages:
             if r.time == time and message.message_id == r.message_id:  # Muss noch in Message Klasse implementiert werden
@@ -117,8 +119,9 @@ class Network_Participant:
                 pressure += relationship_pressure
 
         social_pressure = pressure / self._compute_social_bond()
+        x = slope * social_pressure + intercept
 
-        return logistic.cdf(social_pressure)
+        return expit(x)
 
     # Information social influence
     def isi(self, message):
