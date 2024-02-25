@@ -1,4 +1,3 @@
-import message_stack
 import network_participant
 
 
@@ -22,22 +21,22 @@ class Bot(network_participant.Network_Participant):
                          neighbors=neighbors,
                          send_box=send_box)
 
-    def credibility(self, message, time):
+    def _credibility(self, message, time):
         if message:
             if message.mood:
                 return 1
         return 0
 
-    def forwarding_decision(self, message, counter_message, time, target):
+    def _forwarding_decision(self, message, counter_message, time, target):
         if message.mood:
             self.m_forwarding = True
-            self.n_m_forwarding += 1
-            self.prob_forwarding = self.n_m_forwarding / self.n_message
+            # self.n_m_forwarding += 1
+            # self.prob_forwarding = self.n_m_forwarding / self.n_message
             return True
         return False
 
-    def purchase_int(self, message, counter_message, time):
+    def _purchase_int(self, message, counter_message, time):
         return 0
 
-    def purchase_decision(self, message, counter_message, time):
+    def _purchase_decision(self, message, counter_message, time):
         return False

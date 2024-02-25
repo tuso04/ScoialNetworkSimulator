@@ -47,7 +47,6 @@ class Network_Participant:
         self.cm_credibility = 0
         self.m_forwarding = False
         self.cm_forwarding = False
-        self.n_m_forwarding = 0
         self.prob_forwarding = 0
         self.m_purchase = False
 
@@ -68,19 +67,20 @@ class Network_Participant:
     # *****************************************Glauben****************************************************************
 
     # Glaubwürdigkeit (Cm/it)
-    def credibility(self, message, time):
-        credibility = (self.turbulence_factor * self.nsi(message, time) +
-                       (1 - self.turbulence_factor) * self.isi(message))
+    def _credibility(self, message, time):
+        credibility = (self.turbulence_factor * self._nsi(message, time) +
+                       (1 - self.turbulence_factor) * self._isi(message))
         return credibility
 
-    # Glauben   Option einbauen, wenn keine Konter Nachricht verfügbar!!!
-    def believe(self, message, counter_message, time):
-        if ((self.credibility(message, time) >= self._threshold_believe(message)) and
-                (self.credibility(counter_message, time) <= self._threshold_believe(counter_message))):
+    # Glauben
+    def _believe(self, message, counter_message, time):
+        if ((self._credibility(message, time) >= self._threshold_believe(message)) and
+                (self._credibility(counter_message, time) <= self._threshold_believe(counter_message))):
+            self.m_believe = True
             return True
 
-        if (self.credibility(message, time) >= self._threshold_believe(message)
-            and self.credibility(counter_message, time) >= self._threshold_believe(counter_message)) \
+        if (self._credibility(message, time) >= self._threshold_believe(message)
+            and self._credibility(counter_message, time) >= self._threshold_believe(counter_message)) \
                 and self._threshold_ex(message, time) > self._threshold_ex(counter_message, time) \
                 and abs(
             self._threshold_ex(message, time) - self._threshold_ex(counter_message, time) >= self.indifference):
@@ -99,13 +99,13 @@ class Network_Participant:
         return self.threshold_believe_p
 
     def _threshold_ex(self, message, time):
-        if self.credibility(message, time) >= self._threshold_believe(message):
-            return (self.credibility(message, time) - self._threshold_believe(message)) / (
+        if self._credibility(message, time) >= self._threshold_believe(message):
+            return (self._credibility(message, time) - self._threshold_believe(message)) / (
                     1 - self._threshold_believe(message))
-        return self.credibility(message, time)
+        return self._credibility(message, time)
 
     # Normative social influence
-    def nsi(self, message, time):
+    def _nsi(self, message, time):
         if not message:
             return 0
 
@@ -124,7 +124,7 @@ class Network_Participant:
         return expit(x)
 
     # Information social influence
-    def isi(self, message):
+    def _isi(self, message):
         if not message:
             return 0
 
@@ -134,28 +134,28 @@ class Network_Participant:
     # *****************************************Weiterleiten************************************************************
 
     # Weiterleitungsabsicht
-    def forwarding_intent(self, message, time):
+    def _forwarding_intent(self, message, time):
         if not message:
             return 0
 
         b = self.neighbors.get(message.sender.np_id).bond
 
-        return (self.fi_parameter * b * self.credibility(message, time)
-                + (1 - self.fi_parameter)) * (b + self.credibility(message, time) - b * self.credibility(message, time))
+        return (self.fi_parameter * b * self._credibility(message, time)
+                + (1 - self.fi_parameter)) * (b + self._credibility(message, time) - b * self._credibility(message, time))
 
     # Weiterleitungswahrscheinlichkeit
-    def forwarding_prob(self, message, counter_message, time):
+    def _forwarding_prob(self, message, counter_message, time):
         if counter_message is not None:
-            if message.aging_factor >= counter_message.aging_factor:
-                return self.forwarding_intent(message, time) * counter_message.aging_factor
+            if message.life_time >= counter_message.life_time:
+                return self._forwarding_intent(message, time) * counter_message.aging_factor
 
-        return self.forwarding_intent(message, time) * message.aging_factor
+        return self._forwarding_intent(message, time) * message.aging_factor
 
     # Weiterleitungsentscheidung
-    def forwarding_decision(self, message, counter_message, time, target):
-        if (self.forwarding_prob(message, counter_message, time) >= random.randrange(0, 100) / 100) \
+    def _forwarding_decision(self, message, counter_message, time, target):
+        if (self._forwarding_prob(message, counter_message, time) >= random.randrange(0, 100) / 100) \
                 and not self.send_box.get_sender_message(message, target) \
-                and self.believe(message, counter_message, time):
+                and not self._believe(counter_message, message, time):
             if message.mood:
                 self.m_forwarding = True
             else:
@@ -166,20 +166,20 @@ class Network_Participant:
 
     # ****************************************Kaufabsicht**************************************************************
     # Kaufabsicht       Option einbauen, wenn keine Konter Nachricht verfügbar!!!
-    def purchase_int(self, message, counter_message, time):
-        if self.believe(message, counter_message, time):
+    def _purchase_int(self, message, counter_message, time):
+        if self._believe(message, counter_message, time):
             return self.purchase_prob + (self.purchase_prob_max - self.purchase_prob) * (
-                    1 - math.e ** (self.purchase_expo_param_positive * self.credibility(message, time)))
+                    1 - math.e ** (self.purchase_expo_param_positive * self._credibility(message, time)))
 
-        if self.believe(counter_message, message, time):
+        if self._believe(counter_message, message, time):
             return self.purchase_prob + (self.purchase_prob - self.purchase_prob_min) * (
-                    1 - math.e ** (self.purchase_expo_param_negative * self.credibility(message, time)))
+                    1 - math.e ** (self.purchase_expo_param_negative * self._credibility(message, time)))
 
         return self.purchase_prob
 
     # Kaufentscheidung
-    def purchase_decision(self, message, counter_message, time):
-        if self.purchase_int(message, counter_message, time) >= random.randrange(0, 100) / 100:
+    def _purchase_decision(self, message, counter_message, time):
+        if self._purchase_int(message, counter_message, time) >= random.randrange(0, 100) / 100:
             self.m_purchase = True
             return True
         return False
@@ -210,12 +210,13 @@ class Network_Participant:
 
         # Anzeige Parameter zurücksetzen
         self.m_believe = False
-        self.m_forwarding = False
-        self.m_purchase = False
+        #self.m_forwarding = False
+        #self.m_purchase = False
 
         # print(f"{self.np_id} zu {time}: {self.receive_box.messages_by_sender} ")
         for rm in self.receive_box.messages:
             if rm.time == time:
+                rm.compute_aging_factor(time)
                 if rm.mood:
                     messages[rm.message_id] = rm
                     self.n_message += 1
@@ -235,12 +236,11 @@ class Network_Participant:
 
                     # Algorithmen zu Glauben, Kaufverhalten und Weiterleitung
                     forward = {}
-                    self.m_credibility = self.credibility(m, time)
-                    believe = self.believe(m, cm, time)
-                    self.m_believe = believe
+                    self.m_credibility = self._credibility(m, time)
+                    believe = self._believe(m, cm, time)
                     for n in self.neighbors.keys():
-                        forward[n] = self.forwarding_decision(m, cm, time, n)
-                    purchase = self.purchase_decision(m, cm, time)
+                        forward[n] = self._forwarding_decision(m, cm, time, n)
+                    purchase = self._purchase_decision(m, cm, time)
 
                     for nb_id, f_decision in forward.items():
                         if f_decision:
@@ -261,15 +261,15 @@ class Network_Participant:
 
                     # Algorithmen zu Glauben, Kaufverhalten und Weiterleitung
                     forward = {}
-                    self.cm_credibility = self.credibility(cm, time)
-                    believe = self.believe(cm, m, time)
+                    self.cm_credibility = self._credibility(cm, time)
+                    believe = self._believe(cm, m, time)
                     self.cm_believe = believe
 
                     for n in self.neighbors.keys():
-                        if self.forwarding_decision(cm, m, time, n) is None:
-                            print(f"{cm} - {m} - {self.forwarding_decision(cm, m, time, n)}")
+                        if self._forwarding_decision(cm, m, time, n) is None:
+                            print(f"{cm} - {m} - {self._forwarding_decision(cm, m, time, n)}")
 
-                        forward[n] = self.forwarding_decision(cm, m, time, n)
+                        forward[n] = self._forwarding_decision(cm, m, time, n)
 
                     for nb_id, f_decision in forward.items():
                         if f_decision:

@@ -7,9 +7,8 @@ class Message_Stack:
         self.messages.append(message)
         self.messages_by_sender[network_participant] = message
 
-        ### add messages by sender noch implementieren
-
     def get_sender_message(self, message, sender):
-        if sender in self.messages_by_sender.keys():
-            return True
+        for s in self.messages_by_sender:
+            if message == self.messages_by_sender.get(s) and sender == s:
+                return True
         return False

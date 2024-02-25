@@ -42,13 +42,13 @@ class Network_Simulation:
 
     def compute_simulation(self):
         for run in range(self.simulation_runs):
-            new_run = self.compute_run(run)
+            new_run = self._compute_run(run)
             new_run.insert(0, "run", [run])
             self.simulation_data = pd.concat([self.simulation_data, new_run], ignore_index=True)
             self.simulation_data.to_csv(f"Simulation.csv")
         return self.simulation_data
 
-    def compute_run(self, i):
+    def _compute_run(self, i):
         net_graph = network_generator.generate_new_network(shape=self.network_params["shape"],
                                                            participant_params=self.participant_params,
                                                            n_nodes=self.network_params["n_nodes"],

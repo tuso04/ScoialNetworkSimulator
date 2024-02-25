@@ -52,7 +52,7 @@ class Network:
         part_B.neighbors[part_A] = rel
         """
 
-    def create_influencer(self):
+    def _create_influencer(self):
 
         influencer = []
 
@@ -73,7 +73,7 @@ class Network:
 
         return influencer
 
-    def create_bots(self):
+    def _create_bots(self):
         bots = []
 
         for i in range(self.n_bots):
@@ -91,8 +91,8 @@ class Network:
         edges = self.graph.edges
 
         # Bots
-        self.influencer = self.create_influencer()
-        self.bots = self.create_bots()
+        self.influencer = self._create_influencer()
+        self.bots = self._create_bots()
 
         print(f"Influencer: {self.influencer}")
         print(f"Bots: {self.bots}")
@@ -219,7 +219,7 @@ class Network:
 
         # Verarbeite die empfangenen Nachrichten jedes Kontos
         for np in self.participants.values():
-            print(f"np: {np.np_id}: {[m.message_id for m in np.receive_box.messages]}")
+            #print(f"np: {np.np_id}: {[m.message_id for m in np.receive_box.messages]}")
             np.process_messages(time)
 
         # if time > self.message_params["start_time"] or time > self.counter_message_params["start_time"]:
@@ -264,6 +264,8 @@ class Network:
             "prob_purchase": net_purchase / len(self.participants),
             "avg_purchase": sum_purchase / len(self.participants),
         }
+
+        print(step_data_network)
 
         # print(pd.DataFrame(step_data_network, index=[time]))
         self.simulation_data = pd.concat([self.simulation_data, pd.DataFrame(step_data_network, index=[time])],
