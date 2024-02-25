@@ -388,7 +388,7 @@ app.layout = html.Div([
                                         ], width=3),
 
                                         dbc.Col([
-                                            html.Label('Emotionalität der Nachricht'),
+                                            html.Label('emotionale Aussagekraft'),
                                             html.Br(),
                                             dcc.Input(id='emotional_parameter', type='number',
                                                       value=0.5,
@@ -439,7 +439,7 @@ app.layout = html.Div([
                                         ], width=3),
 
                                         dbc.Col([
-                                            html.Label('Emotionalität Gegennachricht'),
+                                            html.Label('emotionale Aussagekraft'),
                                             html.Br(),
                                             dcc.Input(id='emotional_counter_parameter', type='number',
                                                       value=0.5,
