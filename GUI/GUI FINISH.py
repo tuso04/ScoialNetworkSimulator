@@ -1,140 +1,18 @@
 from io import StringIO
-
 import dash_bootstrap_components as dbc
 import pandas as pd
 from dash import Dash, dcc, html, Output, State, Input
 from dash import dash_table
-from sklearn.linear_model import LinearRegression
 import numpy as np
-
 import network_simulator
 
 # Beispiel Daten Tabelle
 # df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv')
 df = pd.DataFrame(0, index=range(3), columns=["Verbreitung", "Minimum", "Durchschnitt", "Maximum"])
 
-# Beispiel-Daten für das Balkendiagramm
-x = np.arange(1, 100)
-y = np.random.randint(1, 100, size=100)
-
-# Für inneren Balken
-inner_y = np.random.randint(1, 50, size=100)  # Zufällige Werte für die Höhe des inneren Balkens
-inner_y2 = np.random.randint(1, 50, size=100)  # Zufällige Werte für die Höhe des inneren Balkens der zweiten Gruppe
-
-# Generiere zufällige Daten für die unabhängige und abhängige Variable
-np.random.seed(0)
-Xr = np.random.rand(100, 1) * 10  # Unabhängige Variable
-yr = 2 * Xr + np.random.randn(100, 1) * 2  # Abhängige Variable (mit Rauschen)
-
-# Führe die lineare Regression durch
-model = LinearRegression()
-model.fit(Xr, yr)
-
-# Vorhersagen mit dem trainierten Modell
-yr_pred = model.predict(Xr)
-
-# Extrahieren der Daten aus den ersten beiden Zeilen des DataFrame
-first_two_rows = df.head(2).to_dict('records')
-
-# Hinzufügen der Spaltenüberschriften als erste Zeile
-rows = [{'Index': 'Nachricht', **first_two_rows[0]},
-        {'Index': 'Gegennachricht', **first_two_rows[1]}]
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.MORPH])
 app.title = "Netzwerksimulation"
-
-# Erstellen der Optionen für das Dropdown-Menü
-options = [{'label': str(i), 'value': i} for i in range(0, 101)]
-
-card_left = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H4("Höchste Kaufwahrscheinlichkeit", className="card-title", style={'textAlign': 'center'}, ),
-                html.H3(
-                    "500",
-                    className="card-text", style={'text-align': 'center'},
-                ),
-            ]
-        ),
-
-    ],
-    color="primary",  # https://bootswatch.com/default/ for more card colors
-    inverse=True,  # change color of text (black or white)
-    outline=False,  # True = remove the block colors from the background and header
-)
-
-card_leftmid = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H4("Geringste Kaufwahrscheinlichkeit", className="card-title", style={'textAlign': 'center'}, ),
-                html.H3(
-                    "500",
-                    className="card-text", style={'text-align': 'center'},
-                ),
-            ]
-        ),
-
-    ],
-    color="primary",  # https://bootswatch.com/default/ for more card colors
-    inverse=True,  # change color of text (black or white)
-    outline=False,  # True = remove the block colors from the background and header
-)
-
-card_mid = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H4("Höchste Anzahl an Nachbarn", className="card-title", style={'textAlign': 'center'}, ),
-                html.H3(
-                    "500",
-                    className="card-text", style={'text-align': 'center'},
-                ),
-            ]
-        ),
-
-    ],
-    color="primary",  # https://bootswatch.com/default/ for more card colors
-    inverse=True,  # change color of text (black or white)
-    outline=False,  # True = remove the block colors from the background and header
-)
-
-card_rightmid = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H4("Höchste Glaubwürdigkeit", className="card-title", style={'textAlign': 'center'}, ),
-                html.H3(
-                    "500",
-                    className="card-text", style={'text-align': 'center'},
-                ),
-            ]
-        ),
-
-    ],
-    color="primary",  # https://bootswatch.com/default/ for more card colors
-    inverse=True,  # change color of text (black or white)
-    outline=False,  # True = remove the block colors from the background and header
-)
-
-card_right = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H4("Geringste Glaubwürdigkeit", className="card-title", style={'textAlign': 'center'}, ),
-                html.H3(
-                    "500",
-                    className="card-text", style={'text-align': 'center'},
-                ),
-            ]
-        ),
-
-    ],
-    color="primary",  # https://bootswatch.com/default/ for more card colors
-    inverse=True,  # change color of text (black or white)
-    outline=False,  # True = remove the block colors from the background and header
-)
 
 ##############################################Layout####################################################################
 app.layout = html.Div([
