@@ -141,7 +141,8 @@ class Network_Participant:
         b = self.neighbors.get(message.sender.np_id).bond
 
         return (self.fi_parameter * b * self._credibility(message, time)
-                + (1 - self.fi_parameter)) * (b + self._credibility(message, time) - b * self._credibility(message, time))
+                + (1 - self.fi_parameter)) * (
+                    b + self._credibility(message, time) - b * self._credibility(message, time))
 
     # Weiterleitungswahrscheinlichkeit
     def _forwarding_prob(self, message, counter_message, time):
@@ -210,8 +211,8 @@ class Network_Participant:
 
         # Anzeige Parameter zurücksetzen
         self.m_believe = False
-        #self.m_forwarding = False
-        #self.m_purchase = False
+        # self.m_forwarding = False
+        # self.m_purchase = False
 
         # print(f"{self.np_id} zu {time}: {self.receive_box.messages_by_sender} ")
         for rm in self.receive_box.messages:

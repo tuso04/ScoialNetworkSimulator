@@ -21,6 +21,7 @@ class Network_Simulation:
         # Simulationsparameters
         self.simulation_runs = sim_params["runs"]
         self.run_steps = sim_params["run_steps"]
+        self.get_run_csv = sim_params["run_csv"]
 
         self.network_params = network_params
         self.participant_params = participant_params
@@ -45,6 +46,17 @@ class Network_Simulation:
             new_run = self._compute_run(run)
             new_run.insert(0, "run", [run])
             self.simulation_data = pd.concat([self.simulation_data, new_run], ignore_index=True)
+            self.simulation_data.rename(columns={"run": "Durchlauf",
+                                                 "prob_spreading": "Verbreitung der Nachricht",
+                                                 "prob_counter_spreading": "Verbreitung Gegennachricht",
+                                                 "avg_credibility": "Durchschnittliche Glaubwürdigkeit (Nachricht)",
+                                                 "avg_counter_credibility": "Durchschnittliche Glaubwürdigkeit (Gegennachricht)",
+                                                 "prob_believe": "Anteil Teilnehmer die Nachricht glauben",
+                                                 "prob_counter_believe": "Anteil Teilnehmer die Gegennachricht glauben",
+                                                 "prob_forward": "Anteil Weiterleitung (Nachricht)",
+                                                 "prob_counter_forward": "Anteil Weiterleitung (Gegennachricht)",
+                                                 "prob_purchase": "Anteil Teilnehmer die Produkt kaufen wollen",
+                                                 "avg_purchase": "Durchschnittliche Kaufwahrscheinlichkeit"})
             self.simulation_data.to_csv(f"Simulation.csv")
         return self.simulation_data
 
@@ -69,6 +81,8 @@ class Network_Simulation:
 
         print(f"++++++++++++++++++++++++++++++++Ergebnisse{i}++++++++++++++++++++++++")
         print(net.simulation_data.tail(1))
-        net.simulation_data.to_csv(f"Netzwerkübersicht{i}.csv")
+
+        if self.get_run_csv:
+            net.simulation_data.to_csv(f"Netzwerkübersicht{i}.csv")
 
         return net.simulation_data.tail(1)
