@@ -179,7 +179,7 @@ app.layout = html.Div([
                                             html.Label('Netzwerkteilnehmer'),
                                             html.Br(),
                                             dcc.Input(id='network_participant_parameter', type='number',
-                                                      value=10,
+                                                      value=1000,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '30px'}),
                                         ], width=3),
@@ -187,7 +187,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Anzahl initialer Kanten'),
                                             html.Br(),
-                                            dcc.Input(id='n_init_edges', type='number', value=2, min=0, step=1,
+                                            dcc.Input(id='n_init_edges', type='number', value=6, min=0, step=1,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '30px'}
                                                       ),
@@ -196,7 +196,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Seperationswahrscheinlichkeit'),
                                             html.Br(),
-                                            dcc.Input(id='sep_prob', type='number', value=0.1, min=0, max=1, step=0.01,
+                                            dcc.Input(id='sep_prob', type='number', value=0.1, min=0, max=1,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '30px'}),
                                         ], width=3),
@@ -209,7 +209,6 @@ app.layout = html.Div([
                                             html.Label('Turbulenz-Faktor des Marktes'),
                                             html.Br(),
                                             dcc.Input(id='turbulence_factor', type='number', value=0.5, min=0, max=1,
-                                                      step=0.01,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '30px'}),
                                         ], width=4),
@@ -217,7 +216,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Bots'),
                                             html.Br(),
-                                            dcc.Input(id='bots_parameter', type='number', value=2, min=0, step=1,
+                                            dcc.Input(id='bots_parameter', type='number', value=0, min=0, step=1,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '30px'}
                                                       ),
@@ -226,7 +225,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Influencer'),
                                             html.Br(),
-                                            dcc.Input(id='influencer_parameter', type='number', value=2, min=0, step=1,
+                                            dcc.Input(id='influencer_parameter', type='number', value=0, min=0, step=1,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '30px'}
                                                       ),
@@ -252,7 +251,6 @@ app.layout = html.Div([
                                             html.Label('Schwellenwert Glaubwürdigkeit'),
                                             html.Br(),
                                             dcc.Input(id='cred_parameter', type='number', value=0.5, min=0, max=1,
-                                                      step=0.01,
                                                       style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}),
@@ -261,7 +259,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Indifferenz'),
                                             html.Br(),
-                                            dcc.Input(id='indefference', type='number', value=2, min=0, step=1,
+                                            dcc.Input(id='indefference', type='number', value=0.1, min=0, max=1,
                                                       style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}
@@ -271,7 +269,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('ISI Parameter'),
                                             html.Br(),
-                                            dcc.Input(id='isi_parameter', type='number', value=2, min=0, step=1,
+                                            dcc.Input(id='isi_parameter', type='number', value=0.5, min=0, max=1,
                                                       style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}
@@ -286,7 +284,6 @@ app.layout = html.Div([
                                             html.Label('FI Parameter'),
                                             html.Br(),
                                             dcc.Input(id='fi_parameter', type='number', value=0.5, min=0, max=1,
-                                                      step=0.01,
                                                       style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}),
@@ -295,8 +292,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Initiale Kaufwahrscheinlichkeit'),
                                             html.Br(),
-                                            dcc.Input(id='purchase_init_prob_parameter', type='number', value=2, min=0,
-                                                      step=1,
+                                            dcc.Input(id='purchase_init_prob_parameter', type='number', value=0.1, min=0, max=1,
                                                       style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}
@@ -306,8 +302,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Maximale Kaufwahrscheinlichkeit'),
                                             html.Br(),
-                                            dcc.Input(id='purchase_prob_max_parameter', type='number', value=2, min=0,
-                                                      step=1,
+                                            dcc.Input(id='purchase_prob_max_parameter', type='number', value=0.125, min=0,max=1,
                                                       style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}
@@ -320,8 +315,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Minimale Kaufwahrscheinlichkeit'),
                                             html.Br(),
-                                            dcc.Input(id='purchase_prob_min_parameter', type='number', value=0.5, min=0,
-                                                      max=1,
+                                            dcc.Input(id='purchase_prob_min_parameter', type='number', value=0.05, min=0,max=1,
                                                       step=0.01,
                                                       style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
@@ -332,7 +326,7 @@ app.layout = html.Div([
                                             html.Label('Positive expotenzielle Kaufwahrscheinlichkeit'),
                                             html.Br(),
                                             dcc.Input(id='purchase_expo_param_positive_parameter', type='number',
-                                                      value=2, min=0, step=1,
+                                                      value=5, min=0,
                                                       style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}
@@ -343,7 +337,7 @@ app.layout = html.Div([
                                             html.Label('Negative expotenzielle Kaufwahrscheinlichkeit'),
                                             html.Br(),
                                             dcc.Input(id='purchase_expo_param_negative_parameter', type='number',
-                                                      value=2, min=0, step=1,
+                                                      value=2.5, min=0,
                                                       style={'width': '350px', 'height': '40px',
                                                              'margin-bottom': '30px', 'margin-left': 'auto',
                                                              'margin-right': 'auto'}
@@ -381,8 +375,7 @@ app.layout = html.Div([
                                     children=[
                                         dbc.Col([
                                             html.Label('Qualität der Nachricht'),
-                                            dcc.Input(id='quality_parameter', type='number',
-                                                      value=0.5,
+                                            dcc.Input(id='quality_parameter', type='number', min=0, max=1,value=0.5,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=3),
@@ -390,8 +383,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('emotionale Aussagekraft'),
                                             html.Br(),
-                                            dcc.Input(id='emotional_parameter', type='number',
-                                                      value=0.5,
+                                            dcc.Input(id='emotional_parameter', type='number',min=0, max=1,value=0.5,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=3),
@@ -399,8 +391,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Zeitpunkt Auftritt Nachricht'),
                                             html.Br(),
-                                            dcc.Input(id='time_message_parameter', type='number', value=0, min=0,
-                                                      step=1,
+                                            dcc.Input(id='time_message_parameter', type='number', value=0, min=0,step=1,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=3),
@@ -408,7 +399,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Lebenszeit der Nachricht'),
                                             html.Br(),
-                                            dcc.Input(id='lifetime_parameter', type='number', value=5,
+                                            dcc.Input(id='lifetime_parameter', type='number', value=20,min=0,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=3),
@@ -432,8 +423,7 @@ app.layout = html.Div([
                                     children=[
                                         dbc.Col([
                                             html.Label('Qualität Gegennachricht'),
-                                            dcc.Input(id='quality_counter_parameter', type='number',
-                                                      value=0.5,
+                                            dcc.Input(id='quality_counter_parameter', type='number',min=0, max=1,value=0.5,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=3),
@@ -441,8 +431,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('emotionale Aussagekraft'),
                                             html.Br(),
-                                            dcc.Input(id='emotional_counter_parameter', type='number',
-                                                      value=0.5,
+                                            dcc.Input(id='emotional_counter_parameter', type='number',min=0, max=1,value=0.5,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=3),
@@ -450,8 +439,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Zeitpunkt Auftritt Gegennachricht'),
                                             html.Br(),
-                                            dcc.Input(id='time_counter_parameter', type='number', value=2, min=0,
-                                                      step=1,
+                                            dcc.Input(id='time_counter_parameter', type='number', value=0, min=0,step=1,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=3),
@@ -459,8 +447,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Lebenszeit Gegennachricht'),
                                             html.Br(),
-                                            dcc.Input(id='lifetime_counter_parameter', type='number', value=0.1, min=0,
-                                                      max=1, step=0.01,
+                                            dcc.Input(id='lifetime_counter_parameter', type='number', value=20, min=0,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=3),
@@ -483,8 +470,7 @@ app.layout = html.Div([
                                     children=[
                                         dbc.Col([
                                             html.Label('Anzahl der Durchläufe'),
-                                            dcc.Input(id='run_parameter', type='number',
-                                                      value=3,
+                                            dcc.Input(id='run_parameter', type='number',value=1,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=6, className="mb-3"),
@@ -492,8 +478,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Schritte pro Durchlauf'),
                                             html.Br(),
-                                            dcc.Input(id='steps_per_run_parameter', type='number',
-                                                      value=3,
+                                            dcc.Input(id='steps_per_run_parameter', type='number',value=1000,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=6, className="mb-3"),
