@@ -3,12 +3,13 @@ import network_participant
 
 class Bot(network_participant.Network_Participant):
 
-    def __init__(self, np_id, threshold_believe_p, turbulence_factor, indifference, isi_parameter, fi_parameter,
+    def __init__(self, np_id, threshold_believe_p, threshold_believe_n, turbulence_factor, indifference, isi_parameter, fi_parameter,
                  purchase_init_prob, purchase_prob_min, purchase_prob_max, purchase_expo_param_positive,
                  purchase_expo_param_negative, neighbors=None, send_box=None):
 
         super().__init__(np_id=np_id,
                          threshold_believe_p=threshold_believe_p,
+                         threshold_believe_n=threshold_believe_n,
                          turbulence_factor=turbulence_factor,
                          indifference=indifference,
                          isi_parameter=isi_parameter,

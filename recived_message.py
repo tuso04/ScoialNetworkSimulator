@@ -14,4 +14,3 @@ class Recived_Message(message.Message):
         self.sender = sender
         self.time = time
 
-

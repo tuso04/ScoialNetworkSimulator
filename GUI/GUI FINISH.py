@@ -605,7 +605,7 @@ def button_start_simulation(n_clicks,
     network_parameters["n_bots"] = n_bots
     network_parameters["n_influencer"] = n_influencer
 
-    participant_parameters["threshold_belive"] = threshold_believe
+    participant_parameters["threshold_believe"] = threshold_believe
     participant_parameters["indifference"] = indifference
     participant_parameters["isi_parameter"] = isi_parameter
     participant_parameters["fi_parameter"] = fi_parameter
