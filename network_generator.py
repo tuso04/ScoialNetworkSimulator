@@ -8,6 +8,8 @@ def generate_new_network(shape, participant_params, n_nodes, init_edges, split_p
         network_graph = nx.barabasi_albert_graph(n=n_nodes, m=init_edges)
     elif shape == "SWN":  # Small-World Network
         network_graph = nx.watts_strogatz_graph(n=n_nodes, k=init_edges, p=split_prob)
+        print(nx.average_shortest_path_length(network_graph))
+        print(nx.average_clustering(network_graph))
     else:
         network_graph = nx.gnm_random_graph(n=n_nodes, m=n_nodes * init_edges)
 

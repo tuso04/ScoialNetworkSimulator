@@ -150,7 +150,7 @@ class Network_Participant:
     # Weiterleitungswahrscheinlichkeit
     def _forwarding_prob(self, message, counter_message, time):
         if counter_message is not None:
-            if message.life_time <= counter_message.life_time:
+            if message.start_time <= counter_message.start_time:
                 return self._forwarding_intent(message, time) * counter_message.aging_factor
 
         return self._forwarding_intent(message, time) * message.aging_factor
@@ -215,6 +215,7 @@ class Network_Participant:
 
         # Anzeige Parameter zurücksetzen
         self.m_believe = False
+        self.cm_believe = False
 
         # Verarbeitung aller Nachrichten in der Receive-Box zum Zeitpunkt time
         for rm in self.receive_box.messages:
@@ -283,5 +284,5 @@ class Network_Participant:
                     print(
                         f"id: {self.np_id} m: {cm.message_id}, believe: {believe}, forward: {forward}")
 
-                self.purchase = self._purchase_decision(lm, lcm, time)
-                print(f"id: {self.purchase}")
+        self.purchase = self._purchase_decision(lm, lcm, time)
+        print(f"id: {self.np_id}  purchase: {self.purchase}")
