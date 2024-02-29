@@ -26,7 +26,7 @@ network_parameters["shape"] = 'SWN'
 network_parameters["n_nodes"] = 1000
 network_parameters["init_edges"] = 6
 network_parameters["split_prob"] = 0.1
-network_parameters["turbulence_factor"] = 0.1
+network_parameters["turbulence_factor"] = 0
 network_parameters["n_bots"] = 0
 network_parameters["n_influencer"] = 0
 
@@ -40,19 +40,19 @@ participant_parameters["purchase_prob_min"] = 0.05
 participant_parameters["purchase_expo_param_positive"] = 5
 participant_parameters["purchase_expo_param_negative"] = 2.5
 
-message_parameters["check"] = False
+message_parameters["check"] = True
 message_parameters["start_time"] = 0
 message_parameters["life_time"] = 20
-message_parameters["quality"] = 0.5
-message_parameters["emotionality"] = 0.5
+message_parameters["quality"] = 0.3
+message_parameters["emotionality"] = 0.3
 
 counter_message_parameters["check"] = True
 counter_message_parameters["start_time"] = 0
 counter_message_parameters["life_time"] = 20
-counter_message_parameters["quality"] = 0.5
-counter_message_parameters["emotionality"] = 0.5
+counter_message_parameters["quality"] = 0.3
+counter_message_parameters["emotionality"] = 0.3
 
-simulation_parameters["runs"] = 5
+simulation_parameters["runs"] = 20
 simulation_parameters["run_steps"] = 150
 simulation_parameters["run_csv"] = True
 

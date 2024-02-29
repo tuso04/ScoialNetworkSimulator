@@ -67,7 +67,11 @@ class Network_Participant:
     def _believe(self, message, counter_message, time):
         if ((self._credibility(message, time) >= self._threshold_believe(message)) and
                 (self._credibility(counter_message, time) < self._threshold_believe(counter_message))):
-            self.m_believe = True
+            if message is not None:
+                if message.mood:
+                    self.m_believe = True
+                else:
+                    self.cm_believe = True
             return True
 
         if (self._credibility(message, time) >= self._threshold_believe(message)
@@ -75,7 +79,12 @@ class Network_Participant:
                 and self._threshold_ex(message, time) > self._threshold_ex(counter_message, time) \
                 and abs(
             self._threshold_ex(message, time) - self._threshold_ex(counter_message, time) >= self.indifference):
-            self.m_believe = True
+
+            if message is not None:
+                if message.mood:
+                    self.m_believe = True
+                else:
+                    self.cm_believe = True
             return True
 
         return False
@@ -219,7 +228,9 @@ class Network_Participant:
                     self.n_counter_message += 1
 
                 # Über alle positiven Nachrichten iterieren und verarbeiten
-                for m in messages.values():
+                if len(list(messages.values())) > 0:
+
+                    m = list(messages.values())[0]
 
                     cm = None
 
@@ -244,8 +255,9 @@ class Network_Participant:
                         f"id: {self.np_id} m: {m.message_id}, believe: {believe}, forward: {forward}")
 
                 # Über alle Gegennachrichten iterieren und verarbeiten
-                for cm in counter_messages.values():
+                if len(list(counter_messages.values())) > 0:
 
+                    cm = list(counter_messages.values())[0]
                     # Nach passender Konter nachricht suchen
                     m = None
 

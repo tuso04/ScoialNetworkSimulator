@@ -4,16 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Bug fixes Teilnehmerparameter">
+    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Bug fixes Parameter + Testdatei">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/influencer.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/message.py" beforeDir="false" afterPath="$PROJECT_DIR$/message.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/message_stack.py" beforeDir="false" afterPath="$PROJECT_DIR$/message_stack.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network.py" beforeDir="false" afterPath="$PROJECT_DIR$/network.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flaskTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/flaskTest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network_participant.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_participant.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network_simulator.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_simulator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -310,7 +304,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708438557779</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Bug fixes Parameter + Testdatei">
+      <option name="closed" value="true" />
+      <created>1709162451629</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1709162451629</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -359,7 +361,8 @@
     <MESSAGE value="Ausgabe funktioniert" />
     <MESSAGE value="Bug fixes Gegennachricht" />
     <MESSAGE value="Bug fixes Teilnehmerparameter" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes Teilnehmerparameter" />
+    <MESSAGE value="Bug fixes Parameter + Testdatei" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes Parameter + Testdatei" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

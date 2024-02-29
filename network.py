@@ -234,6 +234,8 @@ class Network:
                 counter_spreading += 1
             if np.m_believe:
                 net_believe += 1
+            if np.cm_believe:
+                net_counter_believe += 1
             sum_net_credibility += np.m_credibility
             sum_net_counter_credibility += np.cm_credibility
             if np.m_forwarding:
