@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Bug fixes Parameter + Testdatei">
+    <list default="true" id="fc7db5d8-ea18-4617-bdfa-97a5f204906b" name="Changes" comment="Purchase angepass">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/flaskTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/flaskTest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network.py" beforeDir="false" afterPath="$PROJECT_DIR$/network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network_participant.py" beforeDir="false" afterPath="$PROJECT_DIR$/network_participant.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -312,7 +314,23 @@
       <option name="project" value="LOCAL" />
       <updated>1709162451629</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Für die CSV">
+      <option name="closed" value="true" />
+      <created>1709165094684</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1709165094684</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Purchase angepass">
+      <option name="closed" value="true" />
+      <created>1709240307878</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1709240307878</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -362,7 +380,9 @@
     <MESSAGE value="Bug fixes Gegennachricht" />
     <MESSAGE value="Bug fixes Teilnehmerparameter" />
     <MESSAGE value="Bug fixes Parameter + Testdatei" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes Parameter + Testdatei" />
+    <MESSAGE value="Für die CSV" />
+    <MESSAGE value="Purchase angepass" />
+    <option name="LAST_COMMIT_MESSAGE" value="Purchase angepass" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

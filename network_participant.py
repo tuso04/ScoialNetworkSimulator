@@ -61,6 +61,8 @@ class Network_Participant:
     def _credibility(self, message, time):
         credibility = (self.turbulence_factor * self._nsi(message, time) +
                        (1 - self.turbulence_factor) * self._isi(message))
+        # print(f"cred: {self.turbulence_factor} * {self._nsi(message, time)} + {(1 - self.turbulence_factor)} * {self._isi(message)} = {credibility}")
+
         return credibility
 
     # Glauben
@@ -122,6 +124,9 @@ class Network_Participant:
                 pressure += relationship_pressure
 
         social_pressure = pressure / self._compute_social_bond()
+
+        # print(f"social_pressure: {social_pressure} = {pressure} / {self._compute_social_bond()}")
+
         x = slope * (social_pressure - intercept)
 
         return expit(x)
@@ -143,16 +148,21 @@ class Network_Participant:
 
         b = self.neighbors.get(message.sender.np_id).bond
 
-        return (self.fi_parameter * b * self._credibility(message, time)
-                + (1 - self.fi_parameter) * (
-                        b + self._credibility(message, time) - b * self._credibility(message, time)))
+        forwarding_int = (self.fi_parameter * b * self._credibility(message, time)
+                          + (1 - self.fi_parameter) * (
+                                  b + self._credibility(message, time) - b * self._credibility(message, time)))
+
+        return forwarding_int
 
     # Weiterleitungswahrscheinlichkeit
     def _forwarding_prob(self, message, counter_message, time):
         if counter_message is not None:
             if message.start_time <= counter_message.start_time:
+                print(f"forwarding_prob cm: {self._forwarding_intent(message, time) * counter_message.aging_factor} = {self._forwarding_intent(message, time)} * {counter_message.aging_factor}")
                 return self._forwarding_intent(message, time) * counter_message.aging_factor
 
+        print(
+            f"forwarding_prob cm: {self._forwarding_intent(message, time) * message.aging_factor} = {self._forwarding_intent(message, time)} * {message.aging_factor}")
         return self._forwarding_intent(message, time) * message.aging_factor
 
     # Weiterleitungsentscheidung
@@ -171,12 +181,12 @@ class Network_Participant:
     # Kaufabsicht
     def _purchase_int(self, message, counter_message, time):
         if self._believe(message, counter_message, time):
-            self.purchase_intent = self.purchase_intent + (self.purchase_prob_max - self.purchase_intent) * (
+            self.purchase_intent = self.purchase_init_prob + (self.purchase_prob_max - self.purchase_init_prob) * (
                     1 - math.e ** (-1 * self.purchase_expo_param_positive * self._credibility(message, time)))
 
         if self._believe(counter_message, message, time):
-            self.purchase_intent = self.purchase_intent - (self.purchase_intent - self.purchase_prob_min) * (
-                    1 - math.e ** (-1 * self.purchase_expo_param_negative * self._credibility(message, time)))
+            self.purchase_intent = self.purchase_init_prob - (self.purchase_init_prob - self.purchase_prob_min) * (
+                    1 - math.e ** (-1 * self.purchase_expo_param_negative * self._credibility(counter_message, time)))
 
         return self.purchase_intent
 
@@ -285,4 +295,4 @@ class Network_Participant:
                         f"id: {self.np_id} m: {cm.message_id}, believe: {believe}, forward: {forward}")
 
         self.purchase = self._purchase_decision(lm, lcm, time)
-        print(f"id: {self.np_id}  purchase: {self.purchase}")
+        # print(f"id: {self.np_id}  purchase: {self.purchase}")

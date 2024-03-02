@@ -21,10 +21,10 @@ def generate_new_network(shape, participant_params, n_nodes, init_edges, split_p
         # Zufällige Erzeugung der Teilnehmerparameter mit Normalverteilung
         threshold_believe_p = random.normalvariate(participant_params["threshold_believe"], 0.125)
         threshold_believe_n = random.normalvariate(participant_params["threshold_believe"]/2, 0.0625)
-        turbulence_factor = random.normalvariate(participant_params["turbulence_factor"], 0.125)
-        indifference = random.normalvariate(participant_params["indifference"], 1)
+        turbulence_factor = participant_params["turbulence_factor"]
+        indifference = participant_params["indifference"]
         isi_parameter = random.normalvariate(participant_params["isi_parameter"], 0.125)
-        fi_parameter = random.normalvariate(participant_params["fi_parameter"], 1)
+        fi_parameter = participant_params["fi_parameter"]
         purchase_prob = participant_params["purchase_init_prob"]  # random.normalvariate(participant_params["purchase_init_prob"], 1)
         purchase_prob_max = participant_params["purchase_prob_max"]
         purchase_prob_min = participant_params["purchase_prob_min"]

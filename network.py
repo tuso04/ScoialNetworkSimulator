@@ -254,6 +254,9 @@ class Network:
             if counter_spreading > 0:
                 prob_counter_forward = net_counter_forward / counter_spreading
 
+        print(f"net_believe: {net_believe}")
+        print(f"net_counter_believe: {net_counter_believe}")
+
         step_data_network = {
             "prob_spreading": spreading / len(self.participants),
             "prob_counter_spreading": counter_spreading / len(self.participants),
