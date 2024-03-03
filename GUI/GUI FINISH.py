@@ -348,7 +348,7 @@ app.layout = html.Div([
                                     children=[
                                         dbc.Col([
                                             html.Label('Anzahl der Durchläufe'),
-                                            dcc.Input(id='run_parameter', type='number',value=1,
+                                            dcc.Input(id='run_parameter', type='number',value=1, min=1,
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=6, className="mb-3"),
@@ -356,7 +356,7 @@ app.layout = html.Div([
                                         dbc.Col([
                                             html.Label('Schritte pro Durchlauf'),
                                             html.Br(),
-                                            dcc.Input(id='steps_per_run_parameter', type='number',value=1000,
+                                            dcc.Input(id='steps_per_run_parameter', type='number',value=1000, 
                                                       style={'width': '300px', 'height': '40px',
                                                              'margin-bottom': '15px'}),
                                         ], width=6, className="mb-3"),
@@ -387,35 +387,6 @@ app.layout = html.Div([
                 style={'max-width': '800px', 'margin': 'auto', 'background-color': '#f0f0f0'}
             ),
 
-            html.Br(),
-            html.H5('Alternative: Put in your own Network File', style={'textAlign': 'center'}),
-            html.Br(),
-            html.Div(
-                dcc.Upload(
-                    id='upload-data',
-                    children=html.Div([
-                        'Drag and Drop or ',
-                        html.A('Select Files')
-                    ]),
-                    style={
-                        'width': '400px',
-                        'height': '65px',
-                        'lineHeight': '60px',
-                        'borderWidth': '1px',
-                        'borderStyle': 'dashed',
-                        'borderRadius': '5px',
-                        'textAlign': 'center',
-                        'margin': '10px',
-                        'position': 'absolute',
-                        'left': '50%',
-                        'top': '50%',
-                        'transform': 'translate(-50%, -50%)'
-                    },
-                    multiple=True
-                ),
-                style={'position': 'relative'}
-            ),
-            html.Br(),
             html.Div(
                 style={'textAlign': 'center', 'marginTop': '30px'},
                 children=[
