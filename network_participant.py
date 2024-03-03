@@ -30,6 +30,7 @@ class Network_Participant:
         self.fi_parameter = fi_parameter  # Ausgleichsparameter bei Weiterleitungsabsicht double [0; 1]
         self.purchase_init_prob = purchase_init_prob  # initiale Kaufwahrscheinlichkeit, double
         self.purchase_intent = purchase_init_prob  # Kaufwahrscheinlichkeit
+        self.purchase_decision_u = random.randint(0, 100)/100  # Schwellwert für die Kaufwahrscheinlichkeit
         self.purchase_prob_max = purchase_prob_max  # Obere Grenze Berechnung Kaufwahrscheinlichkeit
         self.purchase_prob_min = purchase_prob_min  # Untere Grenze Berechnung Kaufwahrscheinlichkeit
         self.purchase_expo_param_positive = purchase_expo_param_positive  # Exponential Faktor Kaufwahrs. positiv
@@ -158,18 +159,18 @@ class Network_Participant:
     def _forwarding_prob(self, message, counter_message, time):
         if counter_message is not None:
             if message.start_time <= counter_message.start_time:
-                print(f"forwarding_prob cm: {self._forwarding_intent(message, time) * counter_message.aging_factor} = {self._forwarding_intent(message, time)} * {counter_message.aging_factor}")
+                # print(f"forwarding_prob cm: {self._forwarding_intent(message, time) * counter_message.aging_factor} = {self._forwarding_intent(message, time)} * {counter_message.aging_factor}")
                 return self._forwarding_intent(message, time) * counter_message.aging_factor
 
-        print(
-            f"forwarding_prob cm: {self._forwarding_intent(message, time) * message.aging_factor} = {self._forwarding_intent(message, time)} * {message.aging_factor}")
         return self._forwarding_intent(message, time) * message.aging_factor
 
     # Weiterleitungsentscheidung
     def _forwarding_decision(self, message, counter_message, time, target):
-        if (self._forwarding_prob(message, counter_message, time) >= random.randrange(0, 100) / 100) \
-                and not self.send_box.get_sender_message(message, target) \
-                and not self._believe(counter_message, message, time):
+        #print(f"{target}: {self._forwarding_prob(message, counter_message, time)} >= {self.neighbors.get(target).u}")
+
+        if (self._forwarding_prob(message, counter_message, time) >= self.neighbors.get(
+                target).u and not self.send_box.get_sender_message(message, target) and not self._believe(
+                counter_message, message, time)):
             if message.mood:
                 self.m_forwarding = True
             else:
@@ -192,7 +193,7 @@ class Network_Participant:
 
     # Kaufentscheidung
     def _purchase_decision(self, message, counter_message, time):
-        if self._purchase_int(message, counter_message, time) >= random.randrange(0, 100) / 100:
+        if self._purchase_int(message, counter_message, time) >= self.purchase_decision_u:
             return True
         return False
 

@@ -14,4 +14,5 @@ class Message:
 
     def compute_aging_factor(self, time):
         self.aging_factor = math.exp(-math.log(2) * ((self.life_time / 2) ** (-1)) * (time - self.start_time))
+        #print(f"{self.aging_factor} = exp({-math.log(2)}* ({self.life_time}/2 ** (-1) * ({time} - {self.start_time}")
         return self.aging_factor
